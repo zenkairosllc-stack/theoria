@@ -729,17 +729,17 @@ function hideErr(id){const el=$(id);el.classList.remove('show')}
 
 // ── SESSION STORAGE (persists across page refreshes in browser) ──────────────
 // In production this would be replaced by Supabase auth tokens.
-// For the prototype, localStorage simulates a real session.
+// For the prototype, https://axrjdxyoprlunffygpvw.supabase.co simulates a real session.
 const DB = {
-  getUsers(){ try{return JSON.parse(localStorage.getItem('theoria_users')||'[]')}catch{return[]} },
-  saveUsers(u){ localStorage.setItem('theoria_users',JSON.stringify(u)) },
-  getSession(){ try{return JSON.parse(localStorage.getItem('theoria_session')||'null')}catch{return null} },
-  saveSession(s){ localStorage.setItem('theoria_session',JSON.stringify(s)) },
-  clearSession(){ localStorage.removeItem('theoria_session') },
-  getPosts(){ try{return JSON.parse(localStorage.getItem('theoria_posts')||'[]')}catch{return[]} },
-  savePosts(p){ localStorage.setItem('theoria_posts',JSON.stringify(p)) },
-  getProgress(uid){ try{return JSON.parse(localStorage.getItem('theoria_progress_'+uid)||'{}')}catch{return{}} },
-  saveProgress(uid,p){ localStorage.setItem('theoria_progress_'+uid,JSON.stringify(p)) },
+  getUsers(){ try{return JSON.parse(https://axrjdxyoprlunffygpvw.supabase.co.getItem('theoria_users')||'[]')}catch{return[]} },
+  saveUsers(u){ https://axrjdxyoprlunffygpvw.supabase.co.setItem('theoria_users',JSON.stringify(u)) },
+  getSession(){ try{return JSON.parse(https://axrjdxyoprlunffygpvw.supabase.co.getItem('theoria_session')||'null')}catch{return null} },
+  saveSession(s){ https://axrjdxyoprlunffygpvw.supabase.co.setItem('theoria_session',JSON.stringify(s)) },
+  clearSession(){ https://axrjdxyoprlunffygpvw.supabase.co.removeItem('theoria_session') },
+  getPosts(){ try{return JSON.parse(https://axrjdxyoprlunffygpvw.supabase.co.getItem('theoria_posts')||'[]')}catch{return[]} },
+  savePosts(p){ https://axrjdxyoprlunffygpvw.supabase.co.setItem('theoria_posts',JSON.stringify(p)) },
+  getProgress(uid){ try{return JSON.parse(https://axrjdxyoprlunffygpvw.supabase.co.getItem('theoria_progress_'+uid)||'{}')}catch{return{}} },
+  saveProgress(uid,p){ https://axrjdxyoprlunffygpvw.supabase.co.setItem('theoria_progress_'+uid,JSON.stringify(p)) },
 };
 
 // ── AUTH STATE ───────────────────────────────────────────────────────────────
