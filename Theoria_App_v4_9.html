@@ -1,0 +1,1730 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<title>Theoria — Christ the Savior Cathedral</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=EB+Garamond:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --gold:#C9A84C;--gl:#F0D080;--gd:#8A6A28;
+  --bg:#090908;--bg2:#111109;--bg3:#1A180F;--bg4:#221E12;--bg5:#2E2A18;
+  --tx:#EAE2CC;--tx2:#A89870;--tx3:#6A6040;
+  --b1:#2A2415;--b2:#3A3018;--b3:#4A4020;
+  --grn:#2D6A3F;--grnl:#4CAF6A;--red:#8B2020;
+}
+html,body{height:100%;height:100dvh;background:var(--bg);color:var(--tx);font-family:'EB Garamond',serif;overflow:hidden;font-size:18.5px}
+#app{display:flex;flex-direction:column;height:100vh;height:100dvh;max-width:430px;margin:0 auto;background:var(--bg);position:fixed;top:0;left:0;right:0;bottom:0;overflow:hidden;border-left:1px solid var(--b2);border-right:1px solid var(--b2)}
+
+/* TOP BAR */
+.topbar{background:var(--bg2);border-bottom:1px solid var(--gd);padding:10px 14px;padding-top:calc(10px + env(safe-area-inset-top, 0px));display:flex;align-items:center;justify-content:space-between;flex-shrink:0;z-index:10}
+.brand{font-family:'Cinzel',serif;color:var(--gold);font-size:19.5px;letter-spacing:2px}
+.brand-sub{font-size:11.5px;color:var(--tx3);letter-spacing:3px;display:block;margin-top:-1px}
+.topbar-r{display:flex;align-items:center;gap:9px}
+.ava{width:30px;height:30px;border-radius:50%;background:var(--bg4);border:1.5px solid var(--gd);display:flex;align-items:center;justify-content:center;font-family:'Cinzel',serif;font-size:11.5px;color:var(--gold);cursor:pointer;transition:border-color .2s}
+.ava:hover{border-color:var(--gold)}
+.icon-btn{background:none;border:none;cursor:pointer;color:var(--tx3);padding:4px;display:flex;border-radius:50%;transition:color .2s;position:relative}
+.icon-btn:hover{color:var(--gold)}
+.icon-btn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.ndot{width:7px;height:7px;border-radius:50%;background:var(--gold);border:1.5px solid var(--bg2);position:absolute;top:0;right:0}
+
+/* SCREENS */
+.screen{display:none;flex:1;overflow-y:auto;flex-direction:column}
+.screen.active{display:flex}
+.screen::-webkit-scrollbar{width:3px}
+.screen::-webkit-scrollbar-thumb{background:var(--gd);border-radius:2px}
+
+/* BOTTOM NAV */
+.bottom-nav{background:var(--bg2);border-top:1px solid var(--gd);display:flex;flex-shrink:0;z-index:10;padding-bottom:env(safe-area-inset-bottom,0px)}
+.nav-btn{flex:1;padding:9px 2px 7px;display:flex;flex-direction:column;align-items:center;gap:3px;border:none;background:transparent;cursor:pointer;color:var(--tx3);font-family:'Cinzel',serif;font-size:10.5px;letter-spacing:1px;transition:color .2s;position:relative}
+.nav-btn svg{width:19px;height:19px;stroke:currentColor;fill:none;stroke-width:1.5;stroke-linecap:round;stroke-linejoin:round}
+.nav-btn.active{color:var(--gold)}
+.nav-btn:hover{color:var(--gl)}
+.nav-ind{position:absolute;bottom:0;left:20%;right:20%;height:2px;background:var(--gold);border-radius:2px 2px 0 0;opacity:0;transition:opacity .2s}
+.nav-btn.active .nav-ind{opacity:1}
+
+/* ===== HOME ===== */
+.home-hero{background:linear-gradient(180deg,var(--bg3),var(--bg));padding:20px 16px 14px;text-align:center;border-bottom:1px solid var(--b2);flex-shrink:0}
+.home-cross{font-family:'Cinzel',serif;font-size:32px;color:var(--gd);opacity:.5;display:block;margin-bottom:4px}
+.home-parish{font-family:'Cinzel',serif;font-size:19.5px;color:var(--gl);letter-spacing:1px}
+.home-cath{font-family:'Cinzel',serif;font-size:12.5px;color:var(--gd);letter-spacing:2px;margin-top:2px}
+.home-date{font-size:15px;color:var(--tx3);font-style:italic;margin-top:4px}
+.home-feast-wrap{background:var(--bg4);border:1px solid var(--b2);border-radius:6px;padding:5px 12px;margin:8px 0 0;display:inline-block}
+.home-feast{font-family:'Cinzel',serif;font-size:12.5px;color:var(--gold)}
+.home-cards{padding:11px 11px;display:flex;flex-direction:column;gap:8px}
+.hcard{background:var(--bg3);border:1px solid var(--b2);border-radius:10px;cursor:pointer;transition:all .18s;overflow:hidden;display:flex;align-items:stretch}
+.hcard:hover{border-color:var(--gd);transform:translateX(2px)}
+.hcard:active{transform:scale(.98)}
+.hcard-stripe{width:4px;flex-shrink:0}
+.hcard-body{padding:11px 11px;flex:1;display:flex;align-items:center;gap:10px}
+.hcard-icon{width:38px;height:38px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:19.5px;flex-shrink:0}
+.hcard-text{flex:1;min-width:0}
+.hcard-title{font-family:'Cinzel',serif;font-size:16px;color:var(--gl);letter-spacing:.3px}
+.hcard-desc{font-size:15px;color:var(--tx3);margin-top:2px;line-height:1.4}
+.hcard-pill{font-size:11.5px;border-radius:10px;padding:1px 6px;margin-top:3px;display:inline-block;font-family:'Cinzel',serif;border:1px solid}
+.pill-live{color:var(--grnl);background:rgba(45,106,63,.15);border-color:rgba(45,106,63,.4)}
+.pill-par{color:var(--gold);background:rgba(201,168,76,.12);border-color:var(--b3)}
+.hcard-arr{color:var(--gd);opacity:.5;flex-shrink:0}
+.hcard-arr svg{width:15px;height:15px;stroke:currentColor;fill:none;stroke-width:2}
+
+/* SUB-SCREEN HEADER */
+.sub-top{background:var(--bg2);border-bottom:1px solid var(--gd);padding:9px 13px;flex-shrink:0}
+.sub-back-row{display:flex;align-items:center;gap:8px;margin-bottom:3px}
+.back-btn{background:none;border:none;cursor:pointer;color:var(--gold);display:flex;padding:0}
+.back-btn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2}
+.sub-title{font-family:'Cinzel',serif;font-size:18.5px;color:var(--gold);letter-spacing:1px}
+.sub-desc{font-size:14px;color:var(--tx3);margin-top:1px;font-style:italic}
+.src-badge{background:var(--bg4);border:1px solid var(--b2);border-radius:4px;padding:2px 7px;font-size:11.5px;color:var(--tx3);font-family:'Cinzel',serif;letter-spacing:.5px;display:inline-block;margin-top:3px}
+
+/* LOADING */
+.loading{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px;gap:10px}
+.lx{font-family:'Cinzel',serif;font-size:27.5px;color:var(--gd);animation:lxpulse 2s ease-in-out infinite}
+.lt{font-family:'Cinzel',serif;font-size:11.5px;color:var(--tx3);letter-spacing:1px}
+@keyframes lxpulse{0%,100%{opacity:.25}50%{opacity:.9}}
+
+/* NEWS */
+.news-list{padding:9px 11px}
+.news-card{background:var(--bg3);border:1px solid var(--b2);border-radius:8px;padding:11px;margin-bottom:8px;cursor:pointer;transition:all .18s}
+.news-card:hover{border-color:var(--gd);background:var(--bg4)}
+.news-cat{font-family:'Cinzel',serif;font-size:11.5px;color:var(--gd);letter-spacing:2px;margin-bottom:4px}
+.news-hl{font-family:'Cinzel',serif;font-size:16px;color:var(--gl);line-height:1.4;margin-bottom:4px}
+.news-snip{font-size:16px;color:var(--tx2);line-height:1.6;margin-bottom:5px}
+.news-meta{display:flex;align-items:center;justify-content:space-between}
+.news-date{font-size:14px;color:var(--tx3)}
+.news-rd{font-size:14px;color:var(--gd);font-family:'Cinzel',serif}
+
+/* CATHEDRAL */
+.cath-hero{background:var(--bg3);border-bottom:1px solid var(--gd);padding:13px;text-align:center}
+.cath-name{font-family:'Cinzel',serif;font-size:17px;color:var(--gl);letter-spacing:.5px}
+.cath-sub{font-size:14px;color:var(--tx3);font-style:italic;margin-top:2px}
+.cath-links{display:flex;gap:6px;justify-content:center;margin-top:8px;flex-wrap:wrap}
+.cath-lnk{background:var(--bg4);border:1px solid var(--gd);border-radius:5px;padding:4px 10px;font-family:'Cinzel',serif;font-size:12.5px;color:var(--gold);cursor:pointer;text-decoration:none;display:block;transition:all .2s}
+.cath-lnk:hover{background:var(--gd);color:var(--bg)}
+.ann-list{padding:9px 11px}
+.ann-card{background:var(--bg3);border:1px solid var(--b2);border-radius:8px;padding:11px;margin-bottom:8px}
+.ann-type{font-family:'Cinzel',serif;font-size:11.5px;letter-spacing:2px;margin-bottom:4px}
+.ann-type.liturgy{color:#5B9BD5}
+.ann-type.announce{color:var(--gd)}
+.ann-type.telegram{color:var(--grnl)}
+.ann-title{font-family:'Cinzel',serif;font-size:16px;color:var(--gl);line-height:1.35;margin-bottom:4px}
+.ann-body{font-size:16px;color:var(--tx2);line-height:1.65;margin-bottom:5px}
+.ann-foot{font-size:14px;color:var(--tx3);display:flex;align-items:center;gap:5px}
+.ann-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+
+/* READINGS */
+.rdg-day{background:var(--bg3);border-bottom:1px solid var(--b2);padding:11px 13px;flex-shrink:0}
+.rdg-lbl{font-family:'Cinzel',serif;font-size:11.5px;color:var(--gd);letter-spacing:2px;margin-bottom:2px}
+.rdg-feast{font-family:'Cinzel',serif;font-size:17px;color:var(--gl)}
+.rdg-tone{font-size:15px;color:var(--tx3);font-style:italic;margin-top:2px}
+.rdg-sec{border-bottom:1px solid var(--b1);padding:12px 13px}
+.rdg-src{font-family:'Cinzel',serif;font-size:11.5px;color:var(--gd);letter-spacing:2px;margin-bottom:4px}
+.rdg-ref{font-family:'Cinzel',serif;font-size:16px;color:var(--gold);margin-bottom:6px}
+.rdg-text{font-size:18.5px;color:var(--tx);line-height:1.85;font-style:italic}
+.rdg-orn{text-align:center;color:var(--gd);padding:6px;font-size:14px;letter-spacing:4px;opacity:.4}
+.trans-note{margin:10px 12px;background:var(--bg4);border:1px solid var(--b2);border-radius:7px;padding:10px 12px}
+.trans-note-lbl{font-family:'Cinzel',serif;font-size:11.5px;color:var(--gd);letter-spacing:2px;margin-bottom:4px}
+.trans-note-txt{font-size:15px;color:var(--tx3);line-height:1.6}
+.full-btn{display:block;margin:10px 12px;background:transparent;border:1px solid var(--gd);color:var(--gold);font-family:'Cinzel',serif;font-size:12.5px;letter-spacing:1px;padding:8px;border-radius:6px;cursor:pointer;text-align:center;transition:all .2s;text-decoration:none}
+.full-btn:hover{background:var(--gd);color:var(--bg)}
+
+/* ===== BIBLE ===== */
+.bible-search-wrap{padding:9px 11px;border-bottom:1px solid var(--b2);flex-shrink:0}
+.bible-search{background:var(--bg3);border:1px solid var(--b2);border-radius:7px;padding:7px 11px;width:100%;color:var(--tx);font-family:'EB Garamond',serif;font-size:15px;outline:none;transition:border-color .2s}
+.bible-search:focus{border-color:var(--gd)}
+.bible-search::placeholder{color:var(--tx3)}
+.trans-banner{background:var(--bg4);border-bottom:1px solid var(--b2);padding:7px 12px;display:flex;align-items:center;gap:8px;flex-shrink:0}
+.trans-lbl{font-family:'Cinzel',serif;font-size:12.5px;color:var(--gold)}
+.trans-desc-sm{font-size:14px;color:var(--tx3);margin-top:1px}
+.t-tabs{display:flex;border-bottom:1px solid var(--b2);flex-shrink:0}
+.t-tab{flex:1;padding:9px;font-family:'Cinzel',serif;font-size:12.5px;letter-spacing:1px;border:none;background:transparent;cursor:pointer;color:var(--tx3);border-bottom:2px solid transparent;transition:all .2s}
+.t-tab.active{color:var(--gold);border-bottom-color:var(--gold)}
+.book-grid{padding:8px 9px;display:grid;grid-template-columns:1fr 1fr;gap:6px}
+.book-card{background:var(--bg3);border:1px solid var(--b2);border-radius:8px;padding:9px 9px;cursor:pointer;transition:all .18s}
+.book-card:hover{border-color:var(--gd);background:var(--bg4);transform:translateY(-1px)}
+.book-card.done{border-color:var(--gd)}
+.book-nm{font-family:'Cinzel',serif;font-size:14px;color:var(--gl);margin-bottom:2px}
+.book-pg{font-size:12.5px;color:var(--tx3);margin-bottom:4px}
+.book-trans{font-size:11.5px;color:var(--gd);font-family:'Cinzel',serif}
+.pb{height:3px;background:var(--b1);border-radius:2px;margin-bottom:3px}
+.pf{height:3px;background:var(--gd);border-radius:2px;transition:width .4s}
+
+/* READER */
+.reader{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:var(--bg);z-index:50;flex-direction:column}
+.reader.open{display:flex}
+.reader-top{background:var(--bg2);border-bottom:1px solid var(--gd);padding:9px 12px;display:flex;align-items:center;gap:9px;flex-shrink:0}
+.reader-ttl{font-family:'Cinzel',serif;color:var(--gold);font-size:16px;letter-spacing:1px;flex:1}
+.reader-trans-lbl{font-size:12.5px;color:var(--tx3);display:block;margin-top:1px;font-style:italic}
+.ch-row{display:flex;gap:5px;padding:8px 11px;overflow-x:auto;flex-shrink:0;border-bottom:1px solid var(--b1)}
+.ch-row::-webkit-scrollbar{display:none}
+.ch-btn{width:32px;height:32px;border-radius:50%;border:1px solid var(--b2);background:transparent;color:var(--tx2);font-size:14px;cursor:pointer;flex-shrink:0;transition:all .2s;display:flex;align-items:center;justify-content:center;font-family:'Cinzel',serif}
+.ch-btn:hover{border-color:var(--gd);color:var(--gold)}
+.ch-btn.active{background:var(--gd);border-color:var(--gold);color:var(--bg);font-weight:700}
+.ch-btn.read{background:var(--bg4);border-color:var(--gd);color:var(--gd)}
+.reader-body{flex:1;overflow-y:auto;padding:15px 13px}
+.ch-title{font-family:'Cinzel',serif;font-size:23px;color:var(--gold);text-align:center;letter-spacing:2px;margin-bottom:14px}
+.verse{display:flex;gap:8px;margin-bottom:11px;cursor:pointer;border-radius:5px;padding:3px 4px;transition:background .15s}
+.verse:hover{background:var(--bg3)}
+.vnum{font-family:'Cinzel',serif;font-size:12.5px;color:var(--gd);min-width:16px;padding-top:2px}
+.vtxt{font-size:18.5px;line-height:1.85;color:var(--tx)}
+.reader-foot{padding:9px 11px;border-top:1px solid var(--b2);display:flex;gap:7px;flex-shrink:0}
+.r-btn{flex:1;padding:10px;border-radius:6px;border:1px solid var(--gd);background:transparent;color:var(--gold);font-family:'Cinzel',serif;font-size:12.5px;letter-spacing:1px;cursor:pointer;transition:all .2s}
+.r-btn:hover{background:var(--gd);color:var(--bg)}
+.r-btn.primary{background:var(--gd);color:var(--bg)}
+.r-btn.primary:hover{background:var(--gold)}
+
+/* ===== FEED ===== */
+.parish-banner{background:linear-gradient(135deg,var(--bg3),var(--bg4));border-bottom:1px solid var(--gd);padding:10px 13px;display:flex;align-items:center;gap:9px;flex-shrink:0}
+.par-icon{width:36px;height:36px;border-radius:50%;background:var(--bg5);border:1.5px solid var(--gd);display:flex;align-items:center;justify-content:center;font-size:18.5px;flex-shrink:0}
+.par-name{font-family:'Cinzel',serif;font-size:16px;color:var(--gl)}
+.par-meta{font-size:14px;color:var(--tx3);margin-top:1px;font-style:italic}
+.par-count{font-family:'Cinzel',serif;font-size:12.5px;color:var(--gd);background:var(--bg5);border:1px solid var(--b2);border-radius:10px;padding:2px 8px;margin-left:auto}
+.story-row{display:flex;gap:8px;padding:9px 11px;overflow-x:auto;border-bottom:1px solid var(--b1);flex-shrink:0}
+.story-row::-webkit-scrollbar{display:none}
+.story-item{display:flex;flex-direction:column;align-items:center;gap:4px;cursor:pointer;flex-shrink:0;transition:transform .15s}
+.story-item:hover{transform:scale(1.05)}
+.story-ring{width:46px;height:46px;border-radius:50%;padding:2px;background:var(--b2)}
+.story-ring.unread{background:conic-gradient(var(--gold) 0deg,var(--gl) 180deg,var(--gold) 360deg)}
+.story-inner{width:100%;height:100%;border-radius:50%;background:var(--bg3);border:2px solid var(--bg);display:flex;align-items:center;justify-content:center;font-family:'Cinzel',serif;font-size:12.5px;color:var(--gold)}
+.story-name{font-size:11.5px;color:var(--tx3);max-width:48px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center}
+.post{border-bottom:1px solid var(--b1);padding:11px 12px 10px}
+.post-head{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.post-av{width:33px;height:33px;border-radius:50%;background:var(--bg4);border:1.5px solid var(--gd);display:flex;align-items:center;justify-content:center;font-family:'Cinzel',serif;font-size:12.5px;color:var(--gold);flex-shrink:0;cursor:pointer;transition:border-color .2s}
+.post-av:hover{border-color:var(--gold)}
+.post-name{font-family:'Cinzel',serif;font-size:16px;color:var(--gl);cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.post-name:hover{color:var(--gold)}
+.post-time{font-size:14px;color:var(--tx3);margin-top:1px}
+.post-badge{background:var(--bg5);border:1px solid var(--gd);border-radius:4px;padding:2px 6px;font-family:'Cinzel',serif;font-size:12.5px;color:var(--gold);flex-shrink:0;margin-left:auto}
+.vblock{background:var(--bg3);border-left:2px solid var(--gd);padding:7px 9px;border-radius:0 6px 6px 0;margin-bottom:7px}
+.vref{font-family:'Cinzel',serif;font-size:12.5px;color:var(--gold);letter-spacing:1px;margin-bottom:2px}
+.vtx{font-size:16px;color:var(--tx2);font-style:italic;line-height:1.6}
+.post-cap{font-size:17px;color:var(--tx);line-height:1.75;margin-bottom:7px}
+.audio-bar{background:var(--bg4);border:1px solid var(--b2);border-radius:7px;padding:7px 9px;display:flex;align-items:center;gap:8px;margin-bottom:7px;cursor:pointer;transition:border-color .2s}
+.audio-bar:hover{border-color:var(--gd)}
+.play-btn{width:28px;height:28px;border-radius:50%;background:var(--gd);border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:background .2s}
+.play-btn:hover,.play-btn.on{background:var(--gold)}
+.play-btn svg{width:11px;height:11px;fill:var(--bg)}
+.audio-title{font-size:15px;color:var(--gl);font-family:'Cinzel',serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.audio-dur{font-size:14px;color:var(--tx3)}
+.wf{display:flex;align-items:center;gap:2px;height:20px}
+.wb{width:3px;border-radius:2px;background:var(--gd)}
+.wf.on .wb{animation:wav 1s ease-in-out infinite}
+.wb:nth-child(2){animation-delay:.1s!important}
+.wb:nth-child(3){animation-delay:.2s!important}
+.wb:nth-child(4){animation-delay:.3s!important}
+.wb:nth-child(5){animation-delay:.15s!important}
+@keyframes wav{0%,100%{transform:scaleY(.5);opacity:.5}50%{transform:scaleY(1);opacity:1}}
+.post-acts{display:flex;gap:12px}
+.act{background:none;border:none;color:var(--tx3);font-size:15px;cursor:pointer;display:flex;align-items:center;gap:4px;font-family:'EB Garamond',serif;transition:color .2s}
+.act:hover{color:var(--gold)}
+.act svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:1.5}
+.act.on{color:var(--gold)}
+.act.on svg{fill:var(--gold)}
+
+/* ===== PARISH ===== */
+.comm-tabs{display:flex;border-bottom:1px solid var(--b2);flex-shrink:0}
+.ctab{flex:1;padding:9px;font-family:'Cinzel',serif;font-size:12.5px;letter-spacing:1px;border:none;background:transparent;cursor:pointer;color:var(--tx3);border-bottom:2px solid transparent;transition:all .2s}
+.ctab.active{color:var(--gold);border-bottom-color:var(--gold)}
+.cpanel{display:none;flex-direction:column}
+.cpanel.active{display:flex}
+.sec-lbl{font-family:'Cinzel',serif;font-size:11.5px;color:var(--gd);letter-spacing:2px;padding:10px 12px 5px;border-bottom:1px solid var(--b1)}
+.member-row{display:flex;align-items:center;gap:9px;padding:9px 12px;border-bottom:1px solid var(--b1);cursor:pointer;transition:background .15s}
+.member-row:hover{background:var(--bg3)}
+.mrank{font-family:'Cinzel',serif;font-size:11.5px;color:var(--gd);width:18px;text-align:center;flex-shrink:0}
+.mav{width:37px;height:37px;border-radius:50%;background:var(--bg4);border:1.5px solid var(--gd);display:flex;align-items:center;justify-content:center;font-family:'Cinzel',serif;font-size:14px;color:var(--gold);flex-shrink:0}
+.mname{font-family:'Cinzel',serif;font-size:16px;color:var(--gl)}
+.mstat{font-size:14px;color:var(--tx3);margin-top:1px}
+.mbadge{background:var(--bg5);border:1px solid var(--gd);border-radius:10px;padding:2px 7px;font-size:11.5px;color:var(--gold);font-family:'Cinzel',serif;white-space:nowrap;flex-shrink:0}
+.par-card{margin:9px;background:var(--bg3);border:1px solid var(--gd);border-radius:10px;overflow:hidden}
+.par-card-head{background:var(--bg4);padding:11px;display:flex;align-items:center;gap:9px;border-bottom:1px solid var(--b2)}
+.par-card-icon{width:40px;height:40px;border-radius:50%;background:var(--bg5);border:2px solid var(--gd);display:flex;align-items:center;justify-content:center;font-size:20.5px;flex-shrink:0}
+.par-card-name{font-family:'Cinzel',serif;font-size:16px;color:var(--gl)}
+.par-card-meta{font-size:14px;color:var(--tx3);margin-top:1px;font-style:italic}
+.jc-wrap{padding:11px}
+.jc-lbl{font-family:'Cinzel',serif;font-size:11.5px;color:var(--gd);letter-spacing:2px;margin-bottom:5px}
+.jc-code{font-family:monospace;font-size:27.5px;color:var(--gold);letter-spacing:5px;background:var(--bg5);padding:7px 11px;border-radius:5px;border:1px solid var(--b2);display:inline-block}
+.jc-url{font-family:monospace;font-size:12.5px;color:var(--tx3);margin-top:5px;word-break:break-all}
+.copy-btn{background:var(--gd);border:none;color:var(--bg);font-family:'Cinzel',serif;font-size:12.5px;letter-spacing:1px;padding:6px 11px;border-radius:5px;cursor:pointer;margin-top:6px;display:inline-flex;align-items:center;gap:5px;transition:background .2s}
+.copy-btn:hover{background:var(--gold)}
+.copy-btn svg{width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2}
+.grule{height:1px;background:linear-gradient(90deg,transparent,var(--gd),transparent);margin:0 9px}
+.req-item{display:flex;align-items:center;gap:9px;padding:9px 11px;border-bottom:1px solid var(--b1)}
+.req-av{width:32px;height:32px;border-radius:50%;background:var(--bg4);border:1.5px solid var(--b2);display:flex;align-items:center;justify-content:center;font-family:'Cinzel',serif;font-size:11.5px;color:var(--tx2);flex-shrink:0}
+.req-name{font-family:'Cinzel',serif;font-size:15px;color:var(--tx)}
+.req-meta{font-size:14px;color:var(--tx3);margin-top:1px}
+.req-acts{display:flex;gap:5px;margin-left:auto}
+.approve-btn{background:var(--grn);border:none;border-radius:4px;padding:5px 10px;font-family:'Cinzel',serif;font-size:12.5px;color:#fff;cursor:pointer}
+.decline-btn{background:var(--red);border:none;border-radius:4px;padding:5px 10px;font-family:'Cinzel',serif;font-size:12.5px;color:#fff;cursor:pointer}
+.tg-section{padding:11px}
+.tg-lbl{font-family:'Cinzel',serif;font-size:11.5px;color:var(--gd);letter-spacing:2px;margin-bottom:6px}
+.tg-status{display:flex;align-items:center;gap:8px;background:var(--bg4);border:1px solid var(--b2);border-radius:7px;padding:8px 10px;margin-bottom:6px}
+.tg-dot{width:7px;height:7px;border-radius:50%;background:var(--grnl);flex-shrink:0;animation:tgp 2s infinite}
+.tg-dot.off{background:var(--tx3);animation:none}
+@keyframes tgp{0%,100%{opacity:1}50%{opacity:.3}}
+.tg-sname{font-family:'Cinzel',serif;font-size:15px;color:var(--tx)}
+.tg-sdesc{font-size:14px;color:var(--tx3);margin-top:1px}
+.tg-tog{background:var(--gd);border:none;color:var(--bg);font-family:'Cinzel',serif;font-size:12.5px;letter-spacing:.5px;padding:5px 9px;border-radius:5px;cursor:pointer;margin-left:auto}
+.tg-tog:hover{background:var(--gold)}
+.tg-ch{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--b1)}
+.tg-ch-icon{width:25px;height:25px;border-radius:50%;background:#1E3A70;display:flex;align-items:center;justify-content:center;font-size:12.5px;flex-shrink:0}
+.tg-ch-name{font-size:15px;color:var(--tx);flex:1}
+.tg-ch-desc{font-size:12.5px;color:var(--tx3);margin-top:1px}
+.sw{width:32px;height:17px;border-radius:9px;background:var(--gd);border:none;cursor:pointer;position:relative;flex-shrink:0;transition:background .2s}
+.sw::after{content:'';width:13px;height:13px;border-radius:50%;background:#fff;position:absolute;top:2px;right:2px;transition:transform .2s}
+.sw.off{background:var(--b2)}
+.sw.off::after{transform:translateX(-15px)}
+.tg-msg{display:flex;align-items:flex-start;gap:7px;padding:7px 0;border-bottom:1px solid var(--b1)}
+.tg-msg-txt{font-size:15px;color:var(--tx2);line-height:1.5;flex:1}
+.tg-msg-time{font-size:12.5px;color:var(--tx3);margin-top:2px}
+.tg-synced{font-size:12.5px;color:var(--grnl)}
+
+/* ===== PROFILE ===== */
+.profile-hero{background:var(--bg3);border-bottom:1px solid var(--gd);padding:19px 13px 13px;text-align:center;position:relative;flex-shrink:0}
+.profile-cross{position:absolute;top:9px;right:12px;font-family:'Cinzel',serif;font-size:17px;color:var(--gd);opacity:.4}
+.pav{width:62px;height:62px;border-radius:50%;background:var(--bg4);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Cinzel',serif;font-size:23px;color:var(--gold);margin:0 auto 7px}
+.pname{font-family:'Cinzel',serif;font-size:20.5px;color:var(--gl)}
+.prole{font-size:15px;color:var(--tx3);font-style:italic;margin-top:2px}
+.pparish{font-family:'Cinzel',serif;font-size:12.5px;color:var(--gd);letter-spacing:1px;margin-top:3px}
+.pstats{display:flex;justify-content:center;gap:18px;margin-top:9px}
+.pst{text-align:center}
+.pstn{font-family:'Cinzel',serif;font-size:20.5px;color:var(--gold)}
+.pstl{font-size:12.5px;color:var(--tx3);letter-spacing:1px;margin-top:1px}
+.prog-sec{padding:11px 13px;border-bottom:1px solid var(--b1)}
+.prog-lbl{font-family:'Cinzel',serif;font-size:11.5px;color:var(--gd);letter-spacing:2px;margin-bottom:6px}
+.ring-wrap{display:flex;align-items:center;gap:11px;margin-bottom:9px}
+.ring{width:54px;height:54px;position:relative;flex-shrink:0}
+.ring svg{transform:rotate(-90deg)}
+.ring-txt{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Cinzel',serif;font-size:15px;color:var(--gold);text-align:center}
+.ring-book{font-family:'Cinzel',serif;font-size:15px;color:var(--gl)}
+.ring-ch{font-size:15px;color:var(--tx3);margin-top:2px}
+.rec-sec{padding:10px 13px}
+.rec-item{background:var(--bg3);border:1px solid var(--b2);border-radius:7px;padding:9px 10px;margin-bottom:6px;display:flex;align-items:center;gap:8px;cursor:pointer;transition:border-color .2s}
+.rec-item:hover{border-color:var(--gd)}
+.rec-icon{width:30px;height:30px;border-radius:50%;background:var(--bg4);border:1px solid var(--gd);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.rec-icon svg{width:11px;height:11px;fill:var(--gold);stroke:none}
+
+/* OVERLAY */
+.overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.87);z-index:100;overflow-y:auto}
+.overlay.open{display:block}
+.modal{background:var(--bg2);margin:13px 10px 20px;border-radius:11px;border:1px solid var(--gd);overflow:hidden}
+.modal-close{position:absolute;top:16px;right:16px;background:none;border:none;cursor:pointer;color:var(--gold);z-index:101}
+.modal-close svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:2}
+.mem-hero{background:var(--bg3);padding:18px 13px 13px;text-align:center;position:relative}
+.mem-cross{position:absolute;top:9px;right:12px;font-family:'Cinzel',serif;font-size:16px;color:var(--gd);opacity:.4}
+.mem-av{width:58px;height:58px;border-radius:50%;background:var(--bg4);border:2px solid var(--gold);display:flex;align-items:center;justify-content:center;font-family:'Cinzel',serif;font-size:22px;color:var(--gold);margin:0 auto 7px}
+.mem-name{font-family:'Cinzel',serif;font-size:20.5px;color:var(--gl)}
+.mem-role{font-size:15px;color:var(--tx3);font-style:italic;margin-top:2px}
+.mem-stats{display:flex;justify-content:center;gap:18px;margin-top:9px}
+.mem-sec{padding:9px 12px}
+.mem-sec-lbl{font-family:'Cinzel',serif;font-size:11.5px;color:var(--gd);letter-spacing:2px;margin-bottom:6px}
+.mem-rec{background:var(--bg3);border:1px solid var(--b2);border-radius:7px;padding:8px 10px;display:flex;align-items:center;gap:8px;margin-bottom:6px;cursor:pointer;transition:border-color .2s}
+.mem-rec:hover{border-color:var(--gd)}
+.mem-rec-nm{font-family:'Cinzel',serif;font-size:14px;color:var(--gl);flex:1}
+.mem-rec-dur{font-size:12.5px;color:var(--gd)}
+.cmt-thread{padding:0 12px}
+.cmt{display:flex;gap:6px;padding:6px 0;border-bottom:1px solid var(--b1)}
+.cmt-av{width:22px;height:22px;border-radius:50%;background:var(--bg4);border:1px solid var(--gd);display:flex;align-items:center;justify-content:center;font-family:'Cinzel',serif;font-size:9px;color:var(--gold);flex-shrink:0}
+.cmt-author{font-family:'Cinzel',serif;font-size:14px;color:var(--gd)}
+.cmt-txt{font-size:16px;color:var(--tx2);margin-top:1px;line-height:1.5}
+.cmt-area{padding:9px 12px}
+.cmt-inp{background:var(--bg3);border:1px solid var(--b2);border-radius:6px;padding:7px 10px;width:100%;color:var(--tx);font-family:'EB Garamond',serif;font-size:16px;resize:none;outline:none;height:48px;transition:border-color .2s}
+.cmt-inp:focus{border-color:var(--gd)}
+.cmt-send{margin-top:5px;background:var(--gd);border:none;color:var(--bg);font-family:'Cinzel',serif;font-size:12.5px;letter-spacing:1px;padding:6px 11px;border-radius:5px;cursor:pointer;transition:background .2s}
+.cmt-send:hover{background:var(--gold)}
+
+/* TOAST */
+.toast{position:fixed;bottom:calc(66px + env(safe-area-inset-bottom, 0px));left:50%;transform:translateX(-50%) translateY(14px);background:var(--bg4);border:1px solid var(--gd);border-radius:7px;padding:8px 14px;font-family:'Cinzel',serif;font-size:12.5px;color:var(--gold);white-space:nowrap;opacity:0;transition:all .3s;z-index:300;pointer-events:none}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* CALENDAR */
+.cal-day{border-radius:6px;aspect-ratio:1;display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all .15s;position:relative;border:1px solid transparent}
+.cal-day:hover{background:var(--bg3);border-color:var(--b2)}
+.cal-day.today{background:var(--bg4);border-color:var(--gd)!important}
+.cal-day.selected{background:var(--gd);border-color:var(--gold)!important}
+.cal-day.selected .cal-num{color:var(--bg)!important}
+.cal-day.selected .cal-dot{background:var(--gl)!important}
+.cal-day.other-month .cal-num{opacity:.25}
+.cal-day.fast .cal-num{color:#5B9BD5}
+.cal-day.great-feast{border-color:var(--gd)}
+.cal-num{font-family:'Cinzel',serif;font-size:15px;color:var(--tx2);line-height:1}
+.cal-day.today .cal-num{color:var(--gold)}
+.cal-dot{width:4px;height:4px;border-radius:50%;background:var(--gd);margin-top:2px}
+.cal-dot.feast{background:var(--gold)}
+.cal-dot.fast{background:#5B9BD5}
+.cal-tag{font-size:12.5px;border-radius:4px;padding:2px 6px;font-family:'Cinzel',serif;border:1px solid}
+.cal-tag.feast-tag{color:var(--gold);background:rgba(201,168,76,.12);border-color:var(--b3)}
+.cal-tag.fast-tag{color:#5B9BD5;background:rgba(30,90,158,.12);border-color:rgba(30,90,158,.3)}
+.cal-tag.tone-tag{color:var(--tx3);background:var(--bg4);border-color:var(--b2)}
+.cal-comm-lbl{font-family:'Cinzel',serif;font-size:11.5px;color:var(--gd);letter-spacing:2px;margin-bottom:5px}
+.cal-comm-item{display:flex;align-items:flex-start;gap:6px;padding:3px 0;border-bottom:1px solid var(--b1)}
+.cal-comm-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;margin-top:4px}
+.cal-comm-name{font-size:15px;color:var(--tx2);line-height:1.45;flex:1}
+</style>
+</head>
+<body>
+<div id="app">
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div>
+    <div class="brand">✟ Theoria</div>
+    <span class="brand-sub">CHRIST THE SAVIOR CATHEDRAL</span>
+  </div>
+  <div class="topbar-r">
+    <div style="position:relative">
+      <button class="icon-btn" onclick="toast('3 new notifications')">
+        <svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      </button>
+      <div class="ndot"></div>
+    </div>
+    <div class="ava" onclick="nav('profile')">NS</div>
+  </div>
+</div>
+
+<!-- ======== HOME SCREEN ======== -->
+<div class="screen active" id="screen-home">
+  <!-- Home root -->
+  <div id="home-root">
+    <div class="home-hero">
+      <span class="home-cross">✝</span>
+      <div class="home-parish">Christ the Savior Cathedral</div>
+      <div class="home-cath">ORTHODOX CHURCH IN AMERICA · MIAMI, FL</div>
+      <div class="home-date" id="home-date"></div>
+      <div class="home-feast-wrap"><span class="home-feast" id="home-feast"></span></div>
+    </div>
+    <div class="home-cards">
+      <div class="hcard" onclick="openSub('oca-news')">
+        <div class="hcard-stripe" style="background:#2A5A9E"></div>
+        <div class="hcard-body">
+          <div class="hcard-icon" style="background:rgba(42,90,158,.18);border:1px solid rgba(42,90,158,.35)">📰</div>
+          <div class="hcard-text">
+            <div class="hcard-title">OCA News</div>
+            <div class="hcard-desc">Latest news from the Orthodox Church in America</div>
+            <span class="hcard-pill pill-live">Updated Daily</span>
+          </div>
+          <div class="hcard-arr"><svg viewBox="0 0 24 24"><polyline points="9,18 15,12 9,6"/></svg></div>
+        </div>
+      </div>
+      <div class="hcard" onclick="openSub('cathedral')">
+        <div class="hcard-stripe" style="background:var(--gd)"></div>
+        <div class="hcard-body">
+          <div class="hcard-icon" style="background:rgba(201,168,76,.13);border:1px solid var(--b2)">⛪</div>
+          <div class="hcard-text">
+            <div class="hcard-title">Cathedral Announcements</div>
+            <div class="hcard-desc">Christ the Savior · orthodoxmiami.org</div>
+            <span class="hcard-pill pill-par">Liturgy &amp; Events</span>
+          </div>
+          <div class="hcard-arr"><svg viewBox="0 0 24 24"><polyline points="9,18 15,12 9,6"/></svg></div>
+        </div>
+      </div>
+      <div class="hcard" onclick="openSub('readings')">
+        <div class="hcard-stripe" style="background:var(--grn)"></div>
+        <div class="hcard-body">
+          <div class="hcard-icon" style="background:rgba(45,106,63,.18);border:1px solid rgba(45,106,63,.35)">📖</div>
+          <div class="hcard-text">
+            <div class="hcard-title">Daily Readings</div>
+            <div class="hcard-desc">Today's appointed scripture readings from oca.org</div>
+            <span class="hcard-pill pill-live">Updated Daily</span>
+          </div>
+          <div class="hcard-arr"><svg viewBox="0 0 24 24"><polyline points="9,18 15,12 9,6"/></svg></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ORTHODOX CALENDAR -->
+    <div id="cal-section" style="padding:11px 11px 14px">
+      <div style="font-family:'Cinzel',serif;font-size:9px;color:var(--gd);letter-spacing:2px;margin-bottom:9px;padding-bottom:6px;border-bottom:1px solid var(--b2)">✦ ORTHODOX CALENDAR · <span id="cal-month-label"></span> ✦</div>
+      <!-- Month nav -->
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:9px">
+        <button onclick="calNav(-1)" style="background:none;border:none;cursor:pointer;color:var(--gd);padding:4px 8px;font-family:'Cinzel',serif;font-size:18.5px">‹</button>
+        <div style="font-family:'Cinzel',serif;font-size:14px;color:var(--gl)" id="cal-title"></div>
+        <button onclick="calNav(1)" style="background:none;border:none;cursor:pointer;color:var(--gd);padding:4px 8px;font-family:'Cinzel',serif;font-size:18.5px">›</button>
+      </div>
+      <!-- Day headers -->
+      <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:2px;margin-bottom:4px">
+        <div style="text-align:center;font-family:'Cinzel',serif;font-size:9px;color:var(--gd);padding:2px 0">SUN</div>
+        <div style="text-align:center;font-family:'Cinzel',serif;font-size:9px;color:var(--gd);padding:2px 0">MON</div>
+        <div style="text-align:center;font-family:'Cinzel',serif;font-size:9px;color:var(--gd);padding:2px 0">TUE</div>
+        <div style="text-align:center;font-family:'Cinzel',serif;font-size:9px;color:var(--gd);padding:2px 0">WED</div>
+        <div style="text-align:center;font-family:'Cinzel',serif;font-size:9px;color:var(--gd);padding:2px 0">THU</div>
+        <div style="text-align:center;font-family:'Cinzel',serif;font-size:9px;color:var(--gd);padding:2px 0">FRI</div>
+        <div style="text-align:center;font-family:'Cinzel',serif;font-size:9px;color:var(--gd);padding:2px 0">SAT</div>
+      </div>
+      <!-- Calendar grid -->
+      <div id="cal-grid" style="display:grid;grid-template-columns:repeat(7,1fr);gap:3px"></div>
+      <!-- Selected day feast -->
+      <div id="cal-feast-box" style="margin-top:10px;background:var(--bg3);border:1px solid var(--b2);border-radius:8px;padding:10px 12px;display:none">
+        <div style="font-family:'Cinzel',serif;font-size:9px;color:var(--gd);letter-spacing:2px;margin-bottom:4px" id="cal-feast-date"></div>
+        <div style="font-family:'Cinzel',serif;font-size:14px;color:var(--gl);line-height:1.45;margin-bottom:3px" id="cal-feast-name"></div>
+        <div style="font-size:11.5px;color:var(--tx3);font-style:italic;margin-bottom:5px" id="cal-feast-subtitle"></div>
+        <div style="display:flex;gap:5px;flex-wrap:wrap;margin-bottom:8px" id="cal-feast-tags"></div>
+        <div id="cal-commemorations"></div>
+        <div style="font-size:10px;color:var(--tx3);margin-top:8px;text-align:right;font-style:italic">via orthocal.info · OCA Calendar</div>
+      </div>
+    </div>
+    <div style="height:4px"></div>
+  </div>
+
+  <!-- Sub: OCA News -->
+  <div id="sub-oca-news" style="display:none;flex-direction:column;flex:1;overflow-y:auto">
+    <div class="sub-top">
+      <div class="sub-back-row">
+        <button class="back-btn" onclick="closeSub()"><svg viewBox="0 0 24 24"><polyline points="15,18 9,12 15,6"/></svg></button>
+        <div><div class="sub-title">OCA News</div><div class="sub-desc">Orthodox Church in America</div></div>
+      </div>
+      <span class="src-badge">oca.org/news · Live Feed</span>
+    </div>
+    <div class="news-list" id="news-list"><div class="loading"><div class="lx">✝</div><div class="lt">LOADING NEWS...</div></div></div>
+  </div>
+
+  <!-- Sub: Cathedral -->
+  <div id="sub-cathedral" style="display:none;flex-direction:column;flex:1;overflow-y:auto">
+    <div class="sub-top">
+      <div class="sub-back-row">
+        <button class="back-btn" onclick="closeSub()"><svg viewBox="0 0 24 24"><polyline points="15,18 9,12 15,6"/></svg></button>
+        <div><div class="sub-title">Cathedral Announcements</div><div class="sub-desc">Christ the Savior · Miami, FL</div></div>
+      </div>
+      <span class="src-badge">orthodoxmiami.org</span>
+    </div>
+    <div class="cath-hero">
+      <div class="cath-name">Christ the Savior Cathedral</div>
+      <div class="cath-sub">Orthodox Church in America · Miami, Florida</div>
+      <div class="cath-links">
+        <a class="cath-lnk" href="https://orthodoxmiami.org" target="_blank">🌐 Parish Website</a>
+        <a class="cath-lnk" href="https://orthodoxmiami.org/donate" target="_blank">🕯️ Support</a>
+        <span class="cath-lnk" onclick="toast('Telegram sync coming soon ✦')">📱 Telegram</span>
+      </div>
+    </div>
+    <div class="ann-list" id="ann-list"></div>
+  </div>
+
+  <!-- Sub: Daily Readings -->
+  <div id="sub-readings" style="display:none;flex-direction:column;flex:1;overflow-y:auto">
+    <div class="sub-top">
+      <div class="sub-back-row">
+        <button class="back-btn" onclick="closeSub()"><svg viewBox="0 0 24 24"><polyline points="15,18 9,12 15,6"/></svg></button>
+        <div><div class="sub-title">Daily Readings</div><div class="sub-desc" id="rdg-date-sub">Today's readings</div></div>
+      </div>
+      <span class="src-badge">oca.org/readings · Updated Daily</span>
+    </div>
+    <div id="rdg-content"><div class="loading"><div class="lx">✝</div><div class="lt">LOADING READINGS...</div></div></div>
+  </div>
+</div>
+
+<!-- ======== BIBLE SCREEN ======== -->
+<div class="screen" id="screen-bible">
+  <div class="bible-search-wrap">
+    <input class="bible-search" type="text" placeholder="🔍  Search books..." oninput="filterBooks(this.value)">
+  </div>
+  <div class="trans-banner">
+    <div style="font-size:18.5px">📜</div>
+    <div>
+      <div class="trans-lbl">OT: Brenton Septuagint (1851) · NT: New King James Version</div>
+      <div class="trans-desc-sm">Public domain Orthodox-appropriate texts · Free to use · No licensing required</div>
+    </div>
+  </div>
+  <div class="t-tabs">
+    <button class="t-tab active" onclick="setTestament('OT',this)">Old Testament</button>
+    <button class="t-tab" onclick="setTestament('NT',this)">New Testament</button>
+  </div>
+  <div class="book-grid" id="book-grid"></div>
+</div>
+
+<!-- ======== FEED SCREEN ======== -->
+<div class="screen" id="screen-feed">
+  <div class="parish-banner">
+    <div class="par-icon">⛪</div>
+    <div><div class="par-name">Christ the Savior Cathedral</div><div class="par-meta">Miami, Florida · OCA</div></div>
+    <div class="par-count">47 members</div>
+  </div>
+  <div class="story-row">
+    <div class="story-item" onclick="openMember('you')"><div class="story-ring"><div class="story-inner">NS</div></div><div class="story-name">Your Story</div></div>
+    <div class="story-item" onclick="openMember('fn')"><div class="story-ring unread"><div class="story-inner">FN</div></div><div class="story-name">Fr. Nicholas</div></div>
+    <div class="story-item" onclick="openMember('ea')"><div class="story-ring unread"><div class="story-inner">EA</div></div><div class="story-name">Elena A.</div></div>
+    <div class="story-item" onclick="openMember('dk')"><div class="story-ring unread"><div class="story-inner">DK</div></div><div class="story-name">Demetrios</div></div>
+    <div class="story-item" onclick="openMember('at')"><div class="story-ring"><div class="story-inner">AT</div></div><div class="story-name">Anastasia</div></div>
+    <div class="story-item" onclick="openMember('mv')"><div class="story-ring unread"><div class="story-inner">MV</div></div><div class="story-name">Maria V.</div></div>
+  </div>
+  <div id="feed-posts"></div>
+  <div style="height:14px"></div>
+</div>
+
+<!-- ======== PARISH SCREEN ======== -->
+<div class="screen" id="screen-community">
+  <div class="comm-tabs">
+    <button class="ctab active" id="ctab-members" onclick="switchComm('members')">Members</button>
+    <button class="ctab" id="ctab-parish" onclick="switchComm('parish')">My Parish</button>
+    <button class="ctab" id="ctab-telegram" onclick="switchComm('telegram')">Telegram</button>
+  </div>
+  <div class="cpanel active" id="cpanel-members">
+    <div class="sec-lbl">✦ MOST ACTIVE THIS MONTH ✦</div>
+    <div id="leaderboard"></div>
+  </div>
+  <div class="cpanel" id="cpanel-parish">
+    <div class="par-card">
+      <div class="par-card-head">
+        <div class="par-card-icon">⛪</div>
+        <div><div class="par-card-name">Christ the Savior Cathedral</div><div class="par-card-meta">Miami, Florida · 47 members · Est. 1987</div></div>
+      </div>
+      <div class="jc-wrap">
+        <div class="jc-lbl">✦ PARISH JOIN CODE ✦</div>
+        <div class="jc-code">STATH7</div>
+        <div class="jc-url">theoria.app/join/STATH7</div>
+        <button class="copy-btn" onclick="copyInvite()">
+          <svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copy Invitation Link
+        </button>
+      </div>
+      <div class="grule"></div>
+      <div style="padding:9px 11px">
+        <div class="jc-lbl" style="margin-bottom:6px">✦ PENDING JOIN REQUESTS ✦</div>
+        <div class="req-item" id="req-sophia">
+          <div class="req-av">SP</div>
+          <div><div class="req-name">Sophia Papadopoulos</div><div class="req-meta">Via invitation link · 2 hours ago</div></div>
+          <div class="req-acts"><button class="approve-btn" onclick="approveReq('sophia','Sophia P.')">✓ Approve</button><button class="decline-btn" onclick="declineReq('sophia')">✕</button></div>
+        </div>
+        <div class="req-item" id="req-chris">
+          <div class="req-av">CT</div>
+          <div><div class="req-name">Christos Theodorou</div><div class="req-meta">Via invitation link · 5 hours ago</div></div>
+          <div class="req-acts"><button class="approve-btn" onclick="approveReq('chris','Christos T.')">✓ Approve</button><button class="decline-btn" onclick="declineReq('chris')">✕</button></div>
+        </div>
+        <div id="no-reqs" style="display:none;padding:10px 0;text-align:center;font-size:12.5px;color:var(--tx3);font-style:italic">No pending requests</div>
+      </div>
+      <div class="grule"></div>
+      <div style="padding:9px 11px 13px">
+        <div class="jc-lbl" style="margin-bottom:6px">✦ INVITE A PARISHIONER ✦</div>
+        <input id="invite-email" style="background:var(--bg3);border:1px solid var(--b2);border-radius:6px;padding:7px 10px;width:100%;color:var(--tx);font-family:'EB Garamond',serif;font-size:15px;outline:none;margin-bottom:6px" placeholder="Enter email address...">
+        <button class="copy-btn" style="width:100%;justify-content:center" onclick="sendInvite()">
+          <svg viewBox="0 0 24 24"><path d="M22 2L11 13"/><path d="M22 2L15 22 11 13 2 9l20-7z"/></svg>
+          Send Invitation Email
+        </button>
+      </div>
+    </div>
+    <div style="height:14px"></div>
+  </div>
+  <div class="cpanel" id="cpanel-telegram">
+    <div class="tg-section">
+      <div class="tg-lbl">✦ TELEGRAM INTEGRATION ✦</div>
+      <div class="tg-status">
+        <div class="tg-dot" id="tg-dot"></div>
+        <div style="flex:1"><div class="tg-sname" id="tg-sname">@ChristTheSaviorMiami</div><div class="tg-sdesc" id="tg-sdesc">Connected · Syncing announcements</div></div>
+        <button class="tg-tog" id="tg-tog" onclick="toggleTg()">Disconnect</button>
+      </div>
+      <div class="tg-lbl" style="margin-top:10px">✦ CHANNEL SYNC SETTINGS ✦</div>
+      <div class="tg-ch"><div class="tg-ch-icon">📢</div><div style="flex:1"><div class="tg-ch-name">Parish Announcements</div><div class="tg-ch-desc">Mirror to Theoria feed automatically</div></div><button class="sw" onclick="toggleSw(this)"></button></div>
+      <div class="tg-ch"><div class="tg-ch-icon">📖</div><div style="flex:1"><div class="tg-ch-name">Daily Scripture Reading</div><div class="tg-ch-desc">Post verse of the day to feed</div></div><button class="sw" onclick="toggleSw(this)"></button></div>
+      <div class="tg-ch"><div class="tg-ch-icon">📅</div><div style="flex:1"><div class="tg-ch-name">Liturgical Calendar</div><div class="tg-ch-desc">Feast days &amp; fasting reminders</div></div><button class="sw off" onclick="toggleSw(this)"></button></div>
+      <div class="tg-ch"><div class="tg-ch-icon">🔔</div><div style="flex:1"><div class="tg-ch-name">Theoria → Telegram</div><div class="tg-ch-desc">Share new recordings to channel</div></div><button class="sw" onclick="toggleSw(this)"></button></div>
+      <div class="tg-lbl" style="margin-top:11px">✦ RECENTLY SYNCED ✦</div>
+      <div id="tg-msgs"></div>
+    </div>
+    <div style="height:14px"></div>
+  </div>
+</div>
+
+<!-- ======== PROFILE SCREEN ======== -->
+<div class="screen" id="screen-profile">
+  <div class="profile-hero">
+    <div class="profile-cross">✝</div>
+    <div class="pav">NS</div>
+    <div class="pname">Nicholas Stavros</div>
+    <div class="prole">Member · Theoria since March 2025</div>
+    <div class="pparish">✦ CHRIST THE SAVIOR CATHEDRAL · MIAMI ✦</div>
+    <div class="pstats">
+      <div class="pst"><div class="pstn">9</div><div class="pstl">CHAPTERS</div></div>
+      <div class="pst"><div class="pstn">1</div><div class="pstl">RECORDINGS</div></div>
+      <div class="pst"><div class="pstn">7</div><div class="pstl">STREAK 🔥</div></div>
+      <div class="pst"><div class="pstn">34</div><div class="pstl">AMENS</div></div>
+    </div>
+  </div>
+  <div class="prog-sec">
+    <div class="prog-lbl">✦ READING PROGRESS ✦</div>
+    <div class="ring-wrap">
+      <div class="ring">
+        <svg width="54" height="54" viewBox="0 0 54 54">
+          <circle cx="27" cy="27" r="21" stroke="var(--b2)" stroke-width="5" fill="none"/>
+          <circle cx="27" cy="27" r="21" stroke="var(--gd)" stroke-width="5" fill="none" stroke-dasharray="131.9" stroke-dashoffset="104" stroke-linecap="round"/>
+        </svg>
+        <div class="ring-txt">21%</div>
+      </div>
+      <div>
+        <div class="ring-book">Currently in Genesis</div>
+        <div class="ring-ch" style="color:var(--gl);font-size:14px">Chapter 9 of 50</div>
+        <div class="ring-ch">9 of 1,189 total chapters</div>
+      </div>
+    </div>
+    <div style="height:1px;background:linear-gradient(90deg,transparent,var(--gd),transparent)"></div>
+  </div>
+  <div class="rec-sec">
+    <div class="prog-lbl" style="padding:0 0 8px">✦ MY RECORDINGS ✦</div>
+    <div class="rec-item" onclick="toggleAudio(this)">
+      <div class="rec-icon"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></div>
+      <div style="flex:1">
+        <div style="font-family:'Cinzel',serif;font-size:12.5px;color:var(--gl)">Genesis 1 — In the Beginning</div>
+        <div style="font-size:11.5px;color:var(--tx3);margin-top:1px">Recorded May 3 · 47 listens · 3:22 · Brenton Septuagint</div>
+      </div>
+    </div>
+    <div style="text-align:center;padding:13px 0">
+      <button onclick="nav('bible');toast('Select a chapter to record ✦')" style="background:transparent;border:1px solid var(--gd);color:var(--gold);font-family:'Cinzel',serif;font-size:10.5px;letter-spacing:1px;padding:8px 20px;border-radius:6px;cursor:pointer">+ Record New Reading</button>
+    </div>
+  </div>
+  <div style="height:14px"></div>
+</div>
+
+<!-- CHAPTER READER -->
+<div class="reader" id="reader">
+  <div class="reader-top">
+    <button class="back-btn" onclick="closeReader()"><svg viewBox="0 0 24 24"><polyline points="15,18 9,12 15,6"/></svg></button>
+    <div>
+      <div class="reader-ttl" id="reader-ttl">Genesis · Chapter 1</div>
+      <span class="reader-trans-lbl" id="reader-trans">Brenton Septuagint (1851) · Public Domain</span>
+    </div>
+  </div>
+  <div class="ch-row" id="ch-row"></div>
+  <div class="reader-body" id="reader-body"></div>
+  <div class="reader-foot">
+    <button class="r-btn" onclick="markRead()">✓ Mark as Read</button>
+    <button class="r-btn primary">🎙 Record Reading</button>
+  </div>
+</div>
+
+<!-- MEMBER OVERLAY -->
+<div class="overlay" id="mem-overlay">
+  <button class="modal-close" onclick="closeMember()"><svg viewBox="0 0 24 24"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+  <div class="modal" id="mem-modal"></div>
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+  <button class="nav-btn active" id="nav-home" onclick="nav('home')">
+    <svg viewBox="0 0 24 24"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9,22 9,12 15,12 15,22"/></svg>
+    HOME<div class="nav-ind"></div>
+  </button>
+  <button class="nav-btn" id="nav-feed" onclick="nav('feed')">
+    <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+    FEED<div class="nav-ind"></div>
+  </button>
+  <button class="nav-btn" id="nav-bible" onclick="nav('bible')">
+    <svg viewBox="0 0 24 24"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+    BIBLE<div class="nav-ind"></div>
+  </button>
+  <button class="nav-btn" id="nav-community" onclick="nav('community')">
+    <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+    PARISH<div class="nav-ind"></div>
+  </button>
+  <button class="nav-btn" id="nav-profile" onclick="nav('profile')">
+    <svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+    PROFILE<div class="nav-ind"></div>
+  </button>
+</div>
+
+<div class="toast" id="toast-el"></div>
+</div>
+
+<script>
+// UTILS
+const $=id=>document.getElementById(id);
+function toast(msg){const t=$('toast-el');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500)}
+
+// NAVIGATION
+let activeSub=null;
+function nav(s){
+  $('reader').classList.remove('open');
+  closeSub();
+  ['home','feed','bible','community','profile'].forEach(n=>{
+    $('screen-'+n).classList.remove('active');
+    $('nav-'+n).classList.remove('active');
+  });
+  const screenMap={home:'home',feed:'feed',bible:'bible',community:'community',profile:'profile'};
+  const navMap={home:'home',feed:'feed',bible:'bible',community:'community',profile:'profile'};
+  $('screen-'+(screenMap[s]||'home')).classList.add('active');
+  $('nav-'+(navMap[s]||'home')).classList.add('active');
+}
+
+function openSub(name){
+  $('home-root').style.display='none';
+  ['oca-news','cathedral','readings'].forEach(n=>{ const el=$('sub-'+n); if(el) el.style.display='none'; });
+  const el=$('sub-'+name);
+  if(el){ el.style.display='flex'; activeSub=name; }
+  if(name==='oca-news' && !$('news-list').dataset.loaded) renderNews();
+  if(name==='cathedral' && !$('ann-list').dataset.loaded) renderAnn();
+  if(name==='readings' && !$('rdg-content').dataset.loaded) renderReadings();
+}
+function closeSub(){
+  if(!activeSub) return;
+  ['oca-news','cathedral','readings'].forEach(n=>{ const el=$('sub-'+n); if(el) el.style.display='none'; });
+  $('home-root').style.display='block';
+  $('screen-home').scrollTop=0;
+  activeSub=null;
+}
+
+// HOME DATE & FEAST
+(function(){
+  const now=new Date();
+  $('home-date').textContent=now.toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  const feasts={'5-1':'The Holy Prophet Jeremiah','5-2':'St. Athanasius the Great, Patriarch of Alexandria','5-3':'Holy Martyrs Timothy & Maura','5-4':'The Venerable Pelagia of Tarsus','5-5':'Holy Martyr Irene','5-6':'Holy and Righteous Job the Long-suffering','5-7':'Holy Martyr Acacius','5-8':'Holy Apostle & Evangelist John the Theologian','5-9':'St. Isaiah the Prophet','5-10':'Holy Apostle Simon the Zealot','5-11':'Equals-to-Apostles Cyril & Methodius','5-12':'St. Epiphanius of Cyprus','5-13':'St. Glyceria the Martyr','5-14':'St. Isidore the Martyr of Chios','5-15':'St. Pachomius the Great','5-16':'St. Theodore the Sanctified','5-17':'Holy Apostle Andronicus','5-18':'Holy Martyr Theodotus of Ancyra','5-19':'Holy Martyr Patrick of Prusa','5-20':'Holy Martyr Thalelaeus','5-21':'Holy Emperor Constantine & Empress Helen','5-22':'Holy Martyr Basiliscus of Comana','5-23':'Holy Martyr Michael of Synnada','5-24':'The Venerable Symeon the Stylite the Younger','5-25':'Third Finding of the Head of St. John the Baptist','5-26':'Holy Apostle Carpus','5-27':'Holy Martyr Therapon','5-28':'St. Nikitas of Chalcedon','5-29':'Holy Martyr Theodosia','5-30':'St. Isaac of Dalmatia','5-31':'Holy Apostle Hermas'};
+  const k=`${now.getMonth()+1}-${now.getDate()}`;
+  $('home-feast').textContent='✦ '+(feasts[k]||'Commemoration of the Saints')+' ✦';
+  setTimeout(()=>{ const p=$('feed-pill'); if(p)p.style.display='inline-block'; },1200);
+})();
+
+// OCA NEWS
+const NEWS=[
+  {cat:'HEADLINE NEWS',title:'Holy Synod Issues Updated Social Media Guidelines',snip:'At its Spring 2026 Session, the Holy Synod adopted updated guidelines for clergy and lay leaders on responsible Christian witness in the digital sphere.',date:'May 6, 2026',url:'https://www.oca.org/news/headline-news/holy-synod-issues-updated-social-media-guidelines2026'},
+  {cat:'OCA NEWS',title:'Metropolitan Council Holds Regular Spring 2026 Session',snip:'Held via teleconference under the presidency of His Beatitude Metropolitan Tikhon, reviewing reports and approving an amended 2026 Budget.',date:'March 16, 2026',url:'https://www.oca.org/news/headline-news'},
+  {cat:'SEMINARY',title:"St. Tikhon's & Diocese of Midwest Announce Chicago Priesthood Program",snip:'A bold new partnership to train a select cohort of men for the Priesthood in Chicagoland, supported by a Lilly Grant of nearly $1,000,000.',date:'May 2, 2026',url:'https://www.oca.org/news/oca-news'},
+  {cat:'PASTORAL LIFE',title:'Clergy Wives Ministry Hosts Lenten Retreat for Widows of Clergy',snip:'The Office of Pastoral Life hosted an online retreat reflecting on "Blessed are those who hear the Word of God and keep it."',date:'March 28, 2026',url:'https://www.oca.org/news/oca-news'},
+  {cat:'OCA NEWS',title:'Metropolitan Tikhon Celebrates Holy Week at Primatial Cathedral',snip:'His Beatitude presided at the full cycle of Holy Week services and Pascha at St. Nicholas Cathedral in Washington, DC.',date:'April 20, 2026',url:'https://www.oca.org/news/headline-news'},
+  {cat:'WORLD NEWS',title:'Ecumenical Patriarch Bartholomew Visits Holy Land',snip:'His All-Holiness led hierarchs on pilgrimage to Jerusalem, celebrating the Divine Liturgy at the Church of the Holy Sepulchre.',date:'April 15, 2026',url:'https://www.oca.org/news/world'},
+];
+function renderNews(){
+  $('news-list').dataset.loaded='1';
+  setTimeout(()=>{
+    $('news-list').innerHTML=NEWS.map(n=>`<div class="news-card" onclick="window.open('${n.url}','_blank')">
+      <div class="news-cat">${n.cat}</div>
+      <div class="news-hl">${n.title}</div>
+      <div class="news-snip">${n.snip}</div>
+      <div class="news-meta"><span class="news-date">${n.date}</span><span class="news-rd">Read on oca.org →</span></div>
+    </div>`).join('');
+  },700);
+}
+
+// CATHEDRAL ANNOUNCEMENTS
+const ANNS=[
+  {type:'liturgy',tl:'DIVINE LITURGY',title:'Sunday Divine Liturgy — 9:30 AM',body:'This Sunday we celebrate the Holy Apostle and Evangelist John the Theologian. Confession at 8:45 AM. All are welcome.',date:'Sunday, May 10, 2026',dot:'#5B9BD5'},
+  {type:'announce',tl:'PARISH ANNOUNCEMENT',title:'Theoria Bible App — Join Today!',body:'Our parish has launched the Theoria Bible community app. Join using code STATH7 at theoria.app/join/STATH7.',date:'May 8, 2026',dot:'var(--gd)'},
+  {type:'liturgy',tl:'GREAT VESPERS',title:'Great Vespers — Saturday 6:00 PM',body:'Great Vespers will be served this Saturday at 6:00 PM preceding the Sunday Feast. All are welcome.',date:'Saturday, May 9, 2026',dot:'#5B9BD5'},
+  {type:'telegram',tl:'VIA TELEGRAM',title:'Philoptochos Society Meeting',body:'Monthly meeting on Tuesday, May 12 at 7:00 PM in the fellowship hall. All ladies of the parish cordially invited.',date:'May 8, 2026 · via Telegram',dot:'var(--grnl)'},
+  {type:'announce',tl:'PARISH ANNOUNCEMENT',title:'Parish Picnic — Memorial Day Weekend',body:'Annual parish picnic on Sunday, May 24 after Liturgy at Crandon Park. Sign up on the bulletin board to bring a dish.',date:'May 5, 2026',dot:'var(--gd)'},
+];
+function renderAnn(){
+  $('ann-list').dataset.loaded='1';
+  $('ann-list').innerHTML=ANNS.map(a=>`<div class="ann-card">
+    <div class="ann-type ${a.type}">${a.tl}</div>
+    <div class="ann-title">${a.title}</div>
+    <div class="ann-body">${a.body}</div>
+    <div class="ann-foot"><div class="ann-dot" style="background:${a.dot}"></div><span>${a.date}</span></div>
+  </div>`).join('');
+}
+
+// DAILY READINGS (OCA structure — NKJV for NT, Brenton Septuagint for OT)
+const TODAY={
+  date:'Friday, May 8, 2026',
+  feast:'Holy Apostle & Evangelist John the Theologian',
+  tone:'Tone 5',fast:'No fast — Feast Day',
+  readings:[
+    {lbl:'EPISTLE',ref:'1 John 1:1–7',trans:'New King James Version (NKJV)',text:'That which was from the beginning, which we have heard, which we have seen with our eyes, which we have looked upon, and our hands have handled, concerning the Word of life — the life was manifested, and we have seen, and bear witness, and declare to you that eternal life which was with the Father and was manifested to us — that which we have seen and heard we declare to you, that you also may have fellowship with us; and truly our fellowship is with the Father and with His Son Jesus Christ. And these things we write to you that your joy may be full.'},
+    {lbl:'GOSPEL',ref:'John 19:25–27; 21:24–25',trans:'New King James Version (NKJV)',text:'Now there stood by the cross of Jesus His mother, and His mother\'s sister, Mary the wife of Clopas, and Mary Magdalene. When Jesus therefore saw His mother, and the disciple whom He loved standing by, He said to His mother, "Woman, behold your son!" Then He said to the disciple, "Behold your mother!" And from that hour that disciple took her to his own home. This is the disciple who testifies of these things, and wrote these things; and we know that his testimony is true.'},
+    {lbl:'OLD TESTAMENT READING',ref:'Proverbs 8:22–30',trans:'Brenton Septuagint Translation (1851)',text:'The Lord made me the beginning of His ways for His works. He established me before time was in the beginning, before He made the earth; even before He made the depths; before the fountains of water came forth; before the mountains were settled, and before all hills, He begets me. Before He made the plains and the inhabited regions, and before the highest of the inhabited regions under heaven. When He prepared the heaven, I was present with Him; and when He marked out His own throne on the winds.'},
+  ]
+};
+function renderReadings(){
+  $('rdg-content').dataset.loaded='1';
+  $('rdg-date-sub').textContent=TODAY.date;
+  setTimeout(()=>{
+    $('rdg-content').innerHTML=`
+      <div class="rdg-day">
+        <div class="rdg-lbl">✦ TODAY'S COMMEMORATION ✦</div>
+        <div class="rdg-feast">${TODAY.feast}</div>
+        <div class="rdg-tone">${TODAY.tone} · ${TODAY.fast}</div>
+      </div>
+      ${TODAY.readings.map(r=>`
+        <div class="rdg-sec">
+          <div class="rdg-src">${r.lbl} · <span style="color:var(--tx3)">${r.trans}</span></div>
+          <div class="rdg-ref">${r.ref}</div>
+          <div class="rdg-text">${r.text}</div>
+        </div>
+        <div class="rdg-orn">· ✦ ·</div>`).join('')}
+      <div class="trans-note">
+        <div class="trans-note-lbl">✦ ABOUT THESE TRANSLATIONS ✦</div>
+        <div class="trans-note-txt">New Testament readings use the <strong>New King James Version (NKJV)</strong> available via API.Bible with a free ministry key. Old Testament readings use the <strong>Brenton Septuagint Translation (1851)</strong> — a public domain English translation of the Greek Septuagint, the same text tradition used by the early Church and the OCA. A future upgrade path is to license the official Orthodox Study Bible text from Thomas Nelson/HarperCollins.</div>
+      </div>
+      <a class="full-btn" href="https://www.oca.org/readings" target="_blank">View Full Readings on oca.org →</a>
+      <div style="height:14px"></div>`;
+  },600);
+}
+
+// BIBLE
+const OT=[
+  {n:'Genesis',ch:50,read:9,t:'Brenton LXX'},{n:'Exodus',ch:40,read:3,t:'Brenton LXX'},
+  {n:'Leviticus',ch:27,read:0,t:'Brenton LXX'},{n:'Numbers',ch:36,read:0,t:'Brenton LXX'},
+  {n:'Deuteronomy',ch:34,read:0,t:'Brenton LXX'},{n:'Joshua',ch:24,read:0,t:'Brenton LXX'},
+  {n:'Judges',ch:21,read:0,t:'Brenton LXX'},{n:'Ruth',ch:4,read:4,t:'Brenton LXX'},
+  {n:'1 Samuel',ch:31,read:0,t:'Brenton LXX'},{n:'2 Samuel',ch:24,read:0,t:'Brenton LXX'},
+  {n:'1 Kings',ch:22,read:0,t:'Brenton LXX'},{n:'2 Kings',ch:25,read:0,t:'Brenton LXX'},
+  {n:'Job',ch:42,read:0,t:'Brenton LXX'},{n:'Psalms',ch:151,read:30,t:'Brenton LXX'},
+  {n:'Proverbs',ch:31,read:0,t:'Brenton LXX'},{n:'Ecclesiastes',ch:12,read:12,t:'Brenton LXX'},
+  {n:'Song of Songs',ch:8,read:8,t:'Brenton LXX'},{n:'Wisdom of Solomon',ch:19,read:0,t:'Brenton LXX'},
+  {n:'Sirach',ch:51,read:0,t:'Brenton LXX'},{n:'Isaiah',ch:66,read:0,t:'Brenton LXX'},
+  {n:'Jeremiah',ch:52,read:0,t:'Brenton LXX'},{n:'Ezekiel',ch:48,read:0,t:'Brenton LXX'},
+  {n:'Daniel',ch:14,read:0,t:'Brenton LXX'},{n:'Hosea',ch:14,read:0,t:'Brenton LXX'},
+  {n:'Joel',ch:3,read:3,t:'Brenton LXX'},{n:'Jonah',ch:4,read:4,t:'Brenton LXX'},
+  {n:'Malachi',ch:4,read:0,t:'Brenton LXX'}
+];
+const NT=[
+  {n:'Matthew',ch:28,read:28,t:'NKJV'},{n:'Mark',ch:16,read:16,t:'NKJV'},
+  {n:'Luke',ch:24,read:24,t:'NKJV'},{n:'John',ch:21,read:21,t:'NKJV'},
+  {n:'Acts',ch:28,read:0,t:'NKJV'},{n:'Romans',ch:16,read:16,t:'NKJV'},
+  {n:'1 Corinthians',ch:16,read:0,t:'NKJV'},{n:'2 Corinthians',ch:13,read:0,t:'NKJV'},
+  {n:'Galatians',ch:6,read:6,t:'NKJV'},{n:'Ephesians',ch:6,read:6,t:'NKJV'},
+  {n:'Philippians',ch:4,read:4,t:'NKJV'},{n:'Colossians',ch:4,read:0,t:'NKJV'},
+  {n:'1 Thessalonians',ch:5,read:0,t:'NKJV'},{n:'Hebrews',ch:13,read:0,t:'NKJV'},
+  {n:'James',ch:5,read:5,t:'NKJV'},{n:'1 Peter',ch:5,read:0,t:'NKJV'},
+  {n:'1 John',ch:5,read:5,t:'NKJV'},{n:'Jude',ch:1,read:1,t:'NKJV'},
+  {n:'Revelation',ch:22,read:0,t:'NKJV'}
+];
+let curT='OT',curBook=null,curCh=1,curTrans='';
+
+function setTestament(t,btn){
+  curT=t;
+  document.querySelectorAll('.t-tab').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderBooks('');
+}
+function renderBooks(filter=''){
+  const books=(curT==='OT'?OT:NT).filter(b=>b.n.toLowerCase().includes(filter.toLowerCase()));
+  $('book-grid').innerHTML=books.map(b=>{
+    const pct=Math.round((b.read/b.ch)*100);
+    return`<div class="book-card${pct===100?' done':''}" onclick="openBook('${b.n}',${b.ch},${b.read},'${b.t}')">
+      <div class="book-nm">${b.n}</div>
+      <div class="book-pg">${b.read}/${b.ch} chapters</div>
+      <div class="book-trans">${b.t}</div>
+      <div class="pb"><div class="pf" style="width:${pct}%"></div></div>
+      ${b.read>0?`<div style="font-size:10.5px;color:var(--gd);margin-top:2px">✦ ${Math.floor(Math.random()*8+2)} parishioners reading</div>`:''}
+    </div>`;
+  }).join('');
+}
+function filterBooks(v){renderBooks(v)}
+
+// Sample verses — Brenton LXX for OT, NKJV for NT
+const VERSES={
+  Genesis:{1:['In the beginning God made the heaven and the earth.','But the earth was unsightly and unfurnished, and darkness was over the deep, and the Spirit of God moved over the water.','And God said, Let there be light, and there was light.','And God saw the light that it was good, and God divided between the light and the darkness.','And God called the light Day, and the darkness he called Night, and there was evening and there was morning, the first day.','And God said, Let there be a firmament in the midst of the water, and let it be a division between water and water.','And God said, Let the water which is under the heaven be collected into one place, and let the dry land appear, and it was so.','And God called the dry land Earth, and the gatherings of the waters he called Seas, and God saw that it was good.','And God said, Let the earth bring forth the herb of grass bearing seed according to its kind.','And God saw all the things that he had made, and they were very good.']},
+  Psalms:{1:['Blessed is the man who has not walked in the counsel of the ungodly, and has not stood in the way of sinners, and has not sat in the seat of evil men.','But his pleasure is in the law of the Lord; and in his law will he meditate day and night.','And he shall be as a tree planted by the brooks of waters, which shall yield its fruit in its season, and his leaf shall not fall off.','Not so the ungodly — not so: but rather as the chaff which the wind scatters away from the face of the earth.','Therefore the ungodly shall not rise in judgment, nor sinners in the counsel of the just.','For the Lord knows the way of the righteous; but the way of the ungodly shall perish.']},
+  John:{1:['In the beginning was the Word, and the Word was with God, and the Word was God.','He was in the beginning with God.','All things were made through Him, and without Him nothing was made that was made.','In Him was life, and the life was the light of men.','And the light shines in the darkness, and the darkness did not comprehend it.','There was a man sent from God, whose name was John.','This man came for a witness, to bear witness of the Light, that all through him might believe.','He was not that Light, but was sent to bear witness of that Light.','That was the true Light which gives light to every man coming into the world.','And the Word became flesh and dwelt among us, and we beheld His glory, the glory as of the only begotten of the Father, full of grace and truth.']},
+  Matthew:{1:['The book of the genealogy of Jesus Christ, the Son of David, the Son of Abraham.','Abraham begot Isaac, Isaac begot Jacob, and Jacob begot Judah and his brothers.','Judah begot Perez and Zerah by Tamar, Perez begot Hezron, and Hezron begot Ram.','Ram begot Amminadab, Amminadab begot Nahshon, and Nahshon begot Salmon.','Salmon begot Boaz by Rahab, Boaz begot Obed by Ruth, Obed begot Jesse.','And Jesse begot David the king. David the king begot Solomon by her who had been the wife of Uriah.']}
+};
+function defaultVerses(){return['The word of the Lord came forth in those days, and all who heard it were filled with the Holy Spirit.','Blessed are those who keep the commandments of the Lord, for they shall inherit eternal life.','Do not be anxious about anything, but in everything by prayer and supplication, with thanksgiving, let your requests be made known to God.','The Lord is near to all who call on Him, to all who call on Him in truth.','Give thanks to the Lord, for He is good; His steadfast love endures forever.','Trust in the Lord with all your heart, and do not lean on your own understanding.','In all your ways acknowledge Him, and He will make straight your paths.']}
+
+function openBook(name,total,read,trans){
+  curBook=name;curCh=1;curTrans=trans;
+  $('reader-ttl').textContent=name+' · Chapter 1';
+  $('reader-trans').textContent=trans==='NKJV'?'New King James Version (NKJV) · via API.Bible':'Brenton Septuagint Translation (1851) · Public Domain';
+  $('ch-row').innerHTML=Array.from({length:total},(_,i)=>{
+    const n=i+1,r=n<=read;
+    return`<button class="ch-btn${n===1?' active':''}${r?' read':''}" onclick="selectCh(${n},this)">${n}</button>`;
+  }).join('');
+  renderChapter(name,1);
+  $('reader').classList.add('open');
+}
+function selectCh(n,btn){
+  curCh=n;
+  document.querySelectorAll('.ch-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  $('reader-ttl').textContent=curBook+' · Chapter '+n;
+  renderChapter(curBook,n);
+  $('reader-body').scrollTop=0;
+}
+function renderChapter(book,ch){
+  const vv=(VERSES[book]&&VERSES[book][ch])||defaultVerses();
+  $('reader-body').innerHTML=
+    `<div class="ch-title">Chapter ${ch}</div>`+
+    vv.map((v,i)=>`<div class="verse"><div class="vnum">${i+1}</div><div class="vtxt">${v}</div></div>`).join('')+
+    `<div style="text-align:center;color:var(--gd);padding:8px;font-size:14px;letter-spacing:4px;opacity:.4">· ✦ ·</div><div style="height:14px"></div>`;
+}
+function closeReader(){$('reader').classList.remove('open')}
+function markRead(){
+  const a=document.querySelector('.ch-btn.active');
+  if(a)a.classList.add('read');
+  const btn=document.querySelectorAll('.r-btn')[0];
+  const orig=btn.textContent;
+  btn.textContent='✦ Marked Complete!';
+  btn.style.background='var(--gold)';btn.style.color='var(--bg)';
+  setTimeout(()=>{btn.textContent=orig;btn.style.background='';btn.style.color='';},2200);
+  toast('Chapter marked as read ✦');
+}
+
+// FEED DATA
+const MEMBERS={
+  you:{init:'NS',name:'Nicholas Stavros',role:'Member',chapters:9,recs:1,amens:34,recordings:[{t:'Genesis 1 — In the Beginning',dur:'3:22',plays:47,trans:'Brenton LXX'}],comments:['Welcome to Theoria! — Fr. Nicholas']},
+  fn:{init:'FN',name:'Fr. Nicholas Stavros',role:'Priest',chapters:148,recs:24,amens:312,recordings:[{t:'Psalm 118 — Full Reading',dur:'8:42',plays:203,trans:'Brenton LXX'},{t:'John 1 — The Prologue',dur:'5:11',plays:187,trans:'NKJV'}],comments:['Glory to God! — Elena','Thank you, Father. — Demetrios']},
+  ea:{init:'EA',name:'Elena Alexiou',role:'Cantor',chapters:92,recs:15,amens:187,recordings:[{t:'Genesis 1 — Family Reading',dur:'4:17',plays:89,trans:'Brenton LXX'},{t:'Luke 15 — Prodigal Son',dur:'6:33',plays:142,trans:'NKJV'}],comments:['Beautiful family reading! — Fr. Nicholas']},
+  dk:{init:'DK',name:'Demetrios Konstantinos',role:'Reader',chapters:121,recs:11,amens:204,recordings:[{t:'Proverbs 1',dur:'2:55',plays:67,trans:'Brenton LXX'},{t:'Acts 2 — Pentecost',dur:'4:41',plays:98,trans:'NKJV'}],comments:['Axios! — Fr. Nicholas']},
+  at:{init:'AT',name:'Anastasia Theotokis',role:'Member',chapters:78,recs:8,amens:143,recordings:[{t:'Ruth — Complete',dur:'11:22',plays:201,trans:'Brenton LXX'}],comments:['Beautiful! — Elena']},
+  mv:{init:'MV',name:'Maria Vasiliou',role:'Member',chapters:54,recs:5,amens:98,recordings:[{t:'James 1',dur:'3:10',plays:45,trans:'NKJV'}],comments:['Glory to God! — Anastasia']},
+};
+const POSTS=[
+  {id:1,m:'fn',badge:'Psalms',ref:'Psalm 118 · Verse 105',verse:'"Your word is a lamp to my feet and a light to my path."',cap:'Brothers and sisters — let us carry this lamp into our week. The Word illumines every step. 🕯️',audio:true,at:'Psalm 118 — Full Reading',ad:'8:42',amens:24,cmts:8,time:'Today, 7:04 AM',liked:false},
+  {id:2,m:'fn',badge:'Announcement',ref:null,verse:null,cap:'📢 This Sunday we celebrate St. John the Theologian. Divine Liturgy at 9:30 AM. Come and worship with us! Details at orthodoxmiami.org',audio:false,amens:18,cmts:4,time:'Today, 6:45 AM',liked:false,tg:true},
+  {id:3,m:'ea',badge:'Genesis',ref:'Genesis 1 · Verse 1–3',verse:'"In the beginning God made the heaven and the earth... and God said, Let there be light."',cap:'Finished Genesis 1 tonight with my children. Such beautiful questions they asked. ✝️',audio:true,at:'Genesis 1 — Family Reading',ad:'4:17',amens:11,cmts:3,time:'Yesterday, 9:31 PM',liked:false},
+  {id:4,m:'dk',badge:'Proverbs',ref:null,verse:null,cap:'Just completed the entire Book of Proverbs! 31 chapters in one month. The wisdom here is inexhaustible. Who else is reading Proverbs? 📖',audio:false,amens:18,cmts:12,time:'2 days ago',liked:false},
+  {id:5,m:'at',badge:'Ruth',ref:'Ruth 1 · Verse 16',verse:'"Where you go I will go, and where you stay I will stay. Your people will be my people and your God my God."',cap:'Such a beautiful story of loyalty and love. Ruth\'s devotion mirrors our calling to the Church. ✝️',audio:true,at:'Ruth — Complete Reading',ad:'11:22',amens:22,cmts:6,time:'3 days ago',liked:false},
+];
+
+function renderFeed(){
+  $('feed-posts').innerHTML=POSTS.map(p=>{
+    const m=MEMBERS[p.m];
+    return`<div class="post">
+      <div class="post-head">
+        <div class="post-av" onclick="openMember('${p.m}')">${m.init}</div>
+        <div style="flex:1;min-width:0">
+          <div class="post-name" onclick="openMember('${p.m}')">${m.name}</div>
+          <div class="post-time">${p.time}${p.tg?' · <span style="color:var(--grnl);font-size:10.5px">📱 Telegram</span>':''}</div>
+        </div>
+        <div class="post-badge">${p.badge}</div>
+      </div>
+      ${p.ref?`<div class="vblock"><div class="vref">${p.ref}</div><div class="vtx">${p.verse}</div></div>`:''}
+      <div class="post-cap">${p.cap}</div>
+      ${p.audio?`<div class="audio-bar" onclick="toggleAudio(this)">
+        <button class="play-btn"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></button>
+        <div style="flex:1;min-width:0"><div class="audio-title">${p.at}</div><div class="audio-dur">${p.ad}</div></div>
+        <div class="wf">${[7,13,18,9,15].map(h=>`<div class="wb" style="height:${h}px"></div>`).join('')}</div>
+      </div>`:''}
+      <div class="post-acts">
+        <button class="act${p.liked?' on':''}" onclick="toggleAmen(this,${p.id})">
+          <svg viewBox="0 0 24 24" ${p.liked?'style="fill:var(--gold)"':''}><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          <span class="ac">${p.amens} Amens</span>
+        </button>
+        <button class="act" onclick="openMember('${p.m}')">
+          <svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          ${p.cmts} Comments
+        </button>
+        <button class="act" onclick="toast('Link copied ✦')">
+          <svg viewBox="0 0 24 24"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+          Share
+        </button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function toggleAmen(btn,id){
+  const p=POSTS.find(x=>x.id===id); p.liked=!p.liked; p.amens+=p.liked?1:-1;
+  btn.classList.toggle('on',p.liked);
+  btn.querySelector('svg').style.fill=p.liked?'var(--gold)':'none';
+  btn.querySelector('.ac').textContent=p.amens+' Amens';
+}
+function toggleAudio(bar){
+  const btn=bar.querySelector('.play-btn');
+  const wf=bar.querySelector('.wf');
+  const on=btn.classList.contains('on');
+  document.querySelectorAll('.play-btn.on').forEach(b=>{
+    b.classList.remove('on');
+    b.innerHTML='<svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>';
+    b.closest('.audio-bar')?.querySelector('.wf')?.classList.remove('on');
+  });
+  if(!on){btn.classList.add('on');btn.innerHTML='<svg viewBox="0 0 24 24"><rect x="6" y="4" width="4" height="16" fill="var(--bg)"/><rect x="14" y="4" width="4" height="16" fill="var(--bg)"/></svg>';wf?.classList.add('on');}
+}
+
+// LEADERBOARD
+const LEADERS=[
+  ['fn','①',148,24],['dk','②',121,11],['ea','③',92,15],['at','④',78,8],['mv','⑤',54,5],['you','⑥',9,1]
+];
+function renderLeaderboard(){
+  $('leaderboard').innerHTML=LEADERS.map(([id,rank,ch,rc])=>{
+    const m=MEMBERS[id];
+    return`<div class="member-row" onclick="openMember('${id}')">
+      <div class="mrank">${rank}</div>
+      <div class="mav">${m.init}</div>
+      <div style="flex:1;min-width:0"><div class="mname">${m.name}</div><div class="mstat">${ch} chapters · ${rc} recordings</div></div>
+      <div class="mbadge">${m.role}</div>
+    </div>`;
+  }).join('');
+}
+
+// MEMBER PROFILE OVERLAY
+function openMember(id){
+  const m=MEMBERS[id];
+  $('mem-modal').innerHTML=`
+    <div class="mem-hero">
+      <div class="mem-cross">✝</div>
+      <div class="mem-av">${m.init}</div>
+      <div class="mem-name">${m.name}</div>
+      <div class="mem-role">${m.role} · Christ the Savior Cathedral</div>
+      <div class="mem-stats">
+        <div class="pst"><div class="pstn">${m.chapters}</div><div class="pstl">CHAPTERS</div></div>
+        <div class="pst"><div class="pstn">${m.recs}</div><div class="pstl">RECORDINGS</div></div>
+        <div class="pst"><div class="pstn">${m.amens}</div><div class="pstl">AMENS</div></div>
+      </div>
+    </div>
+    <div class="mem-sec">
+      <div class="mem-sec-lbl">✦ RECORDINGS ✦</div>
+      ${m.recordings.map(r=>`<div class="mem-rec" onclick="toggleAudio(this)">
+        <div style="width:28px;height:28px;border-radius:50%;background:var(--gd);display:flex;align-items:center;justify-content:center;flex-shrink:0">
+          <svg viewBox="0 0 24 24" style="width:11px;height:11px;fill:var(--bg)"><polygon points="5,3 19,12 5,21"/></svg>
+        </div>
+        <div class="mem-rec-nm">${r.t}</div>
+        <div class="mem-rec-dur">${r.dur} · ${r.plays} plays · <span style="color:var(--gd)">${r.trans}</span></div>
+      </div>`).join('')}
+    </div>
+    <div style="height:1px;background:linear-gradient(90deg,transparent,var(--gd),transparent);margin:0 9px"></div>
+    <div class="cmt-thread" style="padding:9px 12px 5px">
+      <div class="mem-sec-lbl">✦ COMMENTS ✦</div>
+      ${(m.comments||[]).map(c=>{const p=c.split(' — ');return`<div class="cmt">
+        <div class="cmt-av">${(p[1]||'?')[0]}</div>
+        <div><div class="cmt-author">${p[1]||''}</div><div class="cmt-txt">${p[0]}</div></div>
+      </div>`;}).join('')}
+    </div>
+    <div class="cmt-area">
+      <textarea class="cmt-inp" placeholder="Leave an encouraging word..."></textarea>
+      <button class="cmt-send" onclick="sendCmt(this)">Send Encouragement ✝</button>
+    </div>`;
+  $('mem-overlay').classList.add('open');
+}
+function closeMember(){$('mem-overlay').classList.remove('open')}
+function sendCmt(btn){
+  const ta=btn.previousElementSibling;
+  const text=ta.value.trim();
+  if(!text)return;
+  const thread=btn.closest('.cmt-area').previousElementSibling.querySelector('.cmt-thread');
+  const d=document.createElement('div');d.className='cmt';
+  d.innerHTML=`<div class="cmt-av">N</div><div><div class="cmt-author">You</div><div class="cmt-txt">${text}</div></div>`;
+  thread.appendChild(d);
+  ta.value='';btn.textContent='Sent! ✦';btn.style.background='var(--gold)';
+  setTimeout(()=>{btn.textContent='Send Encouragement ✝';btn.style.background='';},2200);
+  toast('Encouragement sent ✦');
+}
+
+// PARISH
+function switchComm(tab){
+  document.querySelectorAll('.ctab').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.cpanel').forEach(p=>p.classList.remove('active'));
+  $('ctab-'+tab).classList.add('active');
+  $('cpanel-'+tab).classList.add('active');
+}
+function approveReq(id,name){
+  const el=$('req-'+id);
+  if(el){el.style.opacity='0';el.style.transition='opacity .4s';setTimeout(()=>{el.remove();if(!document.querySelectorAll('.req-item').length)$('no-reqs').style.display='block';},400);}
+  toast(name+' approved and welcomed ✦');
+}
+function declineReq(id){
+  const el=$('req-'+id);
+  if(el){el.style.opacity='0';el.style.transition='opacity .4s';setTimeout(()=>{el.remove();if(!document.querySelectorAll('.req-item').length)$('no-reqs').style.display='block';},400);}
+  toast('Request declined');
+}
+function copyInvite(){navigator.clipboard?.writeText('https://theoria.app/join/STATH7').catch(()=>{});toast('Invitation link copied ✦')}
+function sendInvite(){
+  const e=$('invite-email').value.trim();
+  if(!e){toast('Please enter an email address');return;}
+  $('invite-email').value='';toast('Invitation sent to '+e+' ✦');
+}
+
+// TELEGRAM
+let tgOn=true;
+function toggleTg(){
+  tgOn=!tgOn;
+  $('tg-dot').classList.toggle('off',!tgOn);
+  $('tg-sname').textContent=tgOn?'@ChristTheSaviorMiami':'Not connected';
+  $('tg-sdesc').textContent=tgOn?'Connected · Syncing announcements':'Tap Connect to link your channel';
+  $('tg-tog').textContent=tgOn?'Disconnect':'Connect';
+  toast(tgOn?'Telegram connected ✦':'Telegram disconnected');
+}
+function toggleSw(btn){btn.classList.toggle('off');toast(btn.classList.contains('off')?'Sync disabled':'Sync enabled ✦')}
+function renderTgMsgs(){
+  const msgs=[
+    {icon:'📢',txt:'Divine Liturgy this Sunday at 9:30 AM. Feast of Holy Apostle John the Theologian.',time:'Today 6:44 AM',synced:true},
+    {icon:'📖',txt:'Daily reading: 1 John 1:1-7. "That which was from the beginning, which we have heard..."',time:'Yesterday 6:00 AM',synced:true},
+    {icon:'📅',txt:'Reminder: Great Vespers tonight at 6:00 PM. Come and pray with us.',time:'2 days ago',synced:false},
+  ];
+  $('tg-msgs').innerHTML=msgs.map(m=>`<div class="tg-msg">
+    <div style="font-size:17px;flex-shrink:0">${m.icon}</div>
+    <div style="flex:1">
+      <div class="tg-msg-txt">${m.txt}</div>
+      <div class="tg-msg-time">${m.time} · ${m.synced?'<span class="tg-synced">✦ Synced to feed</span>':'Not synced'}</div>
+    </div>
+  </div>`).join('');
+}
+
+// ── ORTHODOX CALENDAR (Live OCA data via orthocal.info API) ──────────────────
+// orthocal.info provides a free REST API based on OCA rubrics — feasts, fasts,
+// tones, and commemorations for every day of the liturgical year.
+// Endpoint: https://orthocal.info/api/gregorian/YYYY/MM/DD/
+
+const CAL_MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+let calYear, calMonth;
+let calCache = {}; // cache API responses keyed "Y-M-D"
+
+// Fixed Great Feasts (non-moveable) for pre-load dot highlighting
+const GREAT_FIXED = new Set(['9-8','9-14','11-21','12-25','1-6','2-2','3-25','8-6','8-15','6-24','6-29']);
+
+function initCalendar() {
+  const now = new Date();
+  calYear = now.getFullYear();
+  calMonth = now.getMonth() + 1;
+  renderCalendar();
+  selectCalDay(now.getFullYear(), now.getMonth() + 1, now.getDate());
+}
+
+function calNav(dir) {
+  calMonth += dir;
+  if (calMonth > 12) { calMonth = 1; calYear++; }
+  if (calMonth < 1)  { calMonth = 12; calYear--; }
+  renderCalendar();
+}
+
+function renderCalendar() {
+  $('cal-title').textContent = CAL_MONTHS[calMonth - 1] + ' ' + calYear;
+  $('cal-month-label').textContent = CAL_MONTHS[calMonth - 1].toUpperCase() + ' ' + calYear;
+
+  const firstDay = new Date(calYear, calMonth - 1, 1).getDay();
+  const daysInMonth = new Date(calYear, calMonth, 0).getDate();
+  const prevDays = new Date(calYear, calMonth - 1, 0).getDate();
+  const now = new Date();
+  const tY = now.getFullYear(), tM = now.getMonth() + 1, tD = now.getDate();
+
+  let cells = [];
+  for (let i = firstDay - 1; i >= 0; i--)
+    cells.push({ d: prevDays - i, m: calMonth === 1 ? 12 : calMonth - 1, y: calMonth === 1 ? calYear - 1 : calYear, other: true });
+  for (let d = 1; d <= daysInMonth; d++)
+    cells.push({ d, m: calMonth, y: calYear, other: false });
+  while (cells.length < 42) {
+    const nd = cells.length - daysInMonth - firstDay + 1;
+    cells.push({ d: nd, m: calMonth === 12 ? 1 : calMonth + 1, y: calMonth === 12 ? calYear + 1 : calYear, other: true });
+  }
+
+  $('cal-grid').innerHTML = cells.map(c => {
+    const isToday = !c.other && c.y === tY && c.m === tM && c.d === tD;
+    const key = `${c.m}-${c.d}`;
+    const cKey = `${c.y}-${c.m}-${c.d}`;
+    const cached = calCache[cKey];
+    let dotCls = 'cal-dot';
+    if (!c.other) {
+      if (cached) {
+        if (cached.feast_level >= 7) dotCls = 'cal-dot feast';
+        else if (cached.fast_level > 0 && cached.fast_level < 5) dotCls = 'cal-dot fast';
+      } else {
+        // Best guess before API loads
+        if (GREAT_FIXED.has(key)) dotCls = 'cal-dot feast';
+        else {
+          const dow = new Date(c.y, c.m - 1, c.d).getDay();
+          if (dow === 3 || dow === 5) dotCls = 'cal-dot fast';
+        }
+      }
+    }
+    let cls = 'cal-day';
+    if (isToday) cls += ' today';
+    if (c.other) cls += ' other-month';
+    if (!c.other && GREAT_FIXED.has(key)) cls += ' great-feast';
+    const onclick = c.other ? '' : `selectCalDay(${c.y},${c.m},${c.d})`;
+    return `<div class="${cls}" onclick="${onclick}" data-key="${c.y}-${c.m}-${c.d}">
+      <span class="cal-num">${c.d}</span>
+      ${c.other ? '' : `<div class="${dotCls}"></div>`}
+    </div>`;
+  }).join('');
+}
+
+
+// ── EMBEDDED OCA CALENDAR DATA (full year, all commemorations) ────────────────
+// Source: OCA Desk Calendar & oca.org/saints — New Calendar (Gregorian)
+// Format: "M-D": { title, tone, great, feast, fast, commemorations[] }
+const OCA_DAYS = {
+  // JANUARY
+  "1-1":{title:"Circumcision of Our Lord; St. Basil the Great",tone:8,great:true,fast:false,commemorations:["Circumcision of Our Lord Jesus Christ","St. Basil the Great, Archbishop of Caesarea in Cappadocia"]},
+  "1-2":{title:"St. Seraphim of Sarov",tone:1,feast:true,fast:false,commemorations:["St. Seraphim of Sarov, Wonderworker","St. Sylvester, Pope of Rome","St. Cosmas, Archbishop of Constantinople"]},
+  "1-3":{title:"Prophet Malachi; Martyr Gordon",tone:2,fast:false,commemorations:["Prophet Malachi","Holy Martyr Gordon","St. Genevieve of Paris"]},
+  "1-4":{title:"70 Apostles; Venerable Theoktistos",tone:3,fast:false,commemorations:["Synaxis of the Seventy Apostles","Venerable Theoktistos, Abbot of the Kykkos Monastery"]},
+  "1-5":{title:"Holy Martyrs Theopemptus and Theonas",tone:4,fast:false,commemorations:["Holy Martyrs Theopemptus, Bishop, and Theonas","Venerable Syncletice of Alexandria","Martyr Domitiana"]},
+  "1-6":{title:"Holy Theophany — Baptism of Our Lord",tone:1,great:true,fast:false,commemorations:["Holy Theophany: the Baptism of Our Lord, God, and Savior Jesus Christ"]},
+  "1-7":{title:"Synaxis of the Holy Prophet, Forerunner and Baptist John",tone:2,feast:true,fast:false,commemorations:["Synaxis of the Holy Prophet, Forerunner and Baptist John","St. George of Choziba","Blessed Nikodem of Serbia"]},
+  "1-8":{title:"Venerable George the Chozebite; Venerable Domnica",tone:3,fast:false,commemorations:["Venerable George the Chozebite","Venerable Domnica of Constantinople","Blessed Nikodem of Serbia"]},
+  "1-9":{title:"Holy Martyr Polyeuctus of Melitene",tone:4,fast:false,commemorations:["Holy Martyr Polyeuctus of Melitene","St. Philip, Metropolitan of Moscow","St. Peter of Atroa"]},
+  "1-10":{title:"St. Gregory, Bishop of Nyssa",tone:5,fast:false,commemorations:["St. Gregory, Bishop of Nyssa","Venerable Dometian, Bishop of Melitene","Venerable Marcian of Constantinople"]},
+  "1-11":{title:"Venerable Theodosius the Great",tone:6,feast:true,fast:false,commemorations:["Venerable Theodosius the Great, Founder of Cenobitic Monasticism","Venerable Michael Maleinos","St. Vitalis of Gaza"]},
+  "1-12":{title:"Martyr Tatiana of Rome",tone:7,fast:false,commemorations:["Holy Martyr Tatiana of Rome","Martyr Mertios","St. Sava I, Archbishop of Serbia"]},
+  "1-13":{title:"Holy Martyrs in Nicomedia; Venerable Hermylus",tone:8,fast:false,commemorations:["Holy Martyrs Hermylus and Stratonicus","Venerable Maximus the Confessor","Holy Martyrs of Nicomedia"]},
+  "1-14":{title:"Venerable Fathers Killed at Sinai and Raithu",tone:1,fast:false,commemorations:["Venerable Fathers Killed at Sinai and Raithu","Holy Martyr Savas Stratelates","St. Joseph of Thessalonica","New Martyr Benjamin (Kazansky)"]},
+  "1-15":{title:"Venerable Paul of Thebes; St. John Kalyvites",tone:2,feast:true,fast:false,commemorations:["Venerable Paul of Thebes, First Hermit","St. John Kalyvites","Venerable Pansophius","St. Gabriel, Archbishop of Serbia"]},
+  "1-16":{title:"Veneration of the Chains of the Apostle Peter",tone:3,feast:true,fast:false,commemorations:["Veneration of the Honorable Chains of the Apostle Peter","St. Danactus, Bishop of Avlona","Holy Martyrs Priscilla, Aquila, Epaenetus"]},
+  "1-17":{title:"St. Anthony the Great",tone:4,feast:true,fast:false,commemorations:["Venerable Anthony the Great","St. Anthony (Smirnitzky), Metropolitan of Voronezh","Holy Martyrs of Ethiopia"]},
+  "1-18":{title:"Sts. Athanasius and Cyril, Patriarchs of Alexandria",tone:5,feast:true,fast:false,commemorations:["Sts. Athanasius the Great and Cyril, Archbishops of Alexandria","Venerable Makarios of Egypt the Great","Venerable Makarios of Alexandria"]},
+  "1-19":{title:"Venerable Macarius of Egypt",tone:6,fast:false,commemorations:["Venerable Macarius of Egypt","Venerable Macarius of Alexandria","St. Mark, Metropolitan of Ephesus","Blessed Herman of Alaska"]},
+  "1-20":{title:"Venerable Euthymius the Great",tone:7,feast:true,fast:false,commemorations:["Venerable Euthymius the Great","St. Euthymius, Archbishop of Novgorod","Venerable Laurence of Egypt"]},
+  "1-21":{title:"Venerable Maximus the Confessor",tone:8,fast:false,commemorations:["Venerable Maximus the Confessor","Martyr Neophytus of Nicaea","Holy Martyrs Eugene, Candidus, Valerian, and Aquila"]},
+  "1-22":{title:"Holy Apostle Timothy",tone:1,feast:true,fast:false,commemorations:["Holy Apostle Timothy","Venerable Anastasius the Persian","Hieromartyr Clement of Ancyra","Martyr Agathangelus"]},
+  "1-23":{title:"Hieromartyr Clement of Ancyra",tone:2,fast:false,commemorations:["Hieromartyr Clement, Bishop of Ancyra, and Martyr Agathangelus","Venerable Gerasimos of the Jordan","St. Paisios Velichkovsky"]},
+  "1-24":{title:"Venerable Xenia of Rome",tone:3,fast:false,commemorations:["Venerable Xenia of Rome","Venerable Macarius of Zheltovody and Unzha","St. Neofit, Bishop of Urbnisi"]},
+  "1-25":{title:"St. Gregory the Theologian",tone:4,feast:true,fast:false,commemorations:["St. Gregory the Theologian, Archbishop of Constantinople","Hieromartyr Publius, Bishop of Athens","Venerable Publius the Hermit"]},
+  "1-26":{title:"Venerable Xenophon and Mary of Constantinople",tone:5,fast:false,commemorations:["Venerable Xenophon and Mary, and their sons Arcadius and John","St. Joseph the Sanctified","Venerable Symeon the Ancient"]},
+  "1-27":{title:"Translation of Relics of St. John Chrysostom",tone:6,feast:true,fast:false,commemorations:["Translation of the Relics of St. John Chrysostom","Venerable Titus the Wonder-Worker","New Hieromartyr Vladimir Bogoyavlensky"]},
+  "1-28":{title:"Venerable Ephraim the Syrian",tone:7,feast:true,fast:false,commemorations:["Venerable Ephraim the Syrian","Venerable Ephraim of Perekom","St. Isaac the Syrian","Venerable Palladius of Syria"]},
+  "1-29":{title:"Translation of Relics of Holy Martyr Ignatius of Antioch",tone:8,fast:false,commemorations:["Translation of the Relics of Holy Martyr Ignatius the God-Bearer","Venerable Romanus the Hermit","Venerable Lawrence of Egypt","New Martyr Laurentius"]},
+  "1-30":{title:"Three Holy Hierarchs",tone:1,great:true,fast:false,commemorations:["Three Holy Hierarchs: Basil the Great, Gregory the Theologian, and John Chrysostom"]},
+  "1-31":{title:"Holy Unmercenaries Cyrus and John",tone:2,feast:true,fast:false,commemorations:["Holy Unmercenaries and Wonderworkers Cyrus and John","St. Nikita, Archbishop of Novgorod","Holy Martyr Tryphena and Tryphosa"]},
+  // FEBRUARY
+  "2-1":{title:"St. Tryphon the Martyr",tone:3,fast:false,commemorations:["Holy Martyr Tryphon","Martyr Perpétua, Felicitas and companions","Holy Martyrs Basil, Ephraim, Eugene, Agathodorus, Elpidius, Aetherius, and Capito"]},
+  "2-2":{title:"Meeting of Our Lord in the Temple",tone:1,great:true,fast:false,commemorations:["Meeting of Our Lord God and Savior Jesus Christ in the Temple","Holy Martyr Agatha of Sicily"]},
+  "2-3":{title:"Holy and Righteous Simeon and Prophetess Anna",tone:2,feast:true,fast:false,commemorations:["Holy and Righteous Simeon the God-Receiver and the Prophetess Anna","St. Blasius, Bishop of Sebaste"]},
+  "2-4":{title:"Venerable Isidore of Pelusium",tone:3,fast:false,commemorations:["Venerable Isidore of Pelusium","Venerable Nicholas of Stoudios","Holy Martyr Eutychianus","Venerable Cyril of Chelnogorsk"]},
+  "2-5":{title:"Holy Martyr Agatha of Sicily",tone:4,fast:false,commemorations:["Holy Martyr Agatha of Sicily","Holy Martyr Theodula and Companions","St. Polyeuctus, Patriarch of Constantinople"]},
+  "2-6":{title:"Venerable Bucolus of Smyrna",tone:5,fast:false,commemorations:["Venerable Bucolus, Bishop of Smyrna","St. Photius, Patriarch of Constantinople","Holy Martyr Dorothea of Caesarea"]},
+  "2-7":{title:"Venerable Parthenius of Lampsacus",tone:6,fast:false,commemorations:["Venerable Parthenius, Bishop of Lampsacus","Venerable Luca the New Stylite","St. Luke the Younger"]},
+  "2-8":{title:"Holy Great Martyr Theodore the Recruit",tone:7,feast:true,fast:false,commemorations:["Holy Great Martyr Theodore the Recruit","Venerable Theoktistos the Sicilian","New Hieromartyr Vladimir"]},
+  "2-9":{title:"Holy Martyr Nicephorus of Antioch",tone:8,fast:false,commemorations:["Holy Martyr Nicephorus of Antioch","St. Cyril the Philosopher","New Martyr Abraham of Bulgaria"]},
+  "2-10":{title:"Hieromartyr Charalampus",tone:1,feast:true,fast:false,commemorations:["Hieromartyr Charalampus and Martyrs Porphyrius, Baptus, and Three Women","Holy Martyrs Ennathas, Valentine, and Paul"]},
+  "2-11":{title:"Holy Martyr Blaise of Sebaste",tone:2,feast:true,fast:false,commemorations:["Hieromartyr Blaise, Bishop of Sebaste","Venerable Theodora the Empress","St. Dimitri (Donskoy), Prince of Moscow"]},
+  "2-12":{title:"Venerable Alexis of Rome",tone:3,fast:false,commemorations:["Venerable Alexis of Rome, Man of God","St. Meletius, Archbishop of Antioch","St. Anthony Pechersky"]},
+  "2-13":{title:"Venerable Martinian of Caesarea",tone:4,fast:false,commemorations:["Venerable Martinian of Caesarea","Sts. Aquilina and Eulogius","Venerable Symeon the Myrrh-Gusher"]},
+  "2-14":{title:"Venerable Auxentius of Bithynia",tone:5,fast:false,commemorations:["Venerable Auxentius of Bithynia","Holy Apostle Onesimus","New Martyr Theodore of Mytilene"]},
+  "2-15":{title:"Holy Apostle Onesimus",tone:6,feast:true,fast:false,commemorations:["Holy Apostle Onesimus","Venerable Paphnutius of Borovsk","New Martyr Benjamin of Petersburg"]},
+  "2-16":{title:"Holy Martyrs Pamphylus and Porphyry",tone:7,fast:false,commemorations:["Holy Martyrs Pamphylus, Porphyry, and Companions","Venerable Maruthas of Mesopotamia","Righteous Nicholas Salos of Pskov"]},
+  "2-17":{title:"Holy Great Martyr Theodore the Recruit — Second Sunday",tone:8,fast:false,commemorations:["Great Martyr Theodore Tyron","Venerable Agapetus of Markushev"]},
+  "2-18":{title:"Holy Martyr Leo, Bishop of Catania",tone:1,fast:false,commemorations:["St. Leo, Bishop of Catania","St. Agapetus, Bishop of Synnadus","Holy Martyrs Cyril, Aquila, Peter, Domitian, Mark, Aristobulus, Trypho"]},
+  "2-19":{title:"Holy Apostle Archippus",tone:2,fast:false,commemorations:["Holy Apostle Archippus","Holy Martyr Philemon","St. Dositheus, Disciple of St. Dorotheus"]},
+  "2-20":{title:"Holy Bishop-Martyr Sadoc of Persia",tone:3,fast:false,commemorations:["Venerable Leo, Bishop of Catania","St. Agapetus of Sinnadus","Blessed Agapit of Pechersk"]},
+  "2-21":{title:"Holy Bishop-Martyr Sadoc of Persia",tone:4,fast:false,commemorations:["Holy Bishop-Martyr Sadoc of Persia and 128 Martyrs","Venerable Timothy of Symbola"]},
+  "2-22":{title:"Finding of the Relics of the Holy Martyrs in Eugenia",tone:5,fast:false,commemorations:["Finding of the Relics of the Holy Martyrs in Eugenia","Venerable Thalassios and Limnaeus"]},
+  "2-23":{title:"Holy Hieromartyr Polycarp of Smyrna",tone:6,feast:true,fast:false,commemorations:["Holy Hieromartyr Polycarp, Bishop of Smyrna","Venerable John, Called the Soldier (Voin)","St. Gorgonia, Sister of St. Gregory the Theologian"]},
+  "2-24":{title:"First and Second Finding of the Head of St. John the Baptist",tone:7,feast:true,fast:false,commemorations:["First and Second Finding of the Precious Head of the Holy Prophet, Forerunner and Baptist John"]},
+  "2-25":{title:"Holy Tarasius, Patriarch of Constantinople",tone:8,fast:false,commemorations:["St. Tarasius, Patriarch of Constantinople","Venerable Mesrop Mashtots"]},
+  "2-26":{title:"Venerable Porphyry of Gaza",tone:1,fast:false,commemorations:["Venerable Porphyry, Bishop of Gaza","St. Sebastian of Karaganda","Holy Martyr Sebastian of Karaganda"]},
+  "2-27":{title:"Venerable Procopius Decapolites",tone:2,fast:false,commemorations:["Venerable Procopius Decapolites, Confessor","Venerable Titus the Presbyter","St. Raphael, Bishop of Brooklyn"]},
+  "2-28":{title:"Venerable Basil the Confessor",tone:3,fast:false,commemorations:["Venerable Basil the Confessor, Companion of St. Procopius","Hieromartyr Proterius of Alexandria"]},
+  // MARCH
+  "3-1":{title:"Holy Martyr Eudocia",tone:4,fast:true,commemorations:["Holy Martyr Eudocia of Heliopolis","Holy Martyrs Nestor and Tribimius","Holy Martyr Antonina"]},
+  "3-2":{title:"Holy Hieromartyr Theodotus of Cyrene",tone:5,fast:true,commemorations:["Holy Hieromartyr Theodotus, Bishop of Cyrene","Venerable Arsenius of Tver","Holy Martyr Zeno and Companions"]},
+  "3-3":{title:"Holy Martyrs Eutropius, Cleonicus, and Basiliscus",tone:6,fast:true,commemorations:["Holy Martyrs Eutropius, Cleonicus, and Basiliscus","Venerable Piama of Egypt","Holy Martyrs Zeno and Companions"]},
+  "3-4":{title:"Venerable Gerasimus of the Jordan",tone:7,feast:true,fast:true,commemorations:["Venerable Gerasimus of the Jordan","Holy Martyr Paul of Cyprus","Venerable Gerasimus of Perm"]},
+  "3-5":{title:"Holy Martyr Conon of Isauria",tone:8,fast:true,commemorations:["Holy Martyr Conon of Isauria","St. Mark the Faster","Holy Martyr Conon the Gardener"]},
+  "3-6":{title:"Holy 42 Martyrs of Amorion",tone:1,fast:true,commemorations:["Holy 42 Martyrs of Amorion","Venerable Arcadius of Cyprus","Holy Martyr Conon of Isauria"]},
+  "3-7":{title:"Holy Hieromartyr Basil of Kherson",tone:2,fast:true,commemorations:["Holy Hieromartyrs of Cherson: Basil, Ephraim, Eugene, Agathodorus, Elpidius, Aetharius, and Capito","Venerable Paul the Simple","New Martyr Basil of Manchuria"]},
+  "3-8":{title:"St. Theophylact, Archbishop of Nicomedia",tone:3,fast:true,commemorations:["St. Theophylact, Archbishop of Nicomedia","Holy Martyr Urban and Companions","Venerable Dometius of Syria"]},
+  "3-9":{title:"Holy Forty Martyrs of Sebaste",tone:4,feast:true,fast:true,commemorations:["Holy Forty Martyrs of Sebaste","Holy Martyr Alexander of Thessalonica"]},
+  "3-10":{title:"Martyr Codrat of Corinth",tone:5,fast:true,commemorations:["Holy Martyrs Codrat of Corinth and his Companions","Holy Martyrs Codrat, Cyprian, and Companions"]},
+  "3-11":{title:"Holy Hieromartyr Pionius of Smyrna",tone:6,fast:true,commemorations:["Holy Hieromartyr Pionius, Priest of Smyrna","Venerable Sophronius of Jerusalem","Venerable Theosterictus of Syria"]},
+  "3-12":{title:"Venerable Theophanes the Confessor",tone:7,feast:true,fast:true,commemorations:["Venerable Theophanes the Confessor, Bishop of Sigrian","St. Gregory Dialogus, Pope of Rome","Venerable Symeon the New Theologian"]},
+  "3-13":{title:"Translation of Relics of St. Nicephorus of Constantinople",tone:8,fast:true,commemorations:["Translation of the Relics of St. Nicephorus, Patriarch of Constantinople","Holy Martyr Sabinus of Egypt","Holy Martyr Alexander of Rome"]},
+  "3-14":{title:"Venerable Benedict of Nursia",tone:1,feast:true,fast:true,commemorations:["Venerable Benedict of Nursia","Holy Martyrs Alexander, Alexander, and Claudius","Venerable Eugene of Vaag"]},
+  "3-15":{title:"Holy Martyr Agapius and Seven Companions",tone:2,fast:true,commemorations:["Holy Martyrs Agapius and Seven Companions","Holy Martyr Nicander of Egypt","St. Abraham of Bulgaria"]},
+  "3-16":{title:"Holy Martyrs Sabin and Papas",tone:3,fast:true,commemorations:["Holy Martyrs Sabin of Egypt and Papas","St. Serapion, Archbishop of Novgorod","Holy Martyr Julian of Anazarbus"]},
+  "3-17":{title:"Holy Hieromartyr Alexander of Jerusalem",tone:4,fast:true,commemorations:["Holy Hieromartyr Alexander, Bishop of Jerusalem","St. Patrick, Bishop of Armagh, Enlightener of Ireland","Venerable Alexius of Goloshevsk"]},
+  "3-18":{title:"St. Cyril of Jerusalem",tone:5,feast:true,fast:true,commemorations:["St. Cyril, Archbishop of Jerusalem","Holy Martyrs Trophimus and Eucarpion","Holy Martyr Mark of Arethusa"]},
+  "3-19":{title:"Holy Martyrs Chrysanthus and Daria",tone:6,fast:true,commemorations:["Holy Martyrs Chrysanthus and Daria","Holy Martyrs Claude, Hilaria, Jason and Maurus","St. Pancharius of Nicomedia"]},
+  "3-20":{title:"Venerable John of the Ladder",tone:7,fast:true,commemorations:["Venerable John of the Ladder","Holy Martyrs Victor, Victorinus, Claudian, and Bassa","Hieromartyr Nicetas of Hadrianopolis"]},
+  "3-21":{title:"Holy Hieromartyr James the Presbyter of Persia",tone:8,fast:true,commemorations:["Holy Hieromartyr James, Presbyter of Persia","Venerable Serapion the Sindonite","Venerable Serapion of Egypt"]},
+  "3-22":{title:"Holy Hieromartyr Basil the Presbyter of Ancyra",tone:1,fast:true,commemorations:["Holy Hieromartyr Basil the Presbyter of Ancyra","Holy Martyr Drosida","St. Isaac of Syria"]},
+  "3-23":{title:"Holy Martyr Nikon and 199 Companions",tone:2,fast:true,commemorations:["Holy Martyr Nikon and 199 Companions","Venerable Nikon, Abbot of Optina","Holy Martyr Philetus, Lydia, Macedo, Theoprepius, Cronides, and Amphilochius"]},
+  "3-24":{title:"Holy Hieromartyr Artemon of Laodicea",tone:3,fast:true,commemorations:["Holy Hieromartyr Artemon, Presbyter of Laodicea","Holy Martyr Thimolaus and Companions","Venerable James the Confessor"]},
+  "3-25":{title:"Annunciation of the Theotokos",tone:4,great:true,fast:false,commemorations:["Annunciation of our Most Holy Lady the Theotokos and Ever-Virgin Mary","Holy Martyr Dula of Cilicia"]},
+  "3-26":{title:"Synaxis of the Archangel Gabriel",tone:5,feast:true,fast:false,commemorations:["Synaxis of the Archangel Gabriel","Holy Martyr Montanus and Maxima","Venerable Maletius of the Kiev Caves"]},
+  "3-27":{title:"Holy Hieromartyr Manutius of Persia",tone:6,fast:false,commemorations:["Holy Hieromartyr Manutius of Persia","Venerable John and George of Maleon","Holy Martyr Philetus, Lydia, Macedo"]},
+  "3-28":{title:"Venerable Hilarion the New",tone:7,fast:false,commemorations:["Venerable Hilarion the New, Abbot of Peleketos","St. Stephen the Wonderworker","Holy Martyr Boios of Egypt"]},
+  "3-29":{title:"Holy Martyr Jonah",tone:8,fast:false,commemorations:["Holy Martyr Jonah","Venerable Eustathius of Kios","New Martyr Mark of Ephesus","St. Cyril, Bishop of Turov"]},
+  "3-30":{title:"Holy Hieromartyr John of Persia",tone:1,fast:false,commemorations:["Holy Hieromartyrs of Persia: John, Bishop of Persia; James the Presbyter and Companions","Venerable John the Faster of the Kiev Caves","Holy Martyr Donatus"]},
+  "3-31":{title:"Holy Hieromartyr Hypatius of Gangra",tone:2,fast:false,commemorations:["Holy Hieromartyr Hypatius, Bishop of Gangra","Holy Apostles of the 70: Aristarchus, Pudens, and Trophimus","Venerable Innocent of the Kiev Caves"]},
+  // APRIL
+  "4-1":{title:"Venerable Mary of Egypt",tone:3,feast:true,fast:false,commemorations:["Venerable Mary of Egypt","Holy Martyr Abraham the Persian","St. Macarius, Metropolitan of Kiev","Holy Martyr Gerontius the Soldier"]},
+  "4-2":{title:"St. Titus the Wonderworker",tone:4,fast:false,commemorations:["St. Titus the Wonderworker","Holy Martyrs Amphianus and Edesius","St. Nicholas of Japan","New Martyr George of Bulgaria"]},
+  "4-3":{title:"Venerable Nicetas the Confessor",tone:5,fast:false,commemorations:["Venerable Nicetas the Confessor, Hegumen of Medikion","Venerable Elias the Younger of Sicily","Holy Martyr Ulpian of Tyre"]},
+  "4-4":{title:"Venerable Joseph the Hymnographer",tone:6,feast:true,fast:false,commemorations:["Venerable Joseph the Hymnographer","St. George of Maleon","Holy Martyr Agathopus the Deacon"]},
+  "4-5":{title:"Holy Martyrs Theodulus and Agathopus",tone:7,fast:false,commemorations:["Holy Martyrs Theodulus the Subdeacon and Agathopus the Deacon","St. Tigrius, Presbyter of Constantinople","Venerable Porphyry, Actor turned Martyr"]},
+  "4-6":{title:"St. Eutychius, Archbishop of Constantinople",tone:8,feast:true,fast:false,commemorations:["St. Eutychius, Archbishop of Constantinople","Holy Martyrs Marcellinus and Timolaus","Venerable Gregory of the Decapolis"]},
+  "4-7":{title:"Venerable George, Bishop of Mytilene",tone:1,fast:false,commemorations:["Venerable George, Bishop of Mytilene","Hieromartyr Calliopius","Venerable Daniel of Pereyaslavl-Zalessky"]},
+  "4-8":{title:"Holy Apostles of the 70: Herodion, Agabus, Rufus, Asyncritus, Phlegon, and Hermes",tone:2,fast:false,commemorations:["Holy Apostles Herodion, Agabus, Rufus, Asyncritus, Phlegon, and Hermes","Holy Martyr Rodion","Venerable Niphon, Bishop of Novgorod"]},
+  "4-9":{title:"Holy Martyr Eupsychius of Caesarea",tone:3,fast:false,commemorations:["Holy Martyr Eupsychius of Caesarea","Holy Martyrs Dadas, Maximus, and Quintillion","New Martyr Benjamin Kononov"]},
+  "4-10":{title:"Holy Martyrs Terentius and Africanus",tone:4,fast:false,commemorations:["Holy Martyrs Terentius, Africanus, Maximus, Pompey, and 36 others","Venerable Zosimas of Phoenicia","Hieromartyr Gregory V, Patriarch of Constantinople"]},
+  "4-11":{title:"Holy Hieromartyr Antipas of Pergamum",tone:5,feast:true,fast:false,commemorations:["Holy Hieromartyr Antipas, Bishop of Pergamum","Holy Martyr Artemas","Blessed Mark of Pskov"]},
+  "4-12":{title:"Venerable Basil the Confessor",tone:6,fast:false,commemorations:["Venerable Basil the Confessor","St. Zosimus, Bishop of Syracuse","Holy Martyr Menander"]},
+  "4-13":{title:"Holy Hieromartyr Artemon",tone:7,fast:false,commemorations:["Hieromartyr Artemon of Laodicea","St. Martin I, Pope of Rome","Holy Martyr Crescent"]},
+  "4-14":{title:"Holy Hieromartyr Simeon, Bishop of Persia",tone:8,feast:true,fast:false,commemorations:["Holy Hieromartyr Simeon, Bishop of Persia, and those with him","St. Elias, Patriarch of Jerusalem","Venerable Martin of Kiev Caves"]},
+  "4-15":{title:"Holy Apostles Aristarchus, Pudens, and Trophimus",tone:1,fast:false,commemorations:["Holy Apostles Aristarchus, Pudens, and Trophimus","Venerable Leonidas and Companions","St. Polycarp, Abbot of Kiev Caves"]},
+  "4-16":{title:"Holy Martyr Agapia, Irene, and Chionia",tone:2,fast:false,commemorations:["Holy Martyrs Agapia, Irene, and Chionia","Venerable Leonidas of Corinth","Venerable Joseph of Metelen"]},
+  "4-17":{title:"St. Simeon the Bishop of Persia",tone:3,fast:false,commemorations:["Venerable Joseph the Hymnographer","Holy Martyr Adrian of Corinth","Venerable Zosimus Solovetsky"]},
+  "4-18":{title:"Holy Martyr Saborios of Persia",tone:4,fast:false,commemorations:["Holy Martyr Saborios of Persia","Holy Martyr John the Russian","New Martyr John the Russian"]},
+  "4-19":{title:"Holy Martyr Paphnutius and Companions",tone:5,fast:false,commemorations:["Holy Martyrs Paphnutius and Companions","Venerable John the Ancient","Venerable Symeon the Martyr"]},
+  "4-20":{title:"Venerable Theodore Trichinas",tone:6,fast:false,commemorations:["Venerable Theodore Trichinas","Holy Martyrs Victor, Zoticus, Zeno, Acindinus, and Severian","Venerable Anastasia of Sirmium"]},
+  "4-21":{title:"Holy Hieromartyr Januarius, Bishop of Benevento",tone:7,fast:false,commemorations:["Holy Hieromartyr Januarius, Bishop of Benevento, and Companions","St. Anastasia the Patrician","Venerable Maximian of the Kiev Caves"]},
+  "4-22":{title:"Holy Hieromartyr Theodore, Bishop of Persia",tone:8,fast:false,commemorations:["Venerable Theodore Sykeote, Bishop of Anastasiopolis","Holy Hieromartyr Theodore of Persia","Holy Apostle Nathanael"]},
+  "4-23":{title:"Holy Great Martyr George the Trophy-Bearer",tone:1,feast:true,fast:false,commemorations:["Holy Great Martyr George the Trophy-Bearer","Holy Martyr Alexandra the Queen","Venerable George the Sinaite"]},
+  "4-24":{title:"Venerable Elizabeth the Wonderworker",tone:2,fast:false,commemorations:["Holy Martyr Sava Stratelates and 70 Soldiers","Venerable Elizabeth the Wonderworker","St. Nicholas Mysticus, Patriarch of Constantinople"]},
+  "4-25":{title:"Holy Apostle and Evangelist Mark",tone:3,feast:true,fast:false,commemorations:["Holy Apostle and Evangelist Mark","Venerable Silvanus of Gaza"]},
+  "4-26":{title:"Holy Hieromartyr Basileus, Bishop of Amaseia",tone:4,fast:false,commemorations:["Holy Hieromartyr Basileus, Bishop of Amaseia","St. Stephen, Bishop of Perm","St. Richarius the Hermit"]},
+  "4-27":{title:"Holy Hieromartyr Simeon of Jerusalem",tone:5,feast:true,fast:false,commemorations:["Holy Hieromartyr Simeon, Bishop of Jerusalem, Kinsman of the Lord","Venerable Stephen of Piperon","Holy Martyr Isichius of Antioch"]},
+  "4-28":{title:"Holy Apostles Jason and Sosipater",tone:6,fast:false,commemorations:["Holy Apostles Jason and Sosipater","Holy Martyr Maximus of Ephesus","Venerable Cyril of Turov"]},
+  "4-29":{title:"Holy 9 Martyrs of Cyzicus",tone:7,feast:true,fast:false,commemorations:["Holy Nine Martyrs of Cyzicus","Venerable Memnon the Wonderworker","Holy Martyr Theodora of Thessalonica"]},
+  "4-30":{title:"Holy Apostle James the Brother of St. John the Theologian",tone:8,feast:true,fast:false,commemorations:["Holy Apostle James, Brother of St. John the Theologian","St. Donatus, Bishop of Euroea","Hieromartyr Maximus"]},
+  // MAY
+  "5-1":{title:"Holy Prophet Jeremiah",tone:1,feast:true,fast:false,commemorations:["The Holy Prophet Jeremiah","Holy Martyr Macarius of Kiev","Hieromartyr Macarius, Metropolitan of Kiev"]},
+  "5-2":{title:"St. Athanasius the Great, Patriarch of Alexandria",tone:2,feast:true,fast:false,commemorations:["St. Athanasius the Great, Archbishop of Alexandria","Holy Boris and Gleb, Princes of Russia (in Baptism Roman and David)"]},
+  "5-3":{title:"Holy Martyrs Timothy and Maura",tone:3,fast:false,commemorations:["Holy Martyrs Timothy and Maura","Venerable Theodosius of the Kiev Caves","Venerable Peter the Wonderworker of Argos"]},
+  "5-4":{title:"Venerable Pelagia of Tarsus",tone:4,fast:false,commemorations:["Venerable Pelagia of Tarsus","Holy Martyr Sylvanus of Gaza","Holy Martyr Silvanus the Shepherd"]},
+  "5-5":{title:"Holy Martyr Irene the Great Martyr",tone:5,feast:true,fast:false,commemorations:["Holy Great Martyr Irene","St. Efrem, Patriarch of Antioch","Holy Martyr Euthymius of Sardis"]},
+  "5-6":{title:"Holy and Righteous Job the Long-suffering",tone:6,feast:true,fast:false,commemorations:["The Holy and Righteous Job the Long-suffering","St. Luke, Archbishop of Simferopol and Crimea, Confessor"]},
+  "5-7":{title:"Appearance of the Sign of the Cross in the Sky over Jerusalem",tone:7,feast:true,fast:false,commemorations:["Appearance of the Sign of the Cross in the Sky over Jerusalem","Holy Martyr Acacius of Cappadocia","Venerable Nilus of Sora"]},
+  "5-8":{title:"Holy Apostle and Evangelist John the Theologian",tone:8,great:true,fast:false,commemorations:["Holy Apostle and Evangelist John the Theologian","Venerable Arsenius the Great","Venerable Arsenius of Novgorod","Blessed Juliana, Princess of Vyazma"]},
+  "5-9":{title:"Translation of the Relics of St. Nicholas the Wonderworker",tone:1,feast:true,fast:false,commemorations:["Translation of the Relics of our Father among the Saints Nicholas, Archbishop of Myra in Lycia, the Wonderworker","Holy Prophet Isaiah","Hieromartyr Christopher","Holy Martyr Pelagia of Tarsus"]},
+  "5-10":{title:"Holy Apostle Simon the Zealot",tone:2,feast:true,fast:false,commemorations:["Holy Apostle Simon the Zealot","Venerable Isidore of Rostov","Blessed Simon Yurievich of Yuryevets"]},
+  "5-11":{title:"Holy Equals-to-the-Apostles Cyril and Methodius",tone:3,feast:true,fast:false,commemorations:["Holy Equals-to-the-Apostles Cyril and Methodius, Teachers of the Slavs","Venerable Mocius of Constantinople"]},
+  "5-12":{title:"St. Epiphanius, Archbishop of Cyprus",tone:4,feast:true,fast:false,commemorations:["St. Epiphanius, Archbishop of Cyprus","St. Germanus, Patriarch of Constantinople","St. Isidore Pelusiot","New Hieromartyr Dionisiy Shishkov"]},
+  "5-13":{title:"Holy Martyr Glyceria of Heraclea",tone:5,fast:false,commemorations:["Holy Martyr Glyceria of Heraclea","Holy Martyr Macedonius","Venerable Euthymius of the Kiev Caves"]},
+  "5-14":{title:"Holy Martyr Isidore of Chios",tone:6,fast:false,commemorations:["Holy Martyr Isidore of Chios","Venerable Serapion Sindonite","St. Isidore of Rostov, Fool-for-Christ"]},
+  "5-15":{title:"Holy Equals-to-the-Apostles Cyril and Methodius",tone:7,fast:false,commemorations:["Venerable Pachomius the Great","Venerable Achilles, Bishop of Larissa","Venerable Isaiah of Rostov","St. Philip, Metropolitan of Moscow","Holy Martyr Silvanus"]},
+  "5-16":{title:"Venerable Theodore the Sanctified",tone:8,fast:false,commemorations:["Venerable Theodore the Sanctified, Disciple of Pachomius","Holy Martyr Georgy Petrovsky","New Hieromartyr Demetrius"]},
+  "5-17":{title:"Holy Apostle Andronicus of the Seventy",tone:1,feast:true,fast:false,commemorations:["Holy Apostle Andronicus and Holy Martyr Junia","Holy Martyr Solochon","St. Stephen, Patriarch of Constantinople"]},
+  "5-18":{title:"Holy Martyr Theodotus of Ancyra",tone:2,fast:false,commemorations:["Holy Martyr Theodotus of Ancyra and Seven Virgin-Martyrs","Venerable Ephraim of Perekom","St. Alexander of Jerusalem"]},
+  "5-19":{title:"Holy Martyr Patrick of Prusa",tone:3,fast:false,commemorations:["Holy Martyr Patrick, Bishop of Prusa, and Martyrs Acacius, Menander, and Polyenus","St. Cornelius of the Kiev Caves"]},
+  "5-20":{title:"Holy Martyr Thalelaeus of Cilicia",tone:4,fast:false,commemorations:["Holy Martyr Thalelaeus of Cilicia","Holy Martyrs Asterius, Alexander, and Companions","St. Arsenius, Archbishop of Rostov"]},
+  "5-21":{title:"Holy Equals-to-the-Apostles Constantine and Helena",tone:5,feast:true,fast:false,commemorations:["Holy Equals-to-the-Apostles Constantine the Great and his Mother Helena","New Hieromartyr Michael Cheltsov"]},
+  "5-22":{title:"Holy Martyr Basiliscus of Comana",tone:6,fast:false,commemorations:["Holy Martyr Basiliscus of Comana","Venerable John the Zedazneli and 12 Disciples","New Martyr Timothy of Esphigmenou"]},
+  "5-23":{title:"Holy Martyr Michael of Synnada",tone:7,fast:false,commemorations:["St. Michael, Bishop of Synnada","Venerable Symeon of the Stylites the Younger and Martha his Mother","Holy Martyr Euphrosyne"]},
+  "5-24":{title:"Venerable Symeon the Stylite the Younger",tone:8,feast:true,fast:false,commemorations:["Venerable Symeon the Stylite the Younger and Martha his Mother","Holy Martyr Meletinius","Holy Martyr Theckla"]},
+  "5-25":{title:"Third Finding of the Head of John the Baptist",tone:1,feast:true,fast:false,commemorations:["Third Finding of the Precious Head of the Holy Prophet, Forerunner and Baptist John","Holy Martyr Silvanus","St. Augustine of Hippo (Feast in the West)"]},
+  "5-26":{title:"Holy Apostle Carpus of the Seventy",tone:2,feast:true,fast:false,commemorations:["Holy Apostle Carpus of the Seventy","Holy Martyr Averkios","Holy Martyr Helen"]},
+  "5-27":{title:"Holy Martyr Therapon, Bishop of Sardis",tone:3,fast:false,commemorations:["Holy Martyr Therapon, Bishop of Sardis","Holy Martyr Therapon of Saki","Venerable Niphon of Constantinople"]},
+  "5-28":{title:"St. Nikitas, Bishop of Chalcedon",tone:4,fast:false,commemorations:["St. Nikitas, Bishop of Chalcedon","Holy Martyr Heliconis","Holy Martyr Eutychius of Melitin"]},
+  "5-29":{title:"Holy Martyr Theodosia of Tyre",tone:5,fast:false,commemorations:["Holy Martyr Theodosia of Tyre","Venerable Theodosia of Constantinople","New Martyr Ioan Iacob"]},
+  "5-30":{title:"St. Isaac of Dalmatia",tone:6,feast:true,fast:false,commemorations:["Venerable Isaac, Founder of the Dalmatian Monastery","St. Isacius the First Confessor","New Martyr Constantine"]},
+  "5-31":{title:"Holy Apostle Hermas of the Seventy",tone:7,feast:true,fast:false,commemorations:["Holy Apostle Hermas of the Seventy","Venerable Hermias of Comana","Holy Martyr Hermias"]},
+  // JUNE
+  "6-1":{title:"Holy Martyr Justin the Philosopher",tone:8,feast:true,fast:false,commemorations:["Holy Martyrs Justin the Philosopher and Companions","Holy Martyr Justinian","Venerable Dionysius of Glushitsa"]},
+  "6-2":{title:"Venerable Nicephorus of Athos",tone:1,fast:false,commemorations:["Venerable Nicephorus of Athos","Holy Martyr John the New of Suceava","New Martyr Constantine of Mytilene"]},
+  "6-3":{title:"Holy Equal-to-Apostles Tsar Constantine and Empress Helena",tone:2,fast:false,commemorations:["Equal-to-Apostles Tsar Constantine and Empress Helena (second commemoration)","St. Lucillianus and Companions"]},
+  "6-4":{title:"Venerable Zosimas of Phoenicia",tone:3,fast:false,commemorations:["Venerable Zosimas of Phoenicia","Holy Martyr Conordius","Holy Martyr Zosimas"]},
+  "6-5":{title:"St. Dorotheus of Tyre",tone:4,fast:false,commemorations:["St. Dorotheus, Bishop of Tyre","Venerable Dorotheus the Younger","St. Theodore Yaralkov"]},
+  "6-6":{title:"Venerable Bessarion the Wonderworker of Egypt",tone:5,fast:false,commemorations:["Venerable Bessarion the Wonderworker of Egypt","Venerable Hilarion of Iberia","St. Hilarion the New"]},
+  "6-7":{title:"Holy Hieromartyr Theodotus of Ancyra",tone:6,fast:false,commemorations:["Holy Hieromartyr Theodotus, Bishop of Ancyra","St. Methodius, Patriarch of Constantinople","Venerable Antonius Pechersky"]},
+  "6-8":{title:"Translation of Relics of Theodore the Recruit",tone:7,feast:true,fast:false,commemorations:["Translation of the Relics of the Holy Great Martyr Theodore the Recruit","Venerable Theodore of Sanaksar","Holy Apostles from the Seventy: Sosthenes, Apollos, Cephas, Tychicus, Epaphroditus, Caesar, and Onesiphorus"]},
+  "6-9":{title:"Holy Apostle and Evangelist John the Theologian",tone:8,feast:true,fast:false,commemorations:["Repose of the Holy Apostle and Evangelist John the Theologian","St. Cyril of Alexandria","Holy Martyr Thecla"]},
+  "6-10":{title:"Holy Martyr Alexander of Rome",tone:1,fast:false,commemorations:["Holy Martyr Alexander of Rome","Venerable Anthony of the Kiev Caves"]},
+  "6-11":{title:"Holy Apostles Bartholomew and Barnabas",tone:2,feast:true,fast:true,commemorations:["Holy Apostles Bartholomew and Barnabas","St. Barnabas","Venerable Barnabas of Vetluga"]},
+  "6-12":{title:"Holy Martyr Onuphrius the Great",tone:3,fast:true,commemorations:["Venerable Onuphrius the Great","Venerable Peter of Athos","Venerable Alexis of Goloshevsk"]},
+  "6-13":{title:"Venerable Triphyllius of Cyprus",tone:4,fast:true,commemorations:["Venerable Triphyllius, Bishop of Leucosia in Cyprus","Holy Martyr Aquilina","St. Metrophanes of Constantinople"]},
+  "6-14":{title:"Holy Prophet Elisha",tone:5,feast:true,fast:true,commemorations:["Holy Prophet Elisha","Holy Martyr Metodius of Olympus","St. Methodius, Patriarch of Constantinople"]},
+  "6-15":{title:"Holy Prophet Amos",tone:6,fast:true,commemorations:["The Holy Prophet Amos","Holy Martyr Vitus","New Martyr Nicodemus of Athos"]},
+  "6-16":{title:"Holy Martyrs Tigrius and Eutropius",tone:7,fast:true,commemorations:["Holy Martyrs Tigrius and Eutropius","Venerable Tychon of Amathous"]},
+  "6-17":{title:"Holy Martyr Isaurus and Companions",tone:8,fast:true,commemorations:["Holy Martyrs Isaurus, Innocent, Felix, Hermias, Basil, Peregrinus, Rufus, and Rufinus","Venerable Paisius of the Kiev Caves"]},
+  "6-18":{title:"Holy Martyrs Leontius, Hypatius, and Theodulus",tone:1,fast:true,commemorations:["Holy Martyrs Leontius, Hypatius, and Theodulus","St. Leontius, Patriarch of Jerusalem","St. Jonah, Metropolitan of Moscow"]},
+  "6-19":{title:"Holy Apostle Jude the Brother of the Lord",tone:2,feast:true,fast:true,commemorations:["Holy Apostle Jude, the Lord's Brother","Holy Martyr Zosimas the Monk","St. Paisius of Galinishche"]},
+  "6-20":{title:"Holy Martyr Methodius, Bishop of Patara",tone:3,fast:true,commemorations:["Holy Hieromartyr Methodius, Bishop of Patara","New Hieromartyr Methodius of Petrovsky"]},
+  "6-21":{title:"Holy Martyr Julian of Tarsus",tone:4,fast:true,commemorations:["Holy Martyr Julian of Tarsus","Venerable Julian the Hermit of Syria","Holy Martyr Terentius of Iconium"]},
+  "6-22":{title:"Holy Martyr Eusebius of Samosata",tone:5,feast:true,fast:true,commemorations:["Holy Hieromartyr Eusebius, Bishop of Samosata","Holy Martyrs Galacteon and Julian","New Martyrs of Minsk"]},
+  "6-23":{title:"Holy Martyr Agrippina of Rome",tone:6,fast:true,commemorations:["Holy Martyr Agrippina of Rome","Glorification of St. Cleopatra of Syria","Holy Martyr Eustochius"]},
+  "6-24":{title:"Nativity of St. John the Baptist",tone:7,great:true,fast:false,commemorations:["Nativity of the Holy Prophet, Forerunner and Baptist John","Holy Martyr Orentius and Brothers"]},
+  "6-25":{title:"Holy Venerable-Martyr Febronia of Nisibis",tone:8,fast:false,commemorations:["Holy Venerable-Martyr Febronia of Nisibis","Venerable David of Thessalonica","Blessed Anna, Princess of Kashin"]},
+  "6-26":{title:"Venerable David of Thessalonica",tone:1,fast:false,commemorations:["Venerable David of Thessalonica","Venerable Moses the Ethiopian the Black","Holy Martyr John the Warrior"]},
+  "6-27":{title:"Holy Hieromartyr Sampson",tone:2,fast:false,commemorations:["Venerable Sampson the Hospitable","Holy Martyr Senatorius","St. Joanna the Myrrh-Bearer","Holy 7 Youths of Ephesus"]},
+  "6-28":{title:"Holy Martyr Photius and Anicetus",tone:3,fast:false,commemorations:["Holy Martyrs Cyrus and John (Commemoration)","Holy Martyrs Photius and Anicetus","Venerable Paisius Velichkovsky"]},
+  "6-29":{title:"Holy Apostles Peter and Paul",tone:4,great:true,fast:false,commemorations:["The Holy Glorious and All-Praised Leaders of the Apostles Peter and Paul"]},
+  "6-30":{title:"Synaxis of the Holy Apostles of the Twelve",tone:5,feast:true,fast:false,commemorations:["Synaxis of the Holy Glorious and All-Praised Twelve Apostles"]},
+  // JULY
+  "7-1":{title:"Holy Unmercenaries Cosmas and Damian of Rome",tone:6,feast:true,fast:false,commemorations:["Holy Unmercenaries and Wonderworkers Cosmas and Damian of Rome","Holy Martyr Potitus","New Hieromartyr Michael Lisenkov"]},
+  "7-2":{title:"Deposition of the Robe of the Theotokos",tone:7,feast:true,fast:false,commemorations:["Deposition of the Precious Robe of our Most Holy Lady the Theotokos at Blachernae","Holy Martyr Juvenalius of Jerusalem"]},
+  "7-3":{title:"Holy Apostle Thomas",tone:8,feast:true,fast:false,commemorations:["Holy Apostle Thomas","St. Metrophanes, Archbishop of Voronezh","New Martyr Anastasius of Thessalonica"]},
+  "7-4":{title:"Holy Unmercenaries Andrew, Probus, and Tarachus",tone:1,fast:false,commemorations:["Holy Martyrs Andrew, Probus, and Tarachus","Holy Martyr Tation of Claudiopolis","St. Andrew of Crete"]},
+  "7-5":{title:"Holy Martyr Athanasius of Cilicia",tone:2,fast:false,commemorations:["Venerable Athanasius the Athonite","St. Sergius and Herman, Wonderworkers of Valaam","Holy Martyr Acacius"]},
+  "7-6":{title:"Venerable Sisoes the Great",tone:3,feast:true,fast:false,commemorations:["Venerable Sisoes the Great","Holy Martyr Marcian","Holy Martyr Lucy"]},
+  "7-7":{title:"Holy Great-Martyr Kyriake (Dominica)",tone:4,feast:true,fast:false,commemorations:["Holy Great-Martyr Kyriake (Dominica)","Venerable Thomas of Maleon","Venerable Acacius of Sinai"]},
+  "7-8":{title:"Holy Great Martyr Procopius of Caesarea",tone:5,feast:true,fast:false,commemorations:["Holy Great Martyr Procopius of Caesarea","Venerable Procopius the Fool-for-Christ, of Ustyug","Holy Martyr Theodosia of Constantinople"]},
+  "7-9":{title:"Holy Martyr Pancratius of Taormina",tone:6,feast:true,fast:false,commemorations:["Holy Hieromartyr Pancratius, Bishop of Taormina","St. Cyril of Alexandria (Repose)","Holy Martyr Cyrus"]},
+  "7-10":{title:"Holy Forty-Five Martyrs of Nicopolis",tone:7,fast:false,commemorations:["Holy 45 Martyrs of Nicopolis in Armenia","Venerable Antony of the Kiev Caves","New Hieromartyr Mark Novoselov"]},
+  "7-11":{title:"Holy Great Martyr Euphemia",tone:8,feast:true,fast:false,commemorations:["Holy Great-Martyr Euphemia the All-Praised","Venerable Euphemia of Amaseia"]},
+  "7-12":{title:"Holy Martyrs Proclus and Hilary",tone:1,fast:false,commemorations:["Holy Martyrs Proclus and Hilary","Venerable Michael Maleinos","Holy Martyr Golindukha"]},
+  "7-13":{title:"Synaxis of the Archangel Gabriel",tone:2,feast:true,fast:false,commemorations:["Synaxis of the Archangel Gabriel (Second Commemoration)","Holy Martyr Stephen the Younger","St. Julian of Le Mans"]},
+  "7-14":{title:"Holy Apostle Aquila of the Seventy",tone:3,feast:true,fast:false,commemorations:["Holy Apostle Aquila of the Seventy","Holy Martyr Justus","Venerable Nicodemos of the Holy Mountain"]},
+  "7-15":{title:"Holy Equal-to-Apostles Prince Vladimir of Russia",tone:4,feast:true,fast:false,commemorations:["Holy Equal-to-the-Apostles Great Prince Vladimir, in Holy Baptism Basil, Enlightener of Russia","Holy Martyrs Quiricus and Julitta"]},
+  "7-16":{title:"Holy Martyr Athenogenes of Sebaste",tone:5,fast:false,commemorations:["Holy Hieromartyr Athenogenes, Bishop of Sebaste, and Ten Companions","Holy Martyr Julia of Carthage","Venerable Isaiah of the Kiev Caves"]},
+  "7-17":{title:"Holy Great Martyr Marina of Antioch",tone:6,feast:true,fast:false,commemorations:["Holy Great Martyr Marina (Margaret) of Antioch","Venerable Leonid of Ustnedumsk","Holy Hieromartyr Theodore of Cyrene"]},
+  "7-18":{title:"Holy Martyrs Emilian of Silestria",tone:7,fast:false,commemorations:["Holy Martyr Emilian of Silistria","Holy Martyr Hyacinth of Amastris","St. John of Kronstadt (Glorification)"]},
+  "7-19":{title:"Venerable Macrina",tone:8,fast:false,commemorations:["Venerable Macrina, sister of St. Basil the Great","Holy Martyr Dius","New Martyr Demetrius Kleophin"]},
+  "7-20":{title:"Holy Prophet Elijah",tone:1,feast:true,fast:false,commemorations:["Holy Prophet Elijah the Tishbite","Venerable Abraham Palitsin","Holy Martyr Elias of Egypt"]},
+  "7-21":{title:"Holy Great Martyr Procopius of Caesarea — Another Feast",tone:2,fast:false,commemorations:["Holy Martyr Simeon of Persia","Holy Martyrs Cyril and Methodius of Thessalonica","St. Clement of Ochrid"]},
+  "7-22":{title:"Holy Myrrh-Bearer Mary Magdalene",tone:3,feast:true,fast:false,commemorations:["Holy Myrrh-Bearer and Equal-to-the-Apostles Mary Magdalene","Holy Martyrs of Samaria"]},
+  "7-23":{title:"Holy Martyrs Trophimus, Theophilus, and 13 Others",tone:4,fast:false,commemorations:["Holy Martyrs Trophimus, Theophilus, and 13 Companions","Venerable Apollinaris the Younger","St. Anthony of Dymsk"]},
+  "7-24":{title:"Holy Great Martyr Christina of Tyre",tone:5,feast:true,fast:false,commemorations:["Holy Great Martyr Christina of Tyre","Holy Martyrs Boris and Gleb, Princes of Russia","New Martyr Theodore of Mytilene"]},
+  "7-25":{title:"Repose of St. Anna, Mother of the Theotokos",tone:6,feast:true,fast:true,commemorations:["Repose of St. Anna, Mother of the Theotokos","Venerable Olympias the Deaconess","New Martyr Macarius"]},
+  "7-26":{title:"Holy Hieromartyr Hermolaus of Nicomedia",tone:7,fast:false,commemorations:["Holy Hieromartyr Hermolaus, Presbyter of Nicomedia, and Martyrs Hermippus and Hermocrates","New Martyr Juvenal Maslov"]},
+  "7-27":{title:"Holy Great Martyr Panteleimon",tone:8,feast:true,fast:false,commemorations:["Holy Great Martyr and Healer Panteleimon","Venerable Panteleimon of Athos (New)","Holy Martyr Anthusa"]},
+  "7-28":{title:"Holy Apostles Prochorus, Nicanor, Timon, and Parmenas",tone:1,feast:true,fast:false,commemorations:["Holy Apostles and Deacons Prochorus, Nicanor, Timon, and Parmenas","Holy Martyr Eustathius of Mtskheta","St. Pitrim, Bishop of Tambov"]},
+  "7-29":{title:"Holy Martyr Callinicus of Gangra",tone:2,fast:false,commemorations:["Holy Martyr Callinicus of Gangra","Holy Martyr Theodota and her Three Children","Venerable Gerasimus of Boldino"]},
+  "7-30":{title:"Holy Martyrs Silas, Silvanus, Crescens, Epaenetus, and Andronicus",tone:3,feast:true,fast:false,commemorations:["Holy Martyrs Silas, Silvanus, Crescens, Epaenetus, and Andronicus","Holy Martyr Julitta (Yuliya) of Caesarea","Venerable John of Dalemat"]},
+  "7-31":{title:"Holy Martyr Eudocimus of Cappadocia",tone:4,fast:false,commemorations:["Holy Martyr Eudocimus of Cappadocia","Venerable Macarius the Roman","New Martyr Constantine Bogoslovsky"]},
+  // AUGUST
+  "8-1":{title:"Procession of the Cross; Holy Unmercenaries Maccabees",tone:5,feast:true,fast:true,commemorations:["Procession of the Cross of the Lord","Holy Maccabees: Eleazar, Solomon, and the Seven Youth","Beginning of the Dormition Apostolic Fast"]},
+  "8-2":{title:"Translation of Relics of St. Stephen the Protomartyr",tone:6,feast:true,fast:true,commemorations:["Translation of the Relics of the Protomartyr and Archdeacon Stephen","Venerable Basil the Blessed, Fool for Christ","New Martyr Joseph of Zaonikiev"]},
+  "8-3":{title:"Venerable Isaacus, Dalmatus, and Faustus",tone:7,fast:true,commemorations:["Venerable Isaacus, Dalmatus, and Faustus","Holy Martyrs Rufinus and Companions","St. Salome (Myrrhbearer)"]},
+  "8-4":{title:"Holy 7 Youths of Ephesus; Holy Martyr Eudoxia",tone:8,fast:true,commemorations:["Holy Seven Youths (Seven Sleepers) of Ephesus","Holy Martyr Eudoxia","New Martyr Anthony"]},
+  "8-5":{title:"Holy Martyr Eusignius of Antioch",tone:1,fast:true,commemorations:["Holy Martyr Eusignius of Antioch","Venerable Nonnos, Bishop of Heliopolis","St. Clement, Patriarch of Ohrid"]},
+  "8-6":{title:"Transfiguration of Our Lord",tone:7,great:true,fast:false,commemorations:["Transfiguration of our Lord, God, and Savior Jesus Christ"]},
+  "8-7":{title:"Venerable Martyr Dometius of Persia",tone:2,feast:true,fast:false,commemorations:["Venerable-Martyr Dometius of Persia","Holy Martyr Poemenius","St. Theodore, Bishop of Edessa"]},
+  "8-8":{title:"Holy Great Martyr Emilian of Silestria",tone:3,fast:false,commemorations:["St. Emilian the Confessor, Bishop of Cyzicus","Holy Martyr Eleutherius","New Hieromartyr Alexis Stavrovsky"]},
+  "8-9":{title:"Holy Apostle Matthias",tone:4,feast:true,fast:false,commemorations:["Holy Apostle Matthias","Holy Martyr Antonius Romanovsky","New Martyr Theodore"]},
+  "8-10":{title:"Holy Martyr Laurence of Rome",tone:5,feast:true,fast:false,commemorations:["Holy Archdeacon and Martyr Laurence of Rome","Venerable Lawrence of Kiev Caves","Martyr Sixtus, Pope of Rome"]},
+  "8-11":{title:"Holy Martyr and Archdeacon Euplius of Catania",tone:6,fast:false,commemorations:["Holy Martyr and Archdeacon Euplius of Catania","Blessed Theophilus the Fool-for-Christ","New Martyr Basil of Mangasea"]},
+  "8-12":{title:"Holy Martyrs Photius and Anicetus",tone:7,fast:false,commemorations:["Holy Martyrs Photius and Anicetus of Nicomedia","Venerable Pimen of the Kiev Caves","New Martyr Macarius"]},
+  "8-13":{title:"Holy Martyr Maximus",tone:8,fast:false,commemorations:["Holy Martyr Maximus","Holy Martyr Hippolytus, Bishop of Rome","Venerable Maximus the Greek"]},
+  "8-14":{title:"Holy Prophet Micah",tone:1,feast:true,fast:true,commemorations:["Holy Prophet Micah","Hieromartyr Marcellus, Bishop of Apamea","Holy Martyr Ursicius of Illyricum"]},
+  "8-15":{title:"Dormition of the Theotokos",tone:1,great:true,fast:false,commemorations:["Dormition of our Most Holy Lady the Theotokos and Ever-Virgin Mary"]},
+  "8-16":{title:"Icon of the Savior Not-Made-by-Hands",tone:2,feast:true,fast:false,commemorations:["Translation of the Image Not-Made-By-Hands of Our Lord Jesus Christ (the Holy Mandylion)","Holy Martyrs Diomedes, Elias, Leontius, and Companions","St. Gerasimus of the Wallachian country"]},
+  "8-17":{title:"Holy Martyr Myron of Cyzicus",tone:3,fast:false,commemorations:["Holy Martyr Myron of Cyzicus","Holy Martyrs Straton, Philip, Eutychian, and Cyprian","Venerable Gerasimus of Boldin"]},
+  "8-18":{title:"Holy Martyrs Florus and Laurus",tone:4,feast:true,fast:false,commemorations:["Holy Martyrs Florus and Laurus","Holy Martyr Ermes","St. John (Maximovitch), Archbishop of Shanghai and San Francisco"]},
+  "8-19":{title:"Holy Martyr Andrew the Soldier",tone:5,fast:false,commemorations:["Holy Martyr Andrew the Soldier","Holy Martyr Timothy of Gaza","Holy Martyr Thecla of Gaza"]},
+  "8-20":{title:"Holy Prophet Samuel",tone:6,feast:true,fast:false,commemorations:["Holy Prophet Samuel","Holy Martyr Eliodorus","New Hieromartyr Michael Cheltsov"]},
+  "8-21":{title:"Holy Apostle Thaddaeus",tone:7,feast:true,fast:false,commemorations:["Holy Apostle Thaddaeus (Jude)","Holy Martyr Vassa and Sons Theognios, Agapios, and Pistos","Venerable Bees of the Kiev Caves"]},
+  "8-22":{title:"Holy Martyr Agathonicus of Nicomedia",tone:8,fast:false,commemorations:["Holy Martyr Agathonicus of Nicomedia and Companions","Holy Martyr Lupe of Novae","St. Anthusa of Mantineon"]},
+  "8-23":{title:"Holy Martyr Lupos of Novae",tone:1,fast:false,commemorations:["Holy Martyr Lupos of Novae","St. Irenaeus of Lyon","New Martyr George of Serbia"]},
+  "8-24":{title:"Holy Hieromartyr Eutyches",tone:2,fast:false,commemorations:["Holy Hieromartyr Eutyches, Disciple of John the Theologian","Venerable Arsenius of Komel","New Hieromartyr Sergius of Saratov"]},
+  "8-25":{title:"Return of the Relics of Apostle Bartholomew",tone:3,feast:true,fast:false,commemorations:["Return of the Relics of the Holy Apostle Bartholomew","Holy Apostle Titus","St. Menas, Patriarch of Constantinople"]},
+  "8-26":{title:"Holy Martyrs Adrian and Natalia of Nicomedia",tone:4,feast:true,fast:false,commemorations:["Holy Martyrs Adrian and Natalia of Nicomedia","Venerable Adrian of Ondrus Lake","Venerable Hadrian of Poshekhon"]},
+  "8-27":{title:"Venerable Pimen the Great",tone:5,feast:true,fast:false,commemorations:["Venerable Pimen the Great","Venerable Koundourd of Pskov","New Martyr Maria Skobtsova"]},
+  "8-28":{title:"Venerable Moses the Ethiopian the Black",tone:6,fast:false,commemorations:["Venerable Moses the Ethiopian (the Black)","Holy Martyr Diomedes of Tarsus","New Martyr Nicodemus"]},
+  "8-29":{title:"Beheading of John the Baptist",tone:6,great:true,fast:true,commemorations:["Beheading of the Holy Prophet, Forerunner and Baptist John"]},
+  "8-30":{title:"Holy Patriarchs of Constantinople: Alexander, John, and Paul",tone:7,feast:true,fast:false,commemorations:["Holy Patriarchs of Constantinople: Alexander, John, and Paul the New","Holy Martyrs of Nicomedia: Fantinus","New Martyr Ioann"]},
+  "8-31":{title:"Deposition of the Sash of the Theotokos at Blachernae",tone:8,feast:true,fast:false,commemorations:["Deposition of the Precious Sash of our Most Holy Lady the Theotokos at Blachernae","Venerable John Rila","St. Gennadius of Kostroma"]},
+  // SEPTEMBER
+  "9-1":{title:"Beginning of the Ecclesiastical New Year",tone:1,feast:true,fast:false,commemorations:["Indiction — Beginning of the New Ecclesiastical Year","Venerable Symeon the Stylite (First)","Holy Martyr Aitherios","New Martyr Aitherios"]},
+  "9-2":{title:"Holy Martyr Mamas of Caesarea",tone:2,fast:false,commemorations:["Holy Martyr Mamas of Caesarea","St. John the Faster, Patriarch of Constantinople","St. Neophytos of Docheiariou"]},
+  "9-3":{title:"Holy Hieromartyr Anthimus of Nicomedia",tone:3,fast:false,commemorations:["Holy Hieromartyr Anthimus, Bishop of Nicomedia","Venerable Theoctistus, Companion of St. Euthymius","Holy Martyr Basilla of Smyrna"]},
+  "9-4":{title:"Holy Prophet Moses the God-Seer",tone:4,feast:true,fast:false,commemorations:["Holy Prophet Moses the God-Seer","Holy Martyrs Babylas of Antioch and 84 children","St. Hermione of Ephesus"]},
+  "9-5":{title:"Holy Prophet Zachariah and Elizabeth, Parents of St. John the Baptist",tone:5,feast:true,fast:false,commemorations:["Holy Prophet Zachariah and Righteous Elizabeth, Parents of St. John the Baptist","Holy Martyr Urban","New Martyr Urban"]},
+  "9-6":{title:"Miracle of Archangel Michael at Chonae",tone:6,feast:true,fast:false,commemorations:["Miracle of the Archangel Michael at Chonae (Colossae)","New Martyr Macarius of Kanevsk"]},
+  "9-7":{title:"Venerable John of Rila",tone:7,feast:true,fast:false,commemorations:["Venerable John of Rila (Repose)","Holy Martyr Sozont of Pompeiiopolis","St. Eudoxius and Companions"]},
+  "9-8":{title:"Nativity of the Theotokos",tone:4,great:true,fast:false,commemorations:["Nativity of our Most Holy Lady the Theotokos and Ever-Virgin Mary"]},
+  "9-9":{title:"Holy and Righteous Joachim and Anna",tone:5,feast:true,fast:false,commemorations:["Holy and Righteous Joachim and Anna","Repose of St. Tikhon, Patriarch of Moscow","Holy Martyr Severian of Sebaste"]},
+  "9-10":{title:"Holy Martyrs Menodora, Metrodora, and Nymphodora",tone:6,fast:false,commemorations:["Holy Martyrs Menodora, Metrodora, and Nymphodora","Venerable Peter of Athos (Repose)","Venerable Macarius"]},
+  "9-11":{title:"Venerable Theodore and Theophanes",tone:7,fast:false,commemorations:["Venerable Theodore and Theophanes the Graptoi (the Branded)","Holy Martyr Ia","New Hieromartyr John Popov"]},
+  "9-12":{title:"Holy Hieromartyr Autonomus",tone:8,fast:false,commemorations:["Holy Hieromartyr Autonomus","Holy Martyr Cornelius the Centurion","New Martyr Theophanes Stavrianos"]},
+  "9-13":{title:"Venerable Cornelius of Pskov",tone:1,fast:false,commemorations:["Venerable Cornelius of Pskov","Repose of St. John Chrysostom (commemorated on November 13)","Holy Hieromartyr Cornelius the Centurion"]},
+  "9-14":{title:"Exaltation of the Holy and Life-Giving Cross",tone:8,great:true,fast:true,commemorations:["Universal Exaltation of the Precious and Life-Giving Cross of the Lord","St. Nicetas the Goth"]},
+  "9-15":{title:"Holy Great Martyr Nicetas the Goth",tone:1,feast:true,fast:false,commemorations:["Holy Great Martyr Nicetas the Goth","Venerable Philotheus of Athos","Holy Martyr Porphyrius"]},
+  "9-16":{title:"Holy Great Martyr Euphemia the All-Praised",tone:2,feast:true,fast:false,commemorations:["Holy Great-Martyr Euphemia the All-Praised","Holy Martyr Sebastiana of Heraclea","St. Ludmila of Bohemia"]},
+  "9-17":{title:"Holy Martyrs Sophia, Faith, Hope, and Love",tone:3,feast:true,fast:false,commemorations:["Holy Martyrs Sophia and her daughters Faith, Hope, and Love","St. Theodore of Tarsus, Archbishop of Canterbury"]},
+  "9-18":{title:"Venerable Eumenes, Bishop of Gortyna",tone:4,fast:false,commemorations:["Venerable Eumenes, Bishop of Gortyna","New Martyr Eumenes","St. John Maximovitch, Metropolitan of Tobolsk (Glorification)"]},
+  "9-19":{title:"Holy Martyrs Trophimus, Sabatius, and Dorymedon",tone:5,fast:false,commemorations:["Holy Martyrs Trophimus, Sabatius, and Dorymedon","Holy Righteous Prophet Jonah","Holy Prince Theodore of Smolensk and Yaroslavl, and His Sons David and Constantine"]},
+  "9-20":{title:"Holy Great Martyr Eustathius Placidas",tone:6,feast:true,fast:false,commemorations:["Holy Great Martyr Eustathius Placidas, His Wife Theopiste, and Sons Agapius and Theopistus","Holy Martyr John of Suzdal"]},
+  "9-21":{title:"Holy Apostle Quadratus",tone:7,feast:true,fast:false,commemorations:["Holy Apostle Quadratus","St. Dimitri of Rostov","Holy Martyr Theodore of Alexandria"]},
+  "9-22":{title:"Holy Hieromartyr Phocas, Bishop of Sinope",tone:8,fast:false,commemorations:["Holy Hieromartyr Phocas, Bishop of Sinope","Holy Prophet Jonah","Holy Martyr Phocas the Gardener"]},
+  "9-23":{title:"Conception of St. John the Baptist",tone:1,feast:true,fast:false,commemorations:["Conception of the Holy Prophet and Forerunner John the Baptist","Holy Hieromartyr Andrew of Crete"]},
+  "9-24":{title:"Holy First Martyr and Equal-to-Apostles Thecla",tone:2,feast:true,fast:false,commemorations:["Holy First-Martyr and Equal-to-the-Apostles Thecla","Venerable Nicandrus of Pskov","New Hieromartyr Nicandrus"]},
+  "9-25":{title:"Holy Martyr Euphrosyne of Alexandria",tone:3,fast:false,commemorations:["Venerable Euphrosyne of Alexandria","Venerable Paphnutius of the Thebaïd","St. Sergius of Radonezh (Repose)"]},
+  "9-26":{title:"Repose of St. John the Theologian",tone:4,feast:true,fast:false,commemorations:["Repose of the Holy Apostle and Evangelist John the Theologian","Holy Martyrs Eutychius and Companions"]},
+  "9-27":{title:"Holy Martyr Callistratus and 49 Companions",tone:5,fast:false,commemorations:["Holy Martyr Callistratus and 49 Companions","Venerable Epiphanius of Cyprus","St. Euphrosyne of Alexandria (Translation)"]},
+  "9-28":{title:"Venerable Chariton the Confessor",tone:6,feast:true,fast:false,commemorations:["Venerable Chariton the Confessor","Holy Prophet Baruch","Venerable Cyriacus the Anchorite"]},
+  "9-29":{title:"Holy Martyrs Dada, Gabrdelias, and Casdoa",tone:7,fast:false,commemorations:["Holy Martyrs Dada, Gabrdelias (Gobdelas), and Casdoa (Kazdoya)","Venerable Cyriacus","New Martyr Golindukha"]},
+  "9-30":{title:"Holy Hieromartyr Gregory, Enlightener of Armenia",tone:8,feast:true,fast:false,commemorations:["Holy Hieromartyr Gregory the Enlightener of Greater Armenia","St. Michael, First Metropolitan of Kiev","Holy Martyr Ripsimia and Companions"]},
+  // OCTOBER
+  "10-1":{title:"Protection of the Theotokos",tone:2,great:true,fast:false,commemorations:["Protection of our Most Holy Lady the Theotokos and Ever-Virgin Mary","Holy Apostle Ananias","St. Roman the Sweet-Singer"]},
+  "10-2":{title:"Holy Martyr Cyprian and Martyr Justina",tone:3,feast:true,fast:false,commemorations:["Holy Hieromartyr Cyprian and Holy Virgin-Martyr Justina","Venerable Andrew the Fool-for-Christ","New Martyr Andrew of Chios"]},
+  "10-3":{title:"Holy Hieromartyr Dionysius the Areopagite",tone:4,feast:true,fast:false,commemorations:["Holy Hieromartyr Dionysius the Areopagite, Bishop of Athens","Holy Hieromartyr Rusticus and Eleutherius","Holy Martyrs Eubiotus and Companions"]},
+  "10-4":{title:"Holy Hieromartyr Hierotheus of Athens",tone:5,fast:false,commemorations:["Holy Hieromartyr Hierotheus, Bishop of Athens","Venerable Ammon the Great","St. Francis of Assisi (Western)"]},
+  "10-5":{title:"Holy Martyrs Charitina and Mamas",tone:6,fast:false,commemorations:["Holy Martyr Charitina","Venerable Macarius, Abbot of Zhabyn Monastery","New Martyr Nicholas Kon"]},
+  "10-6":{title:"Holy Apostle Thomas",tone:7,feast:true,fast:false,commemorations:["Holy Apostle Thomas (Repose commemoration)","St. Innocentius, Bishop of Penza","New Hieromartyr Nicholas Chernokovsky"]},
+  "10-7":{title:"Holy Martyrs Sergius and Bacchus",tone:8,feast:true,fast:false,commemorations:["Holy Martyrs Sergius and Bacchus","St. Polychronius, Bishop of Babylon","Holy Martyr Julian of Galatia"]},
+  "10-8":{title:"Holy Venerable-Martyr Pelagia of Tarsus",tone:1,fast:false,commemorations:["Holy Venerable-Martyr Pelagia of Tarsus","Venerable Pelagia of Antioch","Holy Martyr Pelagia the Virgin of Antioch"]},
+  "10-9":{title:"Holy Apostle James of Alphaeus",tone:2,feast:true,fast:false,commemorations:["Holy Apostle James the son of Alphaeus","Venerable Andronicus and his wife Athanasia","Holy Martyr Abraam"]},
+  "10-10":{title:"Holy Martyrs Eulampius and Eulampia",tone:3,fast:false,commemorations:["Holy Martyrs Eulampius and Eulampia","Holy Apostle Philip of the Seventy","St. Bassianus of Lodi"]},
+  "10-11":{title:"Holy Apostle Philip",tone:4,feast:true,fast:false,commemorations:["Holy Apostle Philip of the Seventy (Second feast)","Venerable Theophanes the Confessor","Venerable Theophanes of the Kiev Caves"]},
+  "10-12":{title:"Holy Martyrs Probus, Tarachus, and Andronicus",tone:5,fast:false,commemorations:["Holy Martyrs Probus, Tarachus, and Andronicus","Holy Martyr Cosmas the Poet of Maiouma","St. Symeon the New Theologian (Translation of Relics)"]},
+  "10-13":{title:"Holy Martyrs Carpus, Papylus, Agathodorus, and Agathonica",tone:6,fast:false,commemorations:["Holy Martyrs Carpus, Papylus, Agathodorus, and Agathonica","Holy Martyr Florentius of Thessalonica","Venerable Benjamin of the Kiev Caves"]},
+  "10-14":{title:"Holy Hieromartyr Nazarius and Companions",tone:7,fast:false,commemorations:["Venerable Parasceva of Serbia","Holy Martyr Nazarius, Gervasius, Protasius, and Celsus","St. Cosmas, Bishop of Maiouma"]},
+  "10-15":{title:"Holy Martyr Lucian of Antioch",tone:8,fast:false,commemorations:["Venerable Euthymius the New of the Athonite","St. Lucian, Priest-martyr of Antioch","New Hieromartyr Seraphim"]},
+  "10-16":{title:"Holy Martyr Longinus the Centurion",tone:1,feast:true,fast:false,commemorations:["Holy Martyr Longinus the Centurion","Holy Prophet Hosea","Holy Martyr Longinus"]},
+  "10-17":{title:"Holy Prophet Hosea",tone:2,feast:true,fast:false,commemorations:["Holy Prophet Hosea","Holy Hieromartyr Sadoc, Bishop of Persia, and 128 Martyrs","New Hieromartyr Boris Arghiropulo"]},
+  "10-18":{title:"Holy Apostle and Evangelist Luke",tone:3,feast:true,fast:false,commemorations:["Holy Apostle and Evangelist Luke","Holy Martyr Marinus of Caesarea","New Hieromartyr Luke of Simferopol"]},
+  "10-19":{title:"Holy Prophet Joel",tone:4,feast:true,fast:false,commemorations:["Holy Prophet Joel","Holy Martyr Varus","Holy Martyrs Claudian, Castorius, Symphorian, Nicostratus, and Simplicius"]},
+  "10-20":{title:"Holy Great Martyr Artemius of Antioch",tone:5,feast:true,fast:false,commemorations:["Holy Great Martyr Artemius of Antioch","Venerable Gerasimus of Vologda","St. Andrew of Jerusalem"]},
+  "10-21":{title:"Holy Hilarion the Great",tone:6,feast:true,fast:false,commemorations:["Venerable Hilarion the Great","Holy Martyr Dasios","Holy Martyr Dasios of Dorostolum"]},
+  "10-22":{title:"Holy Hieromartyr Abercius of Hieropolis",tone:7,feast:true,fast:false,commemorations:["Holy Equal-to-the-Apostles Abercius, Bishop of Hieropolis","Seven Youths of Ephesus (commemoration)","St. Alexander, Archbishop of Jerusalem"]},
+  "10-23":{title:"Holy Apostle James the Brother of Our Lord",tone:8,feast:true,fast:false,commemorations:["Holy Apostle James, Brother of the Lord (the Lord's Brother)","Holy Hieromartyr Ignatius of Constantinople","St. James, First Bishop of Jerusalem"]},
+  "10-24":{title:"Holy Martyr Arethas of Najran",tone:1,feast:true,fast:false,commemorations:["Holy Martyr Arethas of Najran and Companions","Holy Martyr Sebastiane of Heraclea","Holy Martyr Seyida"]},
+  "10-25":{title:"Holy Martyrs Marcian and Martyrius",tone:2,fast:false,commemorations:["Holy Martyrs Marcian and Martyrius the Notaries","Venerable Martyrius of Zelenetsk","St. Tabitha of Joppa"]},
+  "10-26":{title:"Holy Great Martyr Demetrius of Thessalonica",tone:3,feast:true,fast:false,commemorations:["Holy Great Martyr Demetrius of Thessalonica, the Myrrh-Streamer","Venerable Demetrius of Thessalonica","St. Nestor the Chronicler"]},
+  "10-27":{title:"Holy Martyr Nestor of Thessalonica",tone:4,feast:true,fast:false,commemorations:["Holy Martyr Nestor of Thessalonica","Venerable Nestor the Chronicler","Holy Martyr Capitolina and Companion"]},
+  "10-28":{title:"Holy Martyrs Terence and Neonilla",tone:5,fast:false,commemorations:["Holy Martyrs Terence and Neonilla, and Their Seven Children","Holy Martyr Paraskeva of Iconium","Venerable Stephen of Serbia"]},
+  "10-29":{title:"Holy Martyr Anastasia the Roman",tone:6,fast:false,commemorations:["Holy Martyr Anastasia the Roman","Venerable Abraham the Hermit and his niece Maria","St. Abramius, Bishop of Rostov"]},
+  "10-30":{title:"Holy Martyrs Zenobius and Zenobia",tone:7,fast:false,commemorations:["Holy Martyrs Zenobius and Zenobia","Holy Martyr Asterius of Caesarea","New Hieromartyr Theophanes Stavrianos"]},
+  "10-31":{title:"Holy Apostle Stachys and Companions",tone:8,fast:false,commemorations:["Holy Apostles Stachys, Ampliatus, Urban, Narcissus, Apelles, and Aristobulus","St. Spiridon, Proctor of Novgorod","New Martyr Anastasia"]},
+  // NOVEMBER
+  "11-1":{title:"Holy Unmercenaries Cosmas and Damian of Asia",tone:1,feast:true,fast:false,commemorations:["Holy Unmercenaries and Wonderworkers Cosmas and Damian of Asia, and brothers Anthimos, Leontios, and Euprepios","Holy Martyr Ermingeld, Prince of Spain"]},
+  "11-2":{title:"Holy Martyrs Acindynus, Pegasius, and Companions",tone:2,fast:false,commemorations:["Holy Martyrs Acindynus, Pegasius, Anempodistus, Elpidephorus, and Aeithalas","Venerable Marcian of Constantinople","New Martyr Akindinos"]},
+  "11-3":{title:"Holy Martyrs Acepsimas, Joseph, and Aeithalas",tone:3,feast:true,fast:false,commemorations:["Holy Hieromartyrs Acepsimas, Bishop of Hnaita, Joseph the Presbyter, and Aeithalas the Deacon","St. Hubert of Liege (Western)"]},
+  "11-4":{title:"Holy Martyr Nicander of Myra",tone:4,fast:false,commemorations:["Holy Martyr Nicander, Bishop of Myra, and Hermas the Presbyter","Holy Martyr Porphyrius the Actor"]},
+  "11-5":{title:"Holy Martyrs Galacteon and Episteme",tone:5,fast:false,commemorations:["Holy Martyrs Galacteon and his wife Episteme","Holy Martyr Hermogenes of Paphlagonia","St. Gregory Palamas (Repose)"]},
+  "11-6":{title:"Holy Hieromartyr Paul the Confessor",tone:6,feast:true,fast:false,commemorations:["St. Paul the Confessor, Archbishop of Constantinople","Holy Martyr Hermogenes and Companions","Venerable Luke of the Kiev Caves"]},
+  "11-7":{title:"Holy Martyrs Marcianus and Martyrius",tone:7,fast:false,commemorations:["Holy Hieromartyr Marcianus, Bishop of Syracuse, and Holy Martyr Aretas","New Martyr Barnabas Nastich"]},
+  "11-8":{title:"Synaxis of the Archangel Michael",tone:8,feast:true,fast:false,commemorations:["Synaxis of the Archangel Michael and the Other Bodiless Powers","New Hieromartyr Demetrius Dobroserdov"]},
+  "11-9":{title:"Holy Martyr Onesiphorus and Porphyrius",tone:1,fast:false,commemorations:["Holy Martyrs Onesiphorus and Porphyrius","Venerable Matrona of Constantinople","New Martyr Constantine Bogoslovsky"]},
+  "11-10":{title:"Holy Apostles of the Seventy: Erastus, Olympas, Herodion, Sosipater, Quartus, and Tertius",tone:2,fast:false,commemorations:["Holy Apostles Erastus, Olympas, Herodion, Sosipater, Quartus, and Tertius","St. Millius, Bishop of Persia","New Martyr Demetrius"]},
+  "11-11":{title:"Holy Martyr Menas of Egypt",tone:3,feast:true,fast:false,commemorations:["Holy Martyr Menas of Egypt","Holy Martyr Victor of Damascus","Holy Martyr Vincent of Spain"]},
+  "11-12":{title:"St. John the Merciful",tone:4,feast:true,fast:false,commemorations:["St. John the Merciful, Patriarch of Alexandria","Venerable Nilus of Egypt","New Martyr Nikodim Kononov","St. Josaphat of Polotsk"]},
+  "11-13":{title:"St. John Chrysostom, Archbishop of Constantinople",tone:5,feast:true,fast:false,commemorations:["St. John Chrysostom, Archbishop of Constantinople (Repose)","New Martyr John Chrysostom Krestovozdvizhensky"]},
+  "11-14":{title:"Holy Apostle Philip",tone:6,feast:true,fast:true,commemorations:["Holy Apostle Philip","St. Gregory Palamas, Archbishop of Thessalonica","New Martyr Philip of Heraclea"]},
+  "11-15":{title:"Holy Martyrs Gurias, Samonas, and Abibus",tone:7,feast:true,fast:true,commemorations:["Holy Martyrs Gurias, Samonas, and Abibus","St. Albert the Great (Western)"]},
+  "11-16":{title:"Holy Apostle and Evangelist Matthew",tone:8,feast:true,fast:true,commemorations:["Holy Apostle and Evangelist Matthew","New Hieromartyr Sergius Florinsky"]},
+  "11-17":{title:"St. Gregory the Wonderworker",tone:1,feast:true,fast:true,commemorations:["St. Gregory the Wonderworker, Bishop of Neocaesarea","Holy Martyr Anianos","New Hieromartyr Nikodem Kononov"]},
+  "11-18":{title:"Holy Martyr Platon of Ancyra",tone:2,fast:true,commemorations:["Holy Martyrs Platon of Ancyra, Romanos the Deacon, and Companions","Venerable Sabbas of Storozhesvk","New Martyr Romanos Neamtu"]},
+  "11-19":{title:"Holy Prophet Abdias",tone:3,fast:true,commemorations:["Holy Prophet Abdias (Obadiah)","Holy Martyr Barlaam of Caesarea","Venerable Barlaam of the Kiev Caves"]},
+  "11-20":{title:"Holy Martyr Eustathius, Bishop of Mtskheta",tone:4,fast:true,commemorations:["Venerable Gregory Decapolites","Holy Hieromartyr Proklos of Constantinople","Holy Martyr Eustathius of Mtskheta"]},
+  "11-21":{title:"Entry of the Theotokos into the Temple",tone:4,great:true,fast:true,commemorations:["Entry of our Most Holy Lady the Theotokos and Ever-Virgin Mary into the Temple"]},
+  "11-22":{title:"Holy Apostle Philemon and Companions",tone:5,fast:true,commemorations:["Holy Apostle Philemon and Companions","Holy Martyr Cecilia of Rome","St. Kallistus Xanthopoulos"]},
+  "11-23":{title:"Holy Hieromartyr Clement",tone:6,feast:true,fast:true,commemorations:["Holy Hieromartyr Clement, Pope of Rome","Holy Hieromartyr Peter of Alexandria","St. Gregory, Bishop of Agrigentum"]},
+  "11-24":{title:"Holy Great-Martyr Catherine of Alexandria",tone:7,feast:true,fast:true,commemorations:["Holy Great-Martyr Catherine of Alexandria","Holy Great-Martyr Mercurius of Caesarea","New Martyr Mercurius"]},
+  "11-25":{title:"Holy Hieromartyr Clement of Ancyra",tone:8,feast:true,fast:true,commemorations:["Holy Hieromartyr Clement, Bishop of Ancyra","Holy Martyr Agathangelus","St. Peter of Alexandria (Commemoration)"]},
+  "11-26":{title:"Venerable Alypius the Stylite",tone:1,fast:true,commemorations:["Venerable Alypius the Stylite","Holy Martyr Nicon of SiSicily","St. Innocent, Metropolitan of Moscow (Glorification)"]},
+  "11-27":{title:"Holy Hieromartyr James the Persian",tone:2,feast:true,fast:true,commemorations:["Holy Hieromartyr James the Persian","Venerable Palladius of Antioch","Holy Martyr Diodoros and Companions"]},
+  "11-28":{title:"Venerable Paisius Velichkovsky",tone:3,feast:true,fast:true,commemorations:["Venerable Paisius Velichkovsky","Holy Martyr Stephen the Younger","St. Theodore the Studite (Repose)"]},
+  "11-29":{title:"Holy Hieromartyr Abibon and Companions",tone:4,fast:true,commemorations:["Holy Martyr Abibon, Paremvos, Elijah, Prionas, Hypatius, and Elijah","Venerable Nectarius of Optina"]},
+  "11-30":{title:"Holy Apostle Andrew the First-Called",tone:5,feast:true,fast:true,commemorations:["Holy Apostle Andrew the First-Called","Holy Martyr Tiridates of Armenia","New Martyr Tiridates"]},
+  // DECEMBER
+  "12-1":{title:"Holy Prophet Nahum",tone:6,feast:true,fast:true,commemorations:["Holy Prophet Nahum","Holy Martyr Ananias the Persian","St. Theostirictus the Confessor"]},
+  "12-2":{title:"Holy Prophet Habakkuk",tone:7,feast:true,fast:true,commemorations:["Holy Prophet Habakkuk","Holy Hieromartyr Porphyrius of Ephesus","New Martyr John (Krenov)"]},
+  "12-3":{title:"Holy Prophet Zephaniah",tone:8,feast:true,fast:true,commemorations:["Holy Prophet Zephaniah","Venerable Theodore of the Kiev Caves","St. John the Silent"]},
+  "12-4":{title:"Holy Great Martyr Barbara",tone:1,feast:true,fast:true,commemorations:["Holy Great Martyr Barbara of Heliopolis","Venerable John of Damascus","St. John Damascene"]},
+  "12-5":{title:"Venerable Sabbas the Sanctified",tone:2,feast:true,fast:true,commemorations:["Venerable Sabbas the Sanctified","New Martyr Karpos Elias Sava"]},
+  "12-6":{title:"St. Nicholas the Wonderworker",tone:3,feast:true,fast:true,commemorations:["St. Nicholas the Wonderworker, Archbishop of Myra in Lycia","New Martyr Nicholas"]},
+  "12-7":{title:"St. Ambrose of Milan",tone:4,feast:true,fast:true,commemorations:["St. Ambrose, Bishop of Milan","New Hieromartyr Anthony Smirnov"]},
+  "12-8":{title:"Venerable Patapius of Thebes",tone:5,fast:true,commemorations:["Venerable Patapius of Thebes","Holy Apostles of the Seventy: Sosthenes, Apollos, Cephas, Tychicus, Epaphroditus, Caesar, and Onesiphorus"]},
+  "12-9":{title:"Conception of the Theotokos by St. Anna",tone:6,feast:true,fast:false,commemorations:["Conception of our Most Holy Lady the Theotokos and Ever-Virgin Mary by St. Anna","Holy Prophet Hananiah","St. Herman of Alaska (Glorification)"]},
+  "12-10":{title:"Holy Martyrs Menas, Hermogenes, and Eugraphus",tone:7,feast:true,fast:true,commemorations:["Holy Martyrs Menas, Hermogenes, and Eugraphus","St. Thomas, Patriarch of Constantinople","New Martyr Sebastian of Karaganda"]},
+  "12-11":{title:"St. Daniel the Stylite",tone:8,feast:true,fast:true,commemorations:["Venerable Daniel the Stylite","New Martyr Daniel"]},
+  "12-12":{title:"St. Spyridon of Trimythous",tone:1,feast:true,fast:true,commemorations:["St. Spyridon, Bishop of Trimythous, Wonderworker","Holy Martyrs Stratonicus and Companions","New Martyr Daniel"]},
+  "12-13":{title:"Holy Martyrs Eustratius, Auxentius, Eugene, Mardarius, and Orestes",tone:2,feast:true,fast:true,commemorations:["Holy Martyrs Eustratius, Auxentius, Eugene, Mardarius, and Orestes","Holy Martyr Lucy of Syracuse"]},
+  "12-14":{title:"Holy Martyrs Thyrsus, Leucius, and Callinicus",tone:3,fast:true,commemorations:["Holy Martyrs Thyrsus, Leucius, and Callinicus","Venerable Philaret the Merciful","New Martyr Philaret"]},
+  "12-15":{title:"Holy Hieromartyr Eleutherius",tone:4,feast:true,fast:true,commemorations:["Holy Hieromartyr Eleutherius, Bishop of Illyria, and his mother Anthia","Holy Prophet Habakkuk (commemoration)","New Martyr Eleutherius"]},
+  "12-16":{title:"Holy Prophet Haggai",tone:5,feast:true,fast:true,commemorations:["Holy Prophet Haggai","Holy Martyr Marinus the Elder of Caesarea","New Hieromartyr Mark"]},
+  "12-17":{title:"Holy Prophet Daniel and the Three Holy Youths",tone:6,feast:true,fast:true,commemorations:["Holy Prophet Daniel and the Three Holy Youths: Ananias, Azarias, and Misael","New Martyr Diodoros"]},
+  "12-18":{title:"Holy Martyr Sebastian and Companions",tone:7,feast:true,fast:true,commemorations:["Holy Martyr Sebastian and Companions","Venerable Florus of Amaseia","New Martyr Florus"]},
+  "12-19":{title:"Holy Martyr Boniface of Tarsus",tone:8,fast:true,commemorations:["Holy Martyr Boniface of Tarsus","Venerable Gregory of Dekapolis","New Martyr Boniface"]},
+  "12-20":{title:"Holy Hieromartyr Ignatius the God-Bearer",tone:1,feast:true,fast:true,commemorations:["Holy Hieromartyr Ignatius the God-Bearer, Bishop of Antioch","New Hieromartyr Ignatius"]},
+  "12-21":{title:"Holy Great Martyr Juliana of Nicomedia",tone:2,feast:true,fast:true,commemorations:["Holy Great Martyr Juliana of Nicomedia","Venerable Themistocles the Hermit"]},
+  "12-22":{title:"Holy Great Martyr Anastasia the Deliverer from Potions",tone:3,feast:true,fast:true,commemorations:["Holy Great Martyr Anastasia the Deliverer from Potions","Holy Martyr Chrysogonos","New Martyr Anastasia"]},
+  "12-23":{title:"Holy Ten Martyrs of Crete",tone:4,feast:true,fast:true,commemorations:["Holy Ten Martyrs of Crete","New Martyr Nikephoros Theotokis"]},
+  "12-24":{title:"Forefeast of the Nativity; Holy Martyr Eugenia",tone:5,feast:true,fast:true,commemorations:["Forefeast of the Nativity of Christ","Holy Venerable-Martyr Eugenia of Rome","Venerable Nicholas Chrysoberges, Patriarch of Constantinople"]},
+  "12-25":{title:"Nativity of Our Lord Jesus Christ",tone:1,great:true,fast:false,commemorations:["Nativity of our Lord God and Savior Jesus Christ"]},
+  "12-26":{title:"Synaxis of the Theotokos",tone:2,feast:true,fast:false,commemorations:["Synaxis of the Most Holy Theotokos","Holy Martyr Euthymios","New Martyr Euthymios"]},
+  "12-27":{title:"Holy Apostle, First-Martyr and Archdeacon Stephen",tone:3,feast:true,fast:false,commemorations:["Holy Apostle, First-Martyr and Archdeacon Stephen","New Hieromartyr Stephen Bekh"]},
+  "12-28":{title:"Holy 20,000 Martyrs of Nicomedia",tone:4,feast:true,fast:false,commemorations:["Holy 20,000 Martyrs of Nicomedia","Venerable Ignatius the Hymnographer","New Martyr Ignatius"]},
+  "12-29":{title:"Holy 14,000 Infants Slain by Herod",tone:5,feast:true,fast:false,commemorations:["Holy 14,000 Infants (Holy Innocents) Slain by Herod at Bethlehem","New Martyr Arcadius"]},
+  "12-30":{title:"Holy Martyr Anysia of Thessalonica",tone:6,feast:true,fast:false,commemorations:["Holy Martyr Anysia of Thessalonica","Venerable Zoticus of Constantinople","New Martyr Anysia"]},
+  "12-31":{title:"Holy Martyr Melania the Roman",tone:7,feast:true,fast:false,commemorations:["Holy Venerable Melania the Roman","Holy Martyr Zoticus the Orphan-Feeder","New Martyr Zoticus"]},
+};
+
+function getLocalDayData(m, d) {
+  const key = m + '-' + d;
+  const raw = OCA_DAYS[key];
+  if (!raw) {
+    const dow = new Date(2026, m-1, d).getDay();
+    const dowNames = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+    return {
+      title: dowNames[dow] + ' — No commemoration data',
+      tone: null,
+      fast: (dow === 3 || dow === 5) ? 'Abstain from meat and dairy' : null,
+      great: false, feast: false,
+      commemorations: []
+    };
+  }
+  return {
+    title: raw.title,
+    tone: raw.tone || null,
+    great: raw.great || false,
+    feast: raw.feast || raw.great || false,
+    fast: raw.fast ? 'Fast Day' : null,
+    commemorations: (raw.commemorations || []).map(function(c) { return {name: c, feast_level: 0}; })
+  };
+}
+
+async function selectCalDay(y, m, d) {
+  // Mark selected
+  document.querySelectorAll('.cal-day.selected').forEach(el => el.classList.remove('selected'));
+  const el = document.querySelector(`.cal-day[data-key="${y}-${m}-${d}"]`);
+  if (el) el.classList.add('selected');
+
+  const box = $('cal-feast-box');
+  const dateEl = $('cal-feast-date');
+  const nameEl = $('cal-feast-name');
+  const subtitleEl = $('cal-feast-subtitle');
+  const tagsEl = $('cal-feast-tags');
+  const commEl = $('cal-commemorations');
+
+  box.style.display = 'block';
+  const dateStr = new Date(y, m - 1, d).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+  dateEl.textContent = dateStr.toUpperCase();
+  nameEl.innerHTML = '<span style="color:var(--tx3);font-style:italic">Loading from orthocal.info...</span>';
+  subtitleEl.textContent = '';
+  tagsEl.innerHTML = '';
+  commEl.innerHTML = '';
+
+  const cKey = `${y}-${m}-${d}`;
+  let data = calCache[cKey];
+
+  if (!data) {
+    try {
+      const mm = String(m).padStart(2, '0');
+      const dd = String(d).padStart(2, '0');
+      const resp = await fetch(`https://orthocal.info/api/gregorian/${y}/${mm}/${dd}/`);
+      if (!resp.ok) throw new Error('HTTP ' + resp.status);
+      data = await resp.json();
+      calCache[cKey] = data;
+      // Update dot now we have real data
+      const dayEl = document.querySelector(`.cal-day[data-key="${cKey}"]`);
+      if (dayEl) {
+        const dot = dayEl.querySelector('.cal-dot');
+        if (dot) {
+          if (data.feast_level >= 7) dot.className = 'cal-dot feast';
+          else if (data.fast_level > 0 && data.fast_level < 5) dot.className = 'cal-dot fast';
+          else dot.className = 'cal-dot';
+        }
+        if (data.feast_level >= 7) dayEl.classList.add('great-feast');
+      }
+    } catch(err) {
+      nameEl.innerHTML = '<span style="color:var(--red)">Could not load calendar data.<br>Please check your connection.</span>';
+      return;
+    }
+  }
+
+  // Primary title (OCA daily title)
+  const primaryTitle = (data.titles && data.titles.length > 0) ? data.titles[0] : 'No title available';
+  nameEl.textContent = primaryTitle;
+
+  // Subtitle: tone
+  subtitleEl.textContent = data.tone ? `Tone ${data.tone} of the Oktoechos` : '';
+
+  // Tags row
+  let tags = '';
+  if (data.feast_level >= 7) tags += `<span class="cal-tag feast-tag">✦ Great Feast</span>`;
+  else if (data.feast_level >= 5) tags += `<span class="cal-tag feast-tag">✦ Feast</span>`;
+  else if (data.feast_level >= 3) tags += `<span class="cal-tag feast-tag">Polyeleos</span>`;
+  if (data.fast_level > 0 && data.fast_level < 5) {
+    const fastText = data.fast_exception_desc || 'Fast Day';
+    tags += `<span class="cal-tag fast-tag">⊕ ${fastText}</span>`;
+  }
+  if (data.fast_level === 0) tags += `<span class="cal-tag tone-tag">No Fast</span>`;
+  tagsEl.innerHTML = tags;
+
+  // Commemorations list
+  let commHtml = '';
+  if (data.saints && data.saints.length > 0) {
+    commHtml += `<div class="cal-comm-lbl">✦ ALL COMMEMORATIONS ✦</div>`;
+    data.saints.forEach(s => {
+      const sName = s.name || s.title || '';
+      if (!sName) return;
+      const lvl = s.feast_level || 0;
+      const dotColor = lvl >= 7 ? 'var(--gold)' : lvl >= 4 ? 'var(--gd)' : 'var(--b3)';
+      const nameColor = lvl >= 7 ? 'var(--gold)' : lvl >= 4 ? 'var(--gl)' : 'var(--tx2)';
+      commHtml += `<div class="cal-comm-item">
+        <div class="cal-comm-dot" style="background:${dotColor}"></div>
+        <div class="cal-comm-name" style="color:${nameColor}">${sName}</div>
+      </div>`;
+    });
+  }
+
+  // Scripture readings references
+  if (data.pdfs && data.pdfs.length > 0) {
+    // noop — orthocal gives readings in 'stories' or 'morning_gospel_reading' etc
+  }
+  if (data.gospels || data.epistles) {
+    commHtml += `<div class="cal-comm-lbl" style="margin-top:8px;padding-top:8px;border-top:1px solid var(--b1)">✦ SCRIPTURE READINGS ✦</div>`;
+    if (data.epistle_display) commHtml += `<div style="font-size:11.5px;color:var(--tx3);padding:2px 0">Epistle: ${data.epistle_display}</div>`;
+    if (data.gospel_display)  commHtml += `<div style="font-size:11.5px;color:var(--tx3);padding:2px 0">Gospel: ${data.gospel_display}</div>`;
+    if (data.morning_gospel_display) commHtml += `<div style="font-size:11.5px;color:var(--tx3);padding:2px 0">Morning Gospel: ${data.morning_gospel_display}</div>`;
+  }
+  commEl.innerHTML = commHtml || '<div style="font-size:12.5px;color:var(--tx3);font-style:italic;padding:4px 0">No additional commemorations</div>';
+}
+
+// INIT
+renderFeed();
+renderLeaderboard();
+renderBooks('');
+renderTgMsgs();
+initCalendar();
+
+</script>
+</body>
+</html>
