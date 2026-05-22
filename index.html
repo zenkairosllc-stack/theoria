@@ -345,6 +345,7 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--tx);font-fa
 .toast{position:fixed;bottom:calc(68px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%) translateY(16px);background:var(--bg4);border:1px solid var(--gd);border-radius:8px;padding:8px 15px;font-family:'Cinzel',serif;font-size:11px;color:var(--gold);white-space:nowrap;opacity:0;transition:all .3s;z-index:300;pointer-events:none}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 </style>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 <div id="app">
@@ -731,15 +732,10 @@ function hideErr(id){const el=$(id);el.classList.remove('show')}
 // In production this would be replaced by Supabase auth tokens.
 // For the prototype, localStorage simulates a real session.
 const DB = {
-  getUsers(){ try{return JSON.parse(localStorage.getItem('theoria_users')||'[]')}catch{return[]} },
-  saveUsers(u){ localStorage.setItem('theoria_users',JSON.stringify(u)) },
-  getSession(){ try{return JSON.parse(localStorage.getItem('theoria_session')||'null')}catch{return null} },
-  saveSession(s){ localStorage.setItem('theoria_session',JSON.stringify(s)) },
-  clearSession(){ localStorage.removeItem('theoria_session') },
-  getPosts(){ try{return JSON.parse(localStorage.getItem('theoria_posts')||'[]')}catch{return[]} },
-  savePosts(p){ localStorage.setItem('theoria_posts',JSON.stringify(p)) },
-  getProgress(uid){ try{return JSON.parse(localStorage.getItem('theoria_progress_'+uid)||'{}')}catch{return{}} },
-  saveProgress(uid,p){ localStorage.setItem('theoria_progress_'+uid,JSON.stringify(p)) },
+// ── SUPABASE CLIENT ──────────────────────────────────────────────────────────
+const SUPABASE_URL = 'https://axrjdxyoprlunffygpvw.supabase.co'
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF4cmpkeHlvcHJsdW5mZnlncHZ3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgyNzIxOTcsImV4cCI6MjA5Mzg0ODE5N30.cUkdqNDOWdY_JcjLvlrWfdWo8MbHVFTN5oS3txv_PpY';                         // ← paste your anon key
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 };
 
 // ── AUTH STATE ───────────────────────────────────────────────────────────────
@@ -757,17 +753,28 @@ function showScreen(name){
   $('screen-'+name).classList.add('active');
 }
 
-function doSignIn(){
+// SIGN IN - SUPABASE REVISION //  
+async function doSignIn() {
   hideErr('signin-err');
   const email = $('signin-email').value.trim().toLowerCase();
-  const pw = $('signin-pw').value;
-  if(!email||!pw){ showErr('signin-err','Please enter your email and password.'); return; }
-  const users = DB.getUsers();
-  const user = users.find(u=>u.email===email && u.password===pw);
-  if(!user){ showErr('signin-err','Incorrect email or password. Please try again.'); return; }
-  if(!user.approved){ showScreen('pending'); $('pending-msg').textContent='Your account is awaiting approval from the parish administrator. Please check back soon.'; return; }
-  signInUser(user);
+  const pw    = $('signin-pw').value;
+  if (!email || !pw) { showErr('signin-err', 'Please enter your email and password.'); return; }
+ 
+  const { data, error } = await sb.auth.signInWithPassword({ email, password: pw });
+  if (error) { showErr('signin-err', error.message); return; }
+ 
+  // Fetch the profile
+  const { data: profile } = await sb.from('profiles')
+    .select('*').eq('id', data.user.id).single();
+ 
+  if (!profile || !profile.is_approved) {
+    showScreen('pending');
+    return;
+  }
+  currentUser = { ...data.user, ...profile };
+  setupUI();
 }
+
 
 function signupStep2(){
   hideErr('signup-err1');
@@ -802,47 +809,57 @@ function backToStep2(){
   $('signup-step-3').style.display='none'; $('signup-step-2').style.display='block';
 }
 
-function doSignUp(){
+// SIGN UP - SUPABASE REVISION //  
+async function doSignUp() {
   hideErr('signup-err3');
-  const name=$('signup-name').value.trim();
-  const email=$('signup-email').value.trim().toLowerCase();
-  const pw=$('signup-pw').value;
-  const code=$('signup-code').value.trim().toUpperCase();
-  const validCode='STATH7';
-  // Auto-approve if correct code, otherwise pending
-  const approved = code===validCode;
-  const user = {
-    id: 'u_'+Date.now(),
-    name, email, password:pw,
-    role:selectedRole,
-    approved,
-    chaptersRead:0,
-    recordings:0,
-    amens:0,
-    joinedAt: new Date().toISOString()
-  };
-  const users=DB.getUsers();
-  users.push(user);
-  DB.saveUsers(users);
-  if(approved){
-    signInUser(user);
-    toast('Welcome to Theoria, '+name.split(' ')[0]+'! ✦');
-  } else {
+  const name  = $('signup-name').value.trim();
+  const email = $('signup-email').value.trim().toLowerCase();
+  const pw    = $('signup-pw').value;
+  const code  = $('signup-code').value.trim().toUpperCase();
+ 
+  // Create auth user
+  const { data, error } = await sb.auth.signUp({ email, password: pw,
+    options: { data: { full_name: name } }
+  });
+  if (error) { showErr('signup-err3', error.message); return; }
+ 
+  // Update profile with role and parish code
+  const approved = code === 'STATH7';
+  await sb.from('profiles').update({
+    display_name: name,
+    parish_role: selectedRole,
+    is_approved: approved
+  }).eq('id', data.user.id);
+ 
+  if (!approved) {
+    // Insert a join request for the admin to review
+    await sb.from('join_requests').insert({
+      name, email, status: 'pending',
+      parish_id: 'YOUR-PARISH-UUID'   // ← replace after creating parish row
+    });
     showScreen('pending');
+  } else {
+    currentUser = { id: data.user.id, display_name: name,
+                    parish_role: selectedRole, is_approved: true };
+    setupUI();
   }
 }
 
-function signInUser(user){
+// SIGN IN - SUPABASE EDIT // 
+async function signInUser(){
+  await sb.auth.signInUser();
   currentUser=user;
-  DB.saveSession(user);
   setupUI();
 }
 
-function signOut(){
-  currentUser=null;
-  DB.clearSession();
+
+// SIGN OUT - SUPABASE EDIT // 
+async function signOut() {
+  await sb.auth.signOut();
+  currentUser = null;
   teardownUI();
 }
+
 
 function setupUI(){
   // Show nav and avatar
@@ -865,7 +882,21 @@ function setupUI(){
   renderLeaderboard();
   renderFeed();
 }
-
+// ── 10. REAL-TIME FEED SUBSCRIPTION ─────────────────────────
+// Call this once inside setupUI() after renderFeed()
+function subscribeToFeed() {
+  sb.channel('parish-feed')
+    .on('postgres_changes', {
+      event:  'INSERT',
+      schema: 'public',
+      table:  'posts',
+      filter: 'parish_id=eq.' + currentUser.parish_id
+    }, function() {
+      renderFeed();
+    })
+    .subscribe();
+}
+  
 function teardownUI(){
   $('bottom-nav').style.display='none';
   $('topbar-ava').style.display='none';
@@ -979,37 +1010,66 @@ function renderReadings(){
 }
 
 // ── FEED ─────────────────────────────────────────────────────────────────────
-function renderFeed(){
-  const posts=DB.getPosts();
-  const users=DB.getUsers().filter(u=>u.approved);
-  $('feed-member-count').textContent=users.length+' member'+(users.length!==1?'s':'');
-  const body=$('feed-body');
-  if(posts.length===0){
-    body.innerHTML=`<div class="empty-state">
-      <div class="empty-cross">✝</div>
-      <div class="empty-title">Be the First to Share</div>
-      <div class="empty-desc">Share a scripture reading, a reflection, or a word of encouragement with your parish community.</div>
-      <button class="empty-btn" onclick="openCompose()">Share Something ✝</button>
-    </div>`;
-  } else {
-    body.innerHTML=posts.slice().reverse().map(p=>`<div class="post">
-      <div class="post-head">
-        <div class="post-av">${p.initials}</div>
-        <div style="flex:1;min-width:0"><div class="post-name">${p.authorName}</div><div class="post-time">${p.role} · ${formatDate(p.createdAt)}</div></div>
-        ${p.ref?`<div class="post-badge">${p.ref.split(' ')[0]}</div>`:''}
-      </div>
-      ${p.ref&&p.verse?`<div class="vblock"><div class="vref">${p.ref}</div><div class="vtx">${p.verse}</div></div>`:''}
-      <div class="post-cap">${p.caption}</div>
-      <div class="post-acts">
-        <button class="act ${p.likedBy&&p.likedBy.includes(currentUser.id)?'on':''}" onclick="toggleAmen('${p.id}',this)">
-          <svg viewBox="0 0 24 24" ${p.likedBy&&p.likedBy.includes(currentUser.id)?'style="fill:var(--gold)"':''}><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
-          <span>${(p.likedBy||[]).length} Amen${(p.likedBy||[]).length!==1?'s':''}</span>
-        </button>
-      </div>
-    </div>`).join('');
+// ── 5. RENDER FEED ───────────────────────────────────────────
+async function renderFeed() {
+  const { data: posts, error } = await sb
+    .from('posts')
+    .select('*, profiles(display_name, parish_role)')
+    .eq('parish_id', currentUser.parish_id)
+    .order('created_at', { ascending: false })
+    .limit(50);
+ 
+  const body = $('feed-body');
+ 
+  if (error || !posts || posts.length === 0) {
+    body.innerHTML =
+      '<div class="empty-state">' +
+        '<div class="empty-cross">✝</div>' +
+        '<div class="empty-title">Be the First to Share</div>' +
+        '<div class="empty-desc">Share a scripture reading, a reflection, or a word of encouragement with your parish community.</div>' +
+        '<button class="empty-btn" onclick="openCompose()">Share Something ✝</button>' +
+      '</div>';
+    return;
   }
+ 
+  body.innerHTML = posts.map(function(p) {
+    var authorName = p.profiles ? p.profiles.display_name : 'Parishioner';
+    var authorRole = p.profiles ? p.profiles.parish_role  : '';
+    var init       = authorName.split(' ').map(function(w){ return w[0]; }).join('').slice(0,2).toUpperCase();
+    var verseBlock = '';
+    if (p.bible_ref && p.verse_text) {
+      verseBlock =
+        '<div class="vblock">' +
+          '<div class="vref">'  + p.bible_ref  + '</div>' +
+          '<div class="vtx">'   + p.verse_text + '</div>' +
+        '</div>';
+    }
+    var badge = p.bible_ref
+      ? '<div class="post-badge">' + p.bible_ref.split(' ')[0] + '</div>'
+      : '';
+    return (
+      '<div class="post">' +
+        '<div class="post-head">' +
+          '<div class="post-av">' + init + '</div>' +
+          '<div style="flex:1;min-width:0">' +
+            '<div class="post-name">' + authorName + '</div>' +
+            '<div class="post-time">' + authorRole + ' · ' + formatDate(p.created_at) + '</div>' +
+          '</div>' +
+          badge +
+        '</div>' +
+        verseBlock +
+        '<div class="post-cap">' + p.caption + '</div>' +
+        '<div class="post-acts">' +
+          '<button class="act" onclick="toggleAmen(\'' + p.id + '\',this)">' +
+            '<svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>' +
+            '<span>' + (p.reactions ? p.reactions.length : 0) + ' Amens</span>' +
+          '</button>' +
+        '</div>' +
+      '</div>'
+    );
+  }).join('');
 }
-
+ 
 function formatDate(iso){
   const d=new Date(iso);
   const now=new Date();
@@ -1023,33 +1083,28 @@ function formatDate(iso){
 function openCompose(){ $('compose-overlay').classList.add('open'); }
 function closeCompose(){ $('compose-overlay').classList.remove('open'); }
 
-function submitPost(){
-  const cap=$('compose-text').value.trim();
-  if(!cap){ toast('Please write something before posting'); return; }
-  const ref=$('compose-ref').value.trim();
-  const verse=$('compose-verse').value.trim();
-  const post={
-    id:'p_'+Date.now(),
-    authorId:currentUser.id,
-    authorName:currentUser.name,
-    initials:currentUser.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase(),
-    role:currentUser.role,
-    caption:cap,
-    ref:ref||null,
-    verse:verse||null,
-    likedBy:[],
-    createdAt:new Date().toISOString()
-  };
-  const posts=DB.getPosts();
-  posts.push(post);
-  DB.savePosts(posts);
-  $('compose-text').value='';
-  $('compose-ref').value='';
-  $('compose-verse').value='';
+// Submit a post
+async function submitPost() {
+  const cap = $('compose-text').value.trim();
+  if (!cap) { toast('Please write something before posting'); return; }
+ 
+  const { error } = await sb.from('posts').insert({
+    user_id:    currentUser.id,
+    parish_id:  currentUser.parish_id,
+    caption:    cap,
+    bible_ref:  $('compose-ref').value.trim() || null,
+    verse_text: $('compose-verse').value.trim() || null,
+  });
+ 
+  if (error) { toast('Could not post. Please try again.'); return; }
+  $('compose-text').value = '';
+  $('compose-ref').value  = '';
+  $('compose-verse').value = '';
   closeCompose();
-  renderFeed();
+  await renderFeed();
   toast('Posted to parish feed ✦');
 }
+
 
 function toggleAmen(postId,btn){
   const posts=DB.getPosts();
@@ -1068,29 +1123,39 @@ function toggleAmen(postId,btn){
 }
 
 // ── PARISH / LEADERBOARD ──────────────────────────────────────────────────────
-function renderLeaderboard(){
-  const users=DB.getUsers().filter(u=>u.approved);
-  const lb=$('leaderboard');
-  if(users.length===0){
-    lb.innerHTML=`<div class="empty-state" style="padding:30px 20px">
-      <div class="empty-cross" style="font-size:28px">✝</div>
-      <div class="empty-title" style="font-size:14px">No Members Yet</div>
-      <div class="empty-desc" style="font-size:13px">Invite parishioners to join using the Parish tab below.</div>
-    </div>`;
+async function renderLeaderboard() {
+  var { data: members } = await sb
+    .from('member_stats')
+    .select('*')
+    .eq('parish_id', currentUser.parish_id)
+    .order('chapters_read', { ascending: false });
+ 
+  var lb = $('leaderboard');
+  if (!members || members.length === 0) {
+    lb.innerHTML =
+      '<div class="empty-state" style="padding:30px 20px">' +
+        '<div class="empty-cross" style="font-size:28px">✝</div>' +
+        '<div class="empty-title" style="font-size:14px">No Members Yet</div>' +
+        '<div class="empty-desc" style="font-size:13px">Invite parishioners using the Parish tab.</div>' +
+      '</div>';
     return;
   }
-  const ranks=['①','②','③','④','⑤','⑥','⑦','⑧','⑨','⑩'];
-  const sorted=[...users].sort((a,b)=>(DB.getProgress(b.id)?Object.values(DB.getProgress(b.id)).filter(Boolean).length:0)-(DB.getProgress(a.id)?Object.values(DB.getProgress(a.id)).filter(Boolean).length:0));
-  lb.innerHTML=sorted.map((u,i)=>{
-    const ch=Object.values(DB.getProgress(u.id)||{}).filter(Boolean).length;
-    const init=u.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
-    const isMe=u.id===currentUser.id;
-    return`<div class="member-row" style="${isMe?'background:var(--bg3);':''}" >
-      <div class="mrank">${ranks[i]||i+1}</div>
-      <div class="mav">${init}</div>
-      <div style="flex:1;min-width:0"><div class="mname">${u.name}${isMe?' (You)':''}</div><div class="mstat">${ch} chapter${ch!==1?'s':''} read${u.recordings?' · '+u.recordings+' recording'+(u.recordings!==1?'s':''):''}</div></div>
-      <div class="mbadge">${u.role}</div>
-    </div>`;
+ 
+  var ranks = ['①','②','③','④','⑤','⑥','⑦','⑧','⑨','⑩'];
+  lb.innerHTML = members.map(function(m, i) {
+    var init  = m.display_name.split(' ').map(function(w){ return w[0]; }).join('').slice(0,2).toUpperCase();
+    var isMe  = m.id === currentUser.id;
+    return (
+      '<div class="member-row" style="' + (isMe ? 'background:var(--bg3);' : '') + '">' +
+        '<div class="mrank">'  + (ranks[i] || i+1) + '</div>' +
+        '<div class="mav">'    + init               + '</div>' +
+        '<div style="flex:1;min-width:0">' +
+          '<div class="mname">' + m.display_name + (isMe ? ' (You)' : '') + '</div>' +
+          '<div class="mstat">' + m.chapters_read + ' chapters · ' + m.recording_count + ' recordings</div>' +
+        '</div>' +
+        '<div class="mbadge">' + m.parish_role + '</div>' +
+      '</div>'
+    );
   }).join('');
 }
 
@@ -1199,27 +1264,31 @@ function renderChapter(book,ch){
     `<div style="text-align:center;color:var(--gd);padding:9px;font-size:13px;letter-spacing:4px;opacity:.4">· ✦ ·</div><div style="height:16px"></div>`;
 }
 function closeReader(){$('reader').classList.remove('open')}
-function markRead(){
-  const prog=DB.getProgress(currentUser.id);
-  const key=curBook+'-'+curCh;
-  prog[key]=true;
-  DB.saveProgress(currentUser.id,prog);
-  const btn=document.querySelector('.ch-btn.active');
-  if(btn) btn.classList.add('read');
-  // Update stats
-  const chapCount=Object.values(prog).filter(Boolean).length;
-  $('stat-chapters').textContent=chapCount;
-  updateProgressRing(chapCount);
-  // Update users db
-  const users=DB.getUsers();
-  const u=users.find(x=>x.id===currentUser.id);
-  if(u){u.chaptersRead=chapCount;DB.saveUsers(users);currentUser=u;}
-  renderBooks('');
-  const rb=document.querySelectorAll('.r-btn')[0];
-  const orig=rb.textContent; rb.textContent='✦ Marked Complete!';
-  rb.style.background='var(--gold)';rb.style.color='var(--bg)';
-  setTimeout(()=>{rb.textContent=orig;rb.style.background='';rb.style.color='';},2200);
-  toast('Chapter marked as read ✦');
+
+  // Mark a chapter as read
+async function markRead() {
+  const { error } = await sb.from('reading_progress').upsert({
+    user_id:    currentUser.id,
+    chapter_id: currentChapterUUID,   // map book+chapter to UUID from bible_chapters table
+    parish_id:  currentUser.parish_id
+  }, { onConflict: 'user_id,chapter_id' });
+ 
+  if (!error) {
+    // Update local UI
+    const btn = document.querySelector('.ch-btn.active');
+    if (btn) btn.classList.add('read');
+    toast('Chapter marked as read ✦');
+    refreshProgressStats();
+  }
+}
+ 
+// Get chapter count for current user
+async function refreshProgressStats() {
+  const { count } = await sb.from('reading_progress')
+    .select('*', { count: 'exact', head: true })
+    .eq('user_id', currentUser.id);
+  $('stat-chapters').textContent = count || 0;
+  updateProgressRing(count || 0);
 }
 
 // ── ORTHODOX CALENDAR (embedded OCA data + orthocal.info live fallback) ───────
