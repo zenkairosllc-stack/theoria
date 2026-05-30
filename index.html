@@ -1095,28 +1095,37 @@ async function toggleAmen(postId,btn){
 
 // ── PARISH / LEADERBOARD ──────────────────────────────────────────────────────
 async function renderLeaderboard(){
-  const users=DB.getUsers().filter(u=>u.approved);
-  const lb=$('leaderboard');
-  if(users.length===0){
-    lb.innerHTML=`<div class="empty-state" style="padding:30px 20px">
-      <div class="empty-cross" style="font-size:28px">✝</div>
-      <div class="empty-title" style="font-size:14px">No Members Yet</div>
-      <div class="empty-desc" style="font-size:13px">Invite parishioners to join using the Parish tab below.</div>
-    </div>`;
+  const { data: members } = await getSb()
+    .from('profiles')
+    .select('id, display_name, parish_role, created_at')
+    .eq('is_approved', true);
+
+  const lb = $('leaderboard');
+  if(!members || members.length===0){
+    lb.innerHTML =
+      '<div class="empty-state" style="padding:30px 20px">' +
+        '<div class="empty-cross" style="font-size:28px">✝</div>' +
+        '<div class="empty-title" style="font-size:14px">No Members Yet</div>' +
+        '<div class="empty-desc" style="font-size:13px">Invite parishioners using the Parish tab.</div>' +
+      '</div>';
     return;
   }
-  const ranks=['①','②','③','④','⑤','⑥','⑦','⑧','⑨','⑩'];
-  const sorted=[...users].sort((a,b)=>(DB.getProgress(b.id)?Object.values(DB.getProgress(b.id)).filter(Boolean).length:0)-(DB.getProgress(a.id)?Object.values(DB.getProgress(a.id)).filter(Boolean).length:0));
-  lb.innerHTML=sorted.map((u,i)=>{
-    const ch=Object.values(DB.getProgress(u.id)||{}).filter(Boolean).length;
-    const init=u.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
-    const isMe=u.id===currentUser.id;
-    return`<div class="member-row" style="${isMe?'background:var(--bg3);':''}" >
-      <div class="mrank">${ranks[i]||i+1}</div>
-      <div class="mav">${init}</div>
-      <div style="flex:1;min-width:0"><div class="mname">${u.name}${isMe?' (You)':''}</div><div class="mstat">${ch} chapter${ch!==1?'s':''} read${u.recordings?' · '+u.recordings+' recording'+(u.recordings!==1?'s':''):''}</div></div>
-      <div class="mbadge">${u.role}</div>
-    </div>`;
+
+  const ranks = ['①','②','③','④','⑤','⑥','⑦','⑧','⑨','⑩'];
+  lb.innerHTML = members.map(function(m, i){
+    var init = (m.display_name||'?').split(' ').map(function(w){ return w[0]; }).join('').slice(0,2).toUpperCase();
+    var isMe = m.id === currentUser.id;
+    return (
+      '<div class="member-row" style="' + (isMe ? 'background:var(--bg3);' : '') + '">' +
+        '<div class="mrank">' + (ranks[i] || i+1) + '</div>' +
+        '<div class="mav">' + init + '</div>' +
+        '<div style="flex:1;min-width:0">' +
+          '<div class="mname">' + (m.display_name||'Parishioner') + (isMe ? ' (You)' : '') + '</div>' +
+          '<div class="mstat">' + (m.parish_role||'Member') + '</div>' +
+        '</div>' +
+        '<div class="mbadge">' + (m.parish_role||'Member') + '</div>' +
+      '</div>'
+    );
   }).join('');
 }
 
