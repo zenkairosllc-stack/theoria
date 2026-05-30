@@ -736,7 +736,6 @@ function hideErr(id){const el=$(id);el.classList.remove('show')}
 const SUPABASE_URL = 'https://axrjdxyoprlunffygpvw.supabase.co';  // ← paste your URL
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF4cmpkeHlvcHJsdW5mZnlncHZ3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgyNzIxOTcsImV4cCI6MjA5Mzg0ODE5N30.cUkdqNDOWdY_JcjLvlrWfdWo8MbHVFTN5oS3txv_PpY'; // ← paste your anon key
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-};
 
 // ── AUTH STATE ───────────────────────────────────────────────────────────────
 let currentUser = null;
