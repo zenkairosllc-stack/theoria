@@ -345,7 +345,6 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--tx);font-fa
 .toast{position:fixed;bottom:calc(68px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%) translateY(16px);background:var(--bg4);border:1px solid var(--gd);border-radius:8px;padding:8px 15px;font-family:'Cinzel',serif;font-size:11px;color:var(--gold);white-space:nowrap;opacity:0;transition:all .3s;z-index:300;pointer-events:none}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 </style>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
 <div id="app">
@@ -744,9 +743,11 @@ const DB = {
 };
 
 // ── SUPABASE CLIENT ──────────────────────────────────────────────────────────
+// sb is defined after the Supabase library loads (see bottom of file)
+// We use a getter so any call to getSb(). always gets the live client
 const SUPABASE_URL = 'https://axrjdxyoprlunffygpvw.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF4cmpkeHlvcHJsdW5mZnlncHZ3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgyNzIxOTcsImV4cCI6MjA5Mzg0ODE5N30.cUkdqNDOWdY_JcjLvlrWfdWo8MbHVFTN5oS3txv_PpY';
-const sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+function getSb(){ return window._sb; }
 
 // ── AUTH STATE ───────────────────────────────────────────────────────────────
 let currentUser = null;
@@ -770,10 +771,10 @@ async function doSignIn(){
   if(!email||!pw){ showErr('signin-err','Please enter your email and password.'); return; }
   const signinBtn = document.querySelector('#screen-signin .auth-btn');
   if(signinBtn){ signinBtn.textContent='Signing in...'; signinBtn.disabled=true; }
-  const { data, error } = await sb.auth.signInWithPassword({ email, password: pw });
+  const { data, error } = await getSb().auth.signInWithPassword({ email, password: pw });
   if(signinBtn){ signinBtn.textContent='Sign In ✝'; signinBtn.disabled=false; }
   if(error){ showErr('signin-err', error.message); return; }
-  const { data: profile } = await sb.from('profiles').select('*').eq('id', data.user.id).single();
+  const { data: profile } = await getSb().from('profiles').select('*').eq('id', data.user.id).single();
   if(!profile || !profile.is_approved){
     showScreen('pending');
     return;
@@ -821,7 +822,7 @@ async function doSignUp(){
   const code  = $('signup-code').value.trim().toUpperCase();
   const submitBtn = document.querySelector('#signup-step-3 .auth-btn');
   if(submitBtn){ submitBtn.textContent='Creating account...'; submitBtn.disabled=true; }
-  const { data, error } = await sb.auth.signUp({
+  const { data, error } = await getSb().auth.signUp({
     email,
     password: pw,
     options: { data: { full_name: name } }
@@ -829,16 +830,16 @@ async function doSignUp(){
   if(submitBtn){ submitBtn.textContent='Create Account & Request Access ✝'; submitBtn.disabled=false; }
   if(error){ showErr('signup-err3', error.message); return; }
   const approved = code === 'STATH7';
-  await sb.from('profiles').update({
+  await getSb().from('profiles').update({
     display_name: name,
     parish_role:  selectedRole,
     is_approved:  approved
   }).eq('id', data.user.id);
   if(!approved){
-    await sb.from('join_requests').insert({ name, email, status: 'pending' });
+    await getSb().from('join_requests').insert({ name, email, status: 'pending' });
     showScreen('pending');
   } else {
-    const { data: profile } = await sb.from('profiles').select('*').eq('id', data.user.id).single();
+    const { data: profile } = await getSb().from('profiles').select('*').eq('id', data.user.id).single();
     currentUser = { ...data.user, ...(profile||{}), display_name: name, parish_role: selectedRole, is_approved: true };
     toast('Welcome to Theoria, '+name.split(' ')[0]+'! ✦');
     setupUI();
@@ -848,7 +849,7 @@ async function doSignUp(){
 // signInUser replaced by doSignIn (Supabase handles sessions automatically)
 
 async function signOut(){
-  await sb.auth.signOut();
+  await getSb().auth.signOut();
   currentUser=null;
   teardownUI();
 }
@@ -1350,9 +1351,9 @@ function renderCalDayFromAPI(data,nameEl,subEl,tagsEl,commEl){
 (async function(){
   renderBooks('');
   // Check for existing Supabase session
-  const { data: { session } } = await sb.auth.getSession();
+  const { data: { session } } = await getSb().auth.getSession();
   if(session){
-    const { data: profile } = await sb.from('profiles').select('*').eq('id', session.user.id).single();
+    const { data: profile } = await getSb().from('profiles').select('*').eq('id', session.user.id).single();
     if(profile && profile.is_approved){
       currentUser = { ...session.user, ...profile };
       setupUI();
@@ -1360,6 +1361,20 @@ function renderCalDayFromAPI(data,nameEl,subEl,tagsEl,commEl){
     }
   }
   showScreen('signin');
+})();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.js"></script>
+<script>
+// Initialise Supabase after the library has loaded
+(function() {
+  try {
+    window._sb = supabase.createClient(
+      'https://axrjdxyoprlunffygpvw.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF4cmpkeHlvcHJsdW5mZnlncHZ3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzgyNzIxOTcsImV4cCI6MjA5Mzg0ODE5N30.cUkdqNDOWdY_JcjLvlrWfdWo8MbHVFTN5oS3txv_PpY'
+    );
+  } catch(e) {
+    console.error('Supabase failed to initialise:', e);
+  }
 })();
 </script>
 </body>
