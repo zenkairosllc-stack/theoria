@@ -1174,6 +1174,53 @@ function switchComm(tab){
   document.querySelectorAll('.cpanel').forEach(p=>p.classList.remove('active'));
   $('ctab-'+tab).classList.add('active');
   $('cpanel-'+tab).classList.add('active');
+  if(tab==='parish') loadJoinRequests();
+}
+
+async function loadJoinRequests(){
+  var { data: requests } = await sb
+    .from('join_requests')
+    .select('*')
+    .eq('status','pending');
+
+  var list = $('req-list');
+  if(!requests || requests.length===0){
+    list.innerHTML='<div style="font-size:13px;color:var(--tx3);font-style:italic;padding:8px 0">No pending requests</div>';
+    return;
+  }
+  list.innerHTML=requests.map(function(r){
+    return(
+      '<div class="req-item" id="req-'+r.id+'">' +
+        '<div class="req-av">'+r.name[0].toUpperCase()+'</div>' +
+        '<div style="flex:1">' +
+          '<div class="req-name">'+r.name+'</div>' +
+          '<div class="req-meta">'+r.email+'</div>' +
+        '</div>' +
+        '<div class="req-acts">' +
+          '<button class="approve-btn" onclick="approveReq(\''+r.id+'\')">✓ Approve</button>' +
+          '<button class="decline-btn" onclick="declineReq(\''+r.id+'\')">✕</button>' +
+        '</div>' +
+      '</div>'
+    );
+  }).join('');
+}
+
+async function approveReq(requestId){
+  await sb.from('join_requests')
+    .update({ status:'approved', reviewed_at: new Date().toISOString() })
+    .eq('id', requestId);
+  var el=$('req-'+requestId);
+  if(el){ el.style.opacity='0'; el.style.transition='opacity .4s'; setTimeout(function(){ el.remove(); loadJoinRequests(); },400); }
+  toast('Member approved and welcomed ✦');
+}
+
+async function declineReq(requestId){
+  await sb.from('join_requests')
+    .update({ status:'declined' })
+    .eq('id', requestId);
+  var el=$('req-'+requestId);
+  if(el){ el.style.opacity='0'; el.style.transition='opacity .4s'; setTimeout(function(){ el.remove(); loadJoinRequests(); },400); }
+  toast('Request declined');
 }
 
 // ── BIBLE ─────────────────────────────────────────────────────────────────────
