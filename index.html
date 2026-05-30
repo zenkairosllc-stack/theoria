@@ -877,14 +877,7 @@ async function doSignUp() {
     setupUI();
   }
 }
-
-// SIGN IN - SUPABASE EDIT // 
-async function signInUser(){
-  await sb.auth.signInUser();
-  currentUser=user;
-  setupUI();
-}
-
+ 
 
 // ── 3. SIGN OUT ──────────────────────────────────────────────
 async function signOut() {
