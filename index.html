@@ -775,7 +775,11 @@ async function doSignIn(){
   if(signinBtn){ signinBtn.textContent='Sign In ✝'; signinBtn.disabled=false; }
   if(error){ showErr('signin-err', error.message); return; }
   const { data: profile } = await getSb().from('profiles').select('*').eq('id', data.user.id).single();
-  if(!profile || !profile.is_approved){
+  if(!profile){
+    showErr('signin-err', 'Profile not found. Please contact your parish administrator.');
+    return;
+  }
+  if(!profile.is_approved){
     showScreen('pending');
     return;
   }
@@ -820,49 +824,31 @@ async function doSignUp(){
   const email = $('signup-email').value.trim().toLowerCase();
   const pw    = $('signup-pw').value;
   const code  = $('signup-code').value.trim().toUpperCase();
-
   const submitBtn = document.querySelector('#signup-step-3 .auth-btn');
   if(submitBtn){ submitBtn.textContent='Creating account...'; submitBtn.disabled=true; }
-
-  // Step 1: Create the auth user
   const { data, error } = await getSb().auth.signUp({
     email,
     password: pw,
     options: { data: { full_name: name } }
   });
-
   if(submitBtn){ submitBtn.textContent='Create Account & Request Access ✝'; submitBtn.disabled=false; }
   if(error){ showErr('signup-err3', error.message); return; }
-
   const approved = code === 'STATH7';
-
-  // Step 2: Manually create the profile row
-  const { error: profileError } = await getSb().from('profiles').insert({
+  const initials2 = name.split(' ').map(function(w){ return w[0]; }).join('').slice(0,2).toUpperCase();
+  await getSb().from('profiles').upsert({
     id:              data.user.id,
     display_name:    name,
     parish_role:     selectedRole,
-    avatar_initials: name.split(' ').map(function(w){ return w[0]; }).join('').slice(0,2).toUpperCase(),
+    avatar_initials: initials2,
     is_approved:     approved
-  });
-
-  if(profileError){
-    showErr('signup-err3', 'Account created but profile setup failed: ' + profileError.message);
-    return;
-  }
-
-  // Step 3: Add join request if no valid code
+  }, { onConflict: 'id' });
   if(!approved){
     await getSb().from('join_requests').insert({ name, email, status: 'pending' });
     showScreen('pending');
   } else {
-    currentUser = {
-      id:              data.user.id,
-      display_name:    name,
-      parish_role:     selectedRole,
-      avatar_initials: name.split(' ').map(function(w){ return w[0]; }).join('').slice(0,2).toUpperCase(),
-      is_approved:     true
-    };
-    toast('Welcome to Theoria, ' + name.split(' ')[0] + '! ✦');
+    const { data: profile } = await getSb().from('profiles').select('*').eq('id', data.user.id).single();
+    currentUser = { ...data.user, ...(profile||{}), display_name: name, parish_role: selectedRole, is_approved: true };
+    toast('Welcome to Theoria, '+name.split(' ')[0]+'! ✦');
     setupUI();
   }
 }
@@ -876,25 +862,34 @@ async function signOut(){
 }
 
 function setupUI(){
+  // Normalise field names between Supabase (display_name) and legacy (name)
+  const displayName = currentUser.display_name || currentUser.name || 'Parishioner';
+  const role        = currentUser.parish_role  || currentUser.role  || 'Member';
+  const joinedAt    = currentUser.created_at   || currentUser.joinedAt || new Date().toISOString();
+  const initials    = displayName.split(' ').map(function(w){ return w[0]; }).join('').slice(0,2).toUpperCase();
+
   // Show nav and avatar
   $('bottom-nav').style.display='flex';
   $('topbar-ava').style.display='flex';
-  $('topbar-ava').textContent=currentUser.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
-  // Update profile
-  $('profile-av').textContent=currentUser.name.split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase();
-  $('profile-name').textContent=currentUser.name;
-  $('profile-role').textContent=currentUser.role+' · Member since '+new Date(currentUser.joinedAt).toLocaleDateString('en-US',{month:'long',year:'numeric'});
-  // Stats from stored progress
-  const prog=DB.getProgress(currentUser.id);
-  const chapCount=Object.values(prog).filter(Boolean).length;
-  $('stat-chapters').textContent=chapCount;
-  $('stat-recs').textContent=currentUser.recordings||0;
-  $('stat-amens').textContent=currentUser.amens||0;
-  updateProgressRing(chapCount);
+  $('topbar-ava').textContent=initials;
+
+  // Update profile screen
+  $('profile-av').textContent=initials;
+  $('profile-name').textContent=displayName;
+  $('profile-role').textContent=role+' · Member since '+new Date(joinedAt).toLocaleDateString('en-US',{month:'long',year:'numeric'});
+
+  // Stats (start at 0, refreshed from Supabase below)
+  $('stat-chapters').textContent=0;
+  $('stat-recs').textContent=0;
+  $('stat-amens').textContent=0;
+  updateProgressRing(0);
+
+  // Navigate and initialise
   nav('home');
   initHomeDate();
   renderLeaderboard();
   renderFeed();
+  refreshProgressStats();
 }
 
 function teardownUI(){
