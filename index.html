@@ -820,28 +820,49 @@ async function doSignUp(){
   const email = $('signup-email').value.trim().toLowerCase();
   const pw    = $('signup-pw').value;
   const code  = $('signup-code').value.trim().toUpperCase();
+
   const submitBtn = document.querySelector('#signup-step-3 .auth-btn');
   if(submitBtn){ submitBtn.textContent='Creating account...'; submitBtn.disabled=true; }
+
+  // Step 1: Create the auth user
   const { data, error } = await getSb().auth.signUp({
     email,
     password: pw,
     options: { data: { full_name: name } }
   });
+
   if(submitBtn){ submitBtn.textContent='Create Account & Request Access ✝'; submitBtn.disabled=false; }
   if(error){ showErr('signup-err3', error.message); return; }
+
   const approved = code === 'STATH7';
-  await getSb().from('profiles').update({
-    display_name: name,
-    parish_role:  selectedRole,
-    is_approved:  approved
-  }).eq('id', data.user.id);
+
+  // Step 2: Manually create the profile row
+  const { error: profileError } = await getSb().from('profiles').insert({
+    id:              data.user.id,
+    display_name:    name,
+    parish_role:     selectedRole,
+    avatar_initials: name.split(' ').map(function(w){ return w[0]; }).join('').slice(0,2).toUpperCase(),
+    is_approved:     approved
+  });
+
+  if(profileError){
+    showErr('signup-err3', 'Account created but profile setup failed: ' + profileError.message);
+    return;
+  }
+
+  // Step 3: Add join request if no valid code
   if(!approved){
     await getSb().from('join_requests').insert({ name, email, status: 'pending' });
     showScreen('pending');
   } else {
-    const { data: profile } = await getSb().from('profiles').select('*').eq('id', data.user.id).single();
-    currentUser = { ...data.user, ...(profile||{}), display_name: name, parish_role: selectedRole, is_approved: true };
-    toast('Welcome to Theoria, '+name.split(' ')[0]+'! ✦');
+    currentUser = {
+      id:              data.user.id,
+      display_name:    name,
+      parish_role:     selectedRole,
+      avatar_initials: name.split(' ').map(function(w){ return w[0]; }).join('').slice(0,2).toUpperCase(),
+      is_approved:     true
+    };
+    toast('Welcome to Theoria, ' + name.split(' ')[0] + '! ✦');
     setupUI();
   }
 }
