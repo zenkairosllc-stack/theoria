@@ -1522,17 +1522,24 @@ function renderCalDayFromAPI(data,nameEl,subEl,tagsEl,commEl){
 }
 
 // ── BOOT ──────────────────────────────────────────────────────────────────────
-(function(){
-  const session=DB.getSession();
+(async function(){
+  renderBooks('');
+  const { data: { session } } = await sb.auth.getSession();
   if(session){
-    // Re-validate session against stored users
-    const users=DB.getUsers();
-    const user=users.find(u=>u.id===session.id&&u.approved);
-    if(user){ currentUser=user; setupUI(); return; }
+    const { data: profile } = await sb
+      .from('profiles')
+      .select('*')
+      .eq('id', session.user.id)
+      .single();
+    if(profile && profile.is_approved){
+      currentUser = { ...session.user, ...profile };
+      setupUI();
+      return;
+    }
   }
   showScreen('signin');
-  renderBooks('');
 })();
+  
 </script>
 </body>
 </html>
