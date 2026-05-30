@@ -753,19 +753,24 @@ function showScreen(name){
   $('screen-'+name).classList.add('active');
 }
 
-// SIGN IN - SUPABASE REVISION //  
+// ── 1. SIGN IN ───────────────────────────────────────────────
 async function doSignIn() {
   hideErr('signin-err');
   const email = $('signin-email').value.trim().toLowerCase();
   const pw    = $('signin-pw').value;
-  if (!email || !pw) { showErr('signin-err', 'Please enter your email and password.'); return; }
- 
+  if (!email || !pw) {
+    showErr('signin-err', 'Please enter your email and password.');
+    return;
+  }
   const { data, error } = await sb.auth.signInWithPassword({ email, password: pw });
-  if (error) { showErr('signin-err', error.message); return; }
- 
-  // Fetch the profile
+  if (error) {
+    showErr('signin-err', error.message);
+    return;
+  }
   const { data: profile } = await sb.from('profiles')
-    .select('*').eq('id', data.user.id).single();
+    .select('*')
+    .eq('id', data.user.id)
+    .single();
  
   if (!profile || !profile.is_approved) {
     showScreen('pending');
@@ -774,7 +779,6 @@ async function doSignIn() {
   currentUser = { ...data.user, ...profile };
   setupUI();
 }
-
 
 function signupStep2(){
   hideErr('signup-err1');
@@ -809,7 +813,7 @@ function backToStep2(){
   $('signup-step-3').style.display='none'; $('signup-step-2').style.display='block';
 }
 
-// SIGN UP - SUPABASE REVISION //  
+// ── 2. SIGN UP ───────────────────────────────────────────────
 async function doSignUp() {
   hideErr('signup-err3');
   const name  = $('signup-name').value.trim();
@@ -817,11 +821,40 @@ async function doSignUp() {
   const pw    = $('signup-pw').value;
   const code  = $('signup-code').value.trim().toUpperCase();
  
-  // Create auth user
-  const { data, error } = await sb.auth.signUp({ email, password: pw,
+  const { data, error } = await sb.auth.signUp({
+    email,
+    password: pw,
     options: { data: { full_name: name } }
   });
-  if (error) { showErr('signup-err3', error.message); return; }
+  if (error) {
+    showErr('signup-err3', error.message);
+    return;
+  }
+ 
+  const approved = code === 'STATH7';
+  await sb.from('profiles').update({
+    display_name: name,
+    parish_role:  selectedRole,
+    is_approved:  approved
+  }).eq('id', data.user.id);
+ 
+  if (!approved) {
+    await sb.from('join_requests').insert({
+      name,
+      email,
+      status: 'pending'
+    });
+    showScreen('pending');
+  } else {
+    currentUser = {
+      id:           data.user.id,
+      display_name: name,
+      parish_role:  selectedRole,
+      is_approved:  true
+    };
+    setupUI();
+  }
+}
  
   // Update profile with role and parish code
   const approved = code === 'STATH7';
@@ -853,13 +886,13 @@ async function signInUser(){
 }
 
 
-// SIGN OUT - SUPABASE EDIT // 
+// ── 3. SIGN OUT ──────────────────────────────────────────────
 async function signOut() {
   await sb.auth.signOut();
   currentUser = null;
   teardownUI();
 }
-
+ 
 
 function setupUI(){
   // Show nav and avatar
@@ -882,6 +915,7 @@ function setupUI(){
   renderLeaderboard();
   renderFeed();
 }
+
 // ── 10. REAL-TIME FEED SUBSCRIPTION ─────────────────────────
 // Call this once inside setupUI() after renderFeed()
 function subscribeToFeed() {
@@ -896,6 +930,7 @@ function subscribeToFeed() {
     })
     .subscribe();
 }
+ 
   
 function teardownUI(){
   $('bottom-nav').style.display='none';
@@ -1083,46 +1118,55 @@ function formatDate(iso){
 function openCompose(){ $('compose-overlay').classList.add('open'); }
 function closeCompose(){ $('compose-overlay').classList.remove('open'); }
 
-// Submit a post
+// ── 4. SUBMIT A POST ─────────────────────────────────────────
 async function submitPost() {
   const cap = $('compose-text').value.trim();
-  if (!cap) { toast('Please write something before posting'); return; }
- 
+  if (!cap) {
+    toast('Please write something before posting');
+    return;
+  }
   const { error } = await sb.from('posts').insert({
     user_id:    currentUser.id,
     parish_id:  currentUser.parish_id,
     caption:    cap,
-    bible_ref:  $('compose-ref').value.trim() || null,
-    verse_text: $('compose-verse').value.trim() || null,
+    bible_ref:  $('compose-ref').value.trim()   || null,
+    verse_text: $('compose-verse').value.trim()  || null,
   });
- 
-  if (error) { toast('Could not post. Please try again.'); return; }
-  $('compose-text').value = '';
-  $('compose-ref').value  = '';
+  if (error) {
+    toast('Could not post. Please try again.');
+    return;
+  }
+  $('compose-text').value  = '';
+  $('compose-ref').value   = '';
   $('compose-verse').value = '';
   closeCompose();
   await renderFeed();
   toast('Posted to parish feed ✦');
 }
 
-
-function toggleAmen(postId,btn){
-  const posts=DB.getPosts();
-  const post=posts.find(p=>p.id===postId);
-  if(!post)return;
-  if(!post.likedBy)post.likedBy=[];
-  const idx=post.likedBy.indexOf(currentUser.id);
-  if(idx===-1){ post.likedBy.push(currentUser.id); }
-  else{ post.likedBy.splice(idx,1); }
-  DB.savePosts(posts);
-  // Update current user's amen count
-  const users=DB.getUsers();
-  const u=users.find(x=>x.id===currentUser.id);
-  if(u){ u.amens=(u.amens||0)+(idx===-1?1:-1); DB.saveUsers(users); currentUser=u; $('stat-amens').textContent=u.amens||0; }
-  renderFeed();
+// ── 6. TOGGLE AMEN ───────────────────────────────────────────
+async function toggleAmen(postId, btn) {
+  // Check if already reacted
+  const { data: existing } = await sb
+    .from('reactions')
+    .select('id')
+    .eq('post_id', postId)
+    .eq('user_id', currentUser.id)
+    .single();
+ 
+  if (existing) {
+    await sb.from('reactions').delete().eq('id', existing.id);
+  } else {
+    await sb.from('reactions').insert({
+      post_id:   postId,
+      user_id:   currentUser.id,
+      parish_id: currentUser.parish_id
+    });
+  }
+  await renderFeed();
 }
-
-// ── PARISH / LEADERBOARD ──────────────────────────────────────────────────────
+ 
+// ── 8. LEADERBOARD ───────────────────────────────────────────
 async function renderLeaderboard() {
   var { data: members } = await sb
     .from('member_stats')
@@ -1177,51 +1221,55 @@ function switchComm(tab){
   if(tab==='parish') loadJoinRequests();
 }
 
-async function loadJoinRequests(){
+// ── 9. LOAD JOIN REQUESTS (admin only) ──────────────────────
+async function loadJoinRequests() {
   var { data: requests } = await sb
     .from('join_requests')
     .select('*')
-    .eq('status','pending');
-
+    .eq('status', 'pending');
+ 
   var list = $('req-list');
-  if(!requests || requests.length===0){
-    list.innerHTML='<div style="font-size:13px;color:var(--tx3);font-style:italic;padding:8px 0">No pending requests</div>';
+  if (!requests || requests.length === 0) {
+    list.innerHTML = '<div style="font-size:13px;color:var(--tx3);font-style:italic;padding:8px 0">No pending requests</div>';
     return;
   }
-  list.innerHTML=requests.map(function(r){
-    return(
-      '<div class="req-item" id="req-'+r.id+'">' +
-        '<div class="req-av">'+r.name[0].toUpperCase()+'</div>' +
+  list.innerHTML = requests.map(function(r) {
+    return (
+      '<div class="req-item" id="req-' + r.id + '">' +
+        '<div class="req-av">' + r.name[0].toUpperCase() + '</div>' +
         '<div style="flex:1">' +
-          '<div class="req-name">'+r.name+'</div>' +
-          '<div class="req-meta">'+r.email+'</div>' +
+          '<div class="req-name">' + r.name  + '</div>' +
+          '<div class="req-meta">' + r.email + '</div>' +
         '</div>' +
         '<div class="req-acts">' +
-          '<button class="approve-btn" onclick="approveReq(\''+r.id+'\')">✓ Approve</button>' +
-          '<button class="decline-btn" onclick="declineReq(\''+r.id+'\')">✕</button>' +
+          '<button class="approve-btn" onclick="approveReq(\'' + r.id + '\')">✓ Approve</button>' +
+          '<button class="decline-btn" onclick="declineReq(\'' + r.id + '\')">✕</button>' +
         '</div>' +
       '</div>'
     );
   }).join('');
 }
-
-async function approveReq(requestId){
+ 
+async function approveReq(requestId) {
   await sb.from('join_requests')
-    .update({ status:'approved', reviewed_at: new Date().toISOString() })
+    .update({ status: 'approved', reviewed_by: currentUser.id, reviewed_at: new Date().toISOString() })
     .eq('id', requestId);
-  var el=$('req-'+requestId);
-  if(el){ el.style.opacity='0'; el.style.transition='opacity .4s'; setTimeout(function(){ el.remove(); loadJoinRequests(); },400); }
+ 
+  var el = $('req-' + requestId);
+  if (el) { el.style.opacity = '0'; setTimeout(function(){ el.remove(); loadJoinRequests(); }, 400); }
   toast('Member approved and welcomed ✦');
 }
-
-async function declineReq(requestId){
+ 
+async function declineReq(requestId) {
   await sb.from('join_requests')
-    .update({ status:'declined' })
+    .update({ status: 'declined' })
     .eq('id', requestId);
-  var el=$('req-'+requestId);
-  if(el){ el.style.opacity='0'; el.style.transition='opacity .4s'; setTimeout(function(){ el.remove(); loadJoinRequests(); },400); }
+ 
+  var el = $('req-' + requestId);
+  if (el) { el.style.opacity = '0'; setTimeout(function(){ el.remove(); loadJoinRequests(); }, 400); }
   toast('Request declined');
 }
+ 
 
 // ── BIBLE ─────────────────────────────────────────────────────────────────────
 const OT=[
@@ -1312,22 +1360,50 @@ function renderChapter(book,ch){
 }
 function closeReader(){$('reader').classList.remove('open')}
 
-  // Mark a chapter as read
+ // ── 7. MARK CHAPTER AS READ ──────────────────────────────────
 async function markRead() {
-  const { error } = await sb.from('reading_progress').upsert({
+  // Get the chapter UUID from the bible_chapters table
+  var bookName = curBook;
+  var chNum    = curCh;
+ 
+  var { data: chapterRow } = await sb
+    .from('bible_chapters')
+    .select('id, book_id, bible_books(name)')
+    .eq('chapter_number', chNum)
+    .eq('bible_books.name', bookName)  // join filter
+    .single();
+ 
+  if (!chapterRow) {
+    // Fallback: just mark visually if chapter UUID not found yet
+    var btn = document.querySelector('.ch-btn.active');
+    if (btn) btn.classList.add('read');
+    toast('Chapter noted locally — sync your database to track progress ✦');
+    return;
+  }
+ 
+  await sb.from('reading_progress').upsert({
     user_id:    currentUser.id,
-    chapter_id: currentChapterUUID,   // map book+chapter to UUID from bible_chapters table
+    chapter_id: chapterRow.id,
     parish_id:  currentUser.parish_id
   }, { onConflict: 'user_id,chapter_id' });
  
-  if (!error) {
-    // Update local UI
-    const btn = document.querySelector('.ch-btn.active');
-    if (btn) btn.classList.add('read');
-    toast('Chapter marked as read ✦');
-    refreshProgressStats();
-  }
+  var btn = document.querySelector('.ch-btn.active');
+  if (btn) btn.classList.add('read');
+  await refreshProgressStats();
+  toast('Chapter marked as read ✦');
 }
+ 
+async function refreshProgressStats() {
+  var { count } = await sb
+    .from('reading_progress')
+    .select('*', { count: 'exact', head: true })
+    .eq('user_id', currentUser.id);
+ 
+  var chapCount = count || 0;
+  $('stat-chapters').textContent = chapCount;
+  updateProgressRing(chapCount);
+}
+ 
  
 // Get chapter count for current user
 async function refreshProgressStats() {
